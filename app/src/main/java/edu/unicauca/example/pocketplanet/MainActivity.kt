@@ -13,6 +13,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import edu.unicauca.example.pocketplanet.ui.theme.PocketPlanetTheme
 
+//import com.example.compose.PocketPlanetTheme
+
+//import edu.unicauca.example.pocketplanet.ui.theme.PocketPlanetTheme
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
