@@ -1,5 +1,6 @@
 package edu.unicauca.example.pocketplanet
 
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,7 +11,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-//import androidx.compose.foundation.layout.BoxScopeInstance.align
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -31,6 +31,11 @@ import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CardDefaults.cardElevation
+import androidx.compose.material3.CardDefaults.elevatedCardElevation
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -40,8 +45,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.input.pointer.motionEventSpy
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
@@ -52,7 +57,7 @@ import androidx.compose.ui.unit.dp
 //import com.example.compose.PocketPlanetTheme
 import edu.unicauca.example.pocketplanet.ui.theme.PocketPlanetTheme
 
-class Presentacion : ComponentActivity(){
+class Inicio_Sesion : ComponentActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -69,43 +74,36 @@ class Presentacion : ComponentActivity(){
             }
         }
     }
-
 }
-
-
 @Composable
-fun backgroundPocketPlanet(modifier: Modifier = Modifier.fillMaxSize()) {
+fun Inicio_Sesio(modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.onPrimary) // Fondo superior blanco
+            .background(MaterialTheme.colorScheme.surface)
     ) {
-        Column(
+        // Fondo estructurado en Column
+        BackGroundPocketPlanetInicial()
+        // Tarjeta de Inicio de Sesión centrada en la pantalla
+        Box(
             modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.SpaceBetween
+                .fillMaxSize(),
+            contentAlignment = Alignment.Center
         ) {
-            TitleIcon()
-            MiddleScreen()
-            Spacer(modifier = Modifier.weight(1f)) // Empuja el contenido hacia arriba
-            EndScreen() // ✅ Ahora está dentro del fondo
+            Card_InicioSesion()
         }
     }
 }
 
-
-
-
-
 @Preview
 @Composable
-fun backgroundPocketPlanetPreview() {
+fun backgroundInicioSesionPreview(){
     PocketPlanetTheme{
         Scaffold(
             content = { paddingValues -> // 🔹 Corrige la estructura del lambda
-                Box(modifier = Modifier.padding(paddingValues)) {
-                    backgroundPocketPlanet()
+                Box(modifier = Modifier
+                    .padding(paddingValues)) {
+                    Inicio_Sesio()
                 }
             }
         )
@@ -113,57 +111,38 @@ fun backgroundPocketPlanetPreview() {
 }
 
 
-
-
-
-
 @Composable
-fun MiddleScreen(modifier: Modifier=Modifier
-                 ){
-    Box(modifier = Modifier
-        .fillMaxWidth()
-        .height(150.dp)
-        .padding(40.dp),
-        contentAlignment = Alignment.Center){
-        Row (modifier=modifier,
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically){
-            IconButton(onClick = {},false,modifier=Modifier.size(16.dp)){}
-            Imagenes(R.drawable.alerts, 100)
-            Imagenes(R.drawable.statistics,100)
-            IconButton(onClick = {},true,modifier=Modifier.size(16.dp)){}
+fun Card_InicioSesion(modifier: Modifier = Modifier) {
+    Box(modifier=modifier){
+        Card(
+            modifier = modifier
+                .fillMaxWidth()
+                .height(500.dp)
+                .padding(20.dp)
+                .border(
+                    0.35.dp,
+                    MaterialTheme.colorScheme.scrim.copy(0.9f),
+                    RoundedCornerShape(10.dp),
+                    //elevatedCardElevation(50.dp)
+                ),
+
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surfaceDim.copy(0.3f)
+            )
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+
+            ) {
+                Imagenes(R.drawable.logo,100)
+            }
         }
+
     }
 
 }
 
-@Composable
-fun buttoms(onClick: () -> Unit, description:String, modifier: Modifier=Modifier):Unit{
-
-        Button(onClick = { onClick() },
-            modifier=modifier.padding(10.dp),
-            colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.tertiary)
-        ) {
-            Text(description)
-        }
-
-
-}
-@Composable
-fun IconButton(
-    onClick: () -> Unit,
-    state:Boolean,
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    content: @Composable () -> Unit
-) {
-        if (state == false) {
-            Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Arrow")
-        } else if (state == true) {
-            Icon(imageVector = Icons.Filled.ArrowForward, contentDescription = "Arrow")
-        }
-
-
-}
 
