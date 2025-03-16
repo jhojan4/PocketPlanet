@@ -1,4 +1,4 @@
-package edu.unicauca.example.pocketplanet
+package edu.unicauca.example.pocketplanet.Funciones
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -25,6 +25,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import edu.unicauca.example.pocketplanet.R
 
 @Composable
 //Es un box que crea la parte inferior de lal background
@@ -38,16 +39,7 @@ fun EndScreen(modifier: Modifier = Modifier,) {
             .border(0.3.dp,
                 MaterialTheme.colorScheme.onSecondaryContainer, RoundedCornerShape(topEnd = 100.dp)
             ),
-    ) {
-        //Row(
-        //  modifier = Modifier.padding(16.dp),
-        //horizontalArrangement = Arrangement.SpaceEvenly
-        //) {
-        //buttoms({}, stringResource(R.string.buttom_inicio)) // ✅ Usar `stringResource`
-        // Spacer(modifier = Modifier.width(16.dp))
-        //buttoms({}, stringResource(R.string.Buttom_Register))
-        //}
-    }
+    )
 }
 @Composable
 fun TopScreen(modifier: Modifier = Modifier){
@@ -62,7 +54,7 @@ fun TopScreen(modifier: Modifier = Modifier){
                 MaterialTheme.colorScheme.onSecondaryContainer,
                 RoundedCornerShape(bottomStart = 100.dp)
             ),
-    ) {}
+    )
 }
 @Composable
 //Es la funcion que crea la parte superior y la parte del fondo
@@ -114,6 +106,4 @@ fun TitleIcon(modifier: Modifier=Modifier){
 
         }
     }
-
-
 }
