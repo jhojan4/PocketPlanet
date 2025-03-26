@@ -32,6 +32,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.*
+import edu.unicauca.example.pocketplanet.Funciones.BackGroundPocketPlanetInicial
+import edu.unicauca.example.pocketplanet.Registro.Card_Registro
 import edu.unicauca.example.pocketplanet.ui.theme.PocketPlanetTheme
 
 
@@ -61,27 +63,37 @@ fun ConsejosScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFF5F5DC)) // Color beige de fondo
     ) {
-        //Botón de regreso
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            IconButton(onClick = { navController.popBackStack() }) {
-                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Regresar")
+        // Fondo con BackGroundPocketPlanetInicial
+        Box(modifier = Modifier.fillMaxSize()) {
+            BackGroundPocketPlanetInicial()  // Coloca el fondo que ya has definido
+            // Contenido de la pantalla
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp) // Aseguramos que el contenido no quede pegado al borde
+            ) {
+                //Botón de regreso
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Regresar")
+                    }
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Text("Consejos de Jardinería", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                }
+
+                //Barra de búsqueda
+                SearchBar()
+
+                //Lista de plantas
+                PlantList(navController)
             }
-            Spacer(modifier = Modifier.width(16.dp))
-            Text("Consejos de Jardinería", fontSize = 20.sp, fontWeight = FontWeight.Bold)
         }
-
-        //Barra de búsqueda
-        SearchBar()
-
-        //Lista de plantas
-        PlantList(navController)
     }
 }
 
@@ -212,4 +224,10 @@ fun PreviewConsejosScreen() {
     ConsejosScreen(navController)
 }
 
-
+@Composable
+fun backgroundRegistro(modifier: Modifier = Modifier) {
+    Box(modifier = modifier.fillMaxWidth()) {
+        BackGroundPocketPlanetInicial()
+        Card_Registro(modifier.align(Alignment.Center))
+    }
+}

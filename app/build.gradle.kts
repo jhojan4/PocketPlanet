@@ -51,6 +51,13 @@ dependencies {
     implementation(libs.androidx.material3)
     // Dependencia para la navegación en Compose
     implementation ("androidx.navigation:navigation-compose:2.6.0")
+    //iconos para darkmode, language, logout
+    implementation ("androidx.compose.material:material-icons-extended:1.4.3")
+    //
+    implementation ("androidx.compose.material3:material3:1.2.0")
+    
+
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
