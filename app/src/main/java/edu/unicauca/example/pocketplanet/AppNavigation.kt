@@ -19,25 +19,45 @@ import edu.unicauca.example.pocketplanet.Registro.backgroundRegistro
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppNavigation(){
-    val  navController= rememberNavController()
-    NavHost(navController = navController, startDestination = Screens.PresentacionScreen.name){
-        composable(Screens.PresentacionScreen.name){
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = Screens.PresentacionScreen.name) {
+
+        composable(Screens.PresentacionScreen.name) {
             backgroundPresentacion(navController)
         }
-        composable(Screens.InicioSesionScreen.name){
-            Inicio_Sesio(navController,modifier = Modifier)
+
+        composable(Screens.InicioSesionScreen.name) {
+            Inicio_Sesio(navController, modifier = Modifier)
         }
-        composable(Screens.RegistroScreen.name){
+
+        composable(Screens.RegistroScreen.name) {
             backgroundRegistro(navController)
         }
-        composable(Screens.InicioAplicacion.name){
+
+        composable(Screens.InicioAplicacion.name) {
             Screen_Inicio_Aplicacion(navController)
         }
-        composable(Screens.ConsejosScreen.name) { ConsejosScreen(navController) }
-        composable(Screens.ConfiguracionesScreen.name) { PerfilScreen(navController, modifier = Modifier) }
 
+        composable(Screens.ConsejosScreen.name) {
+            ConsejosScreen(navController, modifier = Modifier)
+        }
+
+        composable(Screens.ConfiguracionesScreen.name) {
+            PerfilScreen(navController, modifier = Modifier)
+        }
+
+        composable(Screens.EstadisticasScreen.name) {
+            StatisticsScreen(navController, modifier = Modifier)
+        }
+
+        //Esta ruta para mostrar la pantalla de detalles por planta
+        composable("detalle_planta/{nombre}") { backStackEntry ->
+            val nombre = backStackEntry.arguments?.getString("nombre") ?: "Desconocida"
+            DetallePlantaScreen(plantaNombre = nombre, navController)
+        }
     }
 }
+
 enum class Screens(){
     PresentacionScreen,
     InicioSesionScreen,
@@ -47,6 +67,7 @@ enum class Screens(){
     InicioScreen,
     NotificacionesScreen,
     ConfiguracionesScreen,
+    EstadisticasScreen,
     DetallePlantaScreen
 
 }

@@ -40,7 +40,7 @@ android {
 }
 
 dependencies {
-
+    implementation(libs.androidx.navigation.compose.v277)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -49,8 +49,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    // Dependencia para la navegación en Compose
-    implementation ("androidx.navigation:navigation-compose:2.6.0")
+    implementation(libs.androidx.navigation.compose)
     //iconos para darkmode, language, logout
     implementation ("androidx.compose.material:material-icons-extended:1.4.3")
     //

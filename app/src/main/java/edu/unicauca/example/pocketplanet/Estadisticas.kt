@@ -15,10 +15,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.Alignment
+import androidx.navigation.NavHostController
+import edu.unicauca.example.pocketplanet.InicioAplicacion.NavigationScreens
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun StatisticsScreen() {
+fun StatisticsScreen(navController: NavHostController, modifier: Modifier) {
     var humedad by remember { mutableStateOf(23) }
     var temperatura by remember { mutableStateOf(33) }
     var fertilizante by remember { mutableStateOf(30) }
@@ -31,40 +33,70 @@ fun StatisticsScreen() {
         StatData("Crecimiento", crecimiento, Color(0xFFAB47BC))
     )
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White)
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color(0xFFA7ECA7), RoundedCornerShape(bottomStart = 40.dp, bottomEnd = 40.dp)),
-            contentAlignment = Alignment.Center
-        ) {
-            TopAppBar(
-                title = { Text("Foro y estadísticas", fontSize = 18.sp, fontWeight = FontWeight.Bold) },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
-            )
+    Scaffold(
+        // Barra de navegación inferior centrada
+        bottomBar = {
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                NavigationScreens(
+                    navController,
+                    modifier = Modifier
+                        .background(MaterialTheme.colorScheme.secondaryContainer.copy(0.5f)) // Fondo translúcido
+                        .size(width = 400.dp, height = 70.dp) // Tamaño fijo
+                )
+            }
         }
-        Spacer(modifier = Modifier.height(16.dp))
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.White)
+                .padding(paddingValues)
+        ) {
+            // Encabezado con forma curva y título centrado
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(
+                        Color(0xFFA7ECA7),
+                        RoundedCornerShape(bottomStart = 40.dp, bottomEnd = 40.dp)
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+                TopAppBar(
+                    title = {
+                        Text(
+                            "Foro y estadísticas",
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
+                )
+            }
 
-        // Gráfico de barras dinámico
-        BarChart(stats)
+            Spacer(modifier = Modifier.height(16.dp))
 
-        Spacer(modifier = Modifier.height(16.dp))
+            // Gráfico de barras personalizado
+            BarChart(stats)
 
-        // Datos adicionales
-        StatsSection(stats) { updatedStat, newValue ->
-            when (updatedStat) {
-                "Humedad" -> humedad = newValue
-                "Temperatura" -> temperatura = newValue
-                "Fertilizante" -> fertilizante = newValue
-                "Crecimiento" -> crecimiento = newValue
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Tarjetas de estadísticas con valores editables
+            StatsSection(stats) { updatedStat, newValue ->
+                when (updatedStat) {
+                    "Humedad" -> humedad = newValue
+                    "Temperatura" -> temperatura = newValue
+                    "Fertilizante" -> fertilizante = newValue
+                    "Crecimiento" -> crecimiento = newValue
+                }
             }
         }
     }
 }
+
 
 @Composable
 fun BarChart(stats: List<StatData>) {
@@ -125,8 +157,4 @@ fun StatCard(stat: StatData, onValueChange: (String, Int) -> Unit) {
 
 data class StatData(val name: String, val value: Int, val color: Color)
 
-@Preview
-@Composable
-fun PreviewStatisticsScreen() {
-    StatisticsScreen()
-}
+

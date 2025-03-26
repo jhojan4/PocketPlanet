@@ -85,70 +85,91 @@ fun TopBar(navController: NavController) {
 
 
 @Composable
-fun PerfilScreen(navController: NavHostController, modifier: Modifier) {
+fun PerfilScreen(navController: NavHostController, modifier: Modifier = Modifier) {
     var notificationsEnabled by remember { mutableStateOf(true) }
     var emailNotifications by remember { mutableStateOf(false) }
     var alertNotifications by remember { mutableStateOf(false) }
     var darkMode by remember { mutableStateOf(false) }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(
-                    Color(0xFFA7ECA7),
-                    RoundedCornerShape(bottomStart = 40.dp, bottomEnd = 40.dp)
-                ),
-            contentAlignment = Alignment.Center
-        ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Image(
-                    painter = painterResource(id = R.drawable.logo),//foto usuario
-                    contentDescription = "Foto de perfil",
+    Scaffold(
+        // Barra de navegación inferior centrada
+        bottomBar = {
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                NavigationScreens(
+                    navController,
                     modifier = Modifier
-                        .size(100.dp)
-                        .clip(CircleShape),
-                    contentScale = ContentScale.Crop
+                        .background(MaterialTheme.colorScheme.secondaryContainer.copy(0.5f)) // Fondo translúcido
+                        .size(width = 400.dp, height = 70.dp) // Tamaño fijo
                 )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text("Nombre Usuario", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-                Text("Correo", fontSize = 16.sp, color = Color.Gray)
-                Spacer(modifier = Modifier.height(8.dp))
-                Button(onClick = { /* Editar perfil */ }, shape = RoundedCornerShape(8.dp)) {
-                    Text("Editar Perfil")
-                }
             }
         }
-        Spacer(modifier = Modifier.height(16.dp))
-        Text("Configuración de notificaciones", fontSize = 18.sp, fontWeight = FontWeight.Bold)
-        SwitchOption("Activar/Desactivar notificaciones", Icons.Filled.Notifications, notificationsEnabled) {
-            notificationsEnabled = it
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues) // Padding para no tapar contenido con la barra
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            // Encabezado con imagen y nombre
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(
+                        Color(0xFFA7ECA7),
+                        RoundedCornerShape(bottomStart = 40.dp, bottomEnd = 40.dp)
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Image(
+                        painter = painterResource(id = R.drawable.logo), // Foto usuario
+                        contentDescription = "Foto de perfil",
+                        modifier = Modifier
+                            .size(100.dp)
+                            .clip(CircleShape),
+                        contentScale = ContentScale.Crop
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text("Nombre Usuario", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                    Text("Correo", fontSize = 16.sp, color = Color.Gray)
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Button(onClick = { /* Editar perfil */ }, shape = RoundedCornerShape(8.dp)) {
+                        Text("Editar Perfil")
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Sección de notificaciones
+            Text("Configuración de notificaciones", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+            SwitchOption("Activar/Desactivar notificaciones", Icons.Filled.Notifications, notificationsEnabled) {
+                notificationsEnabled = it
+            }
+            ConfigOption("Frecuencia de notificaciones", Icons.Filled.Settings) {}
+            SwitchOption("Notificaciones por correo", Icons.Filled.Email, emailNotifications) {
+                emailNotifications = it
+            }
+            SwitchOption("Activar/Desactivar alertas", Icons.Filled.Notifications, alertNotifications) {
+                alertNotifications = it
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Sección de apariencia
+            Text("Temas y apariencia", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+            SwitchOption("Activar/Desactivar modo oscuro", Icons.Filled.DarkMode, darkMode) {
+                darkMode = it
+            }
+            ConfigOption("Idioma", Icons.Filled.Language) {}
         }
-        ConfigOption("Frecuencia de notificaciones", Icons.Filled.Settings) {}
-        SwitchOption("Notificaciones por correo", Icons.Filled.Email, emailNotifications) {
-            emailNotifications = it
-        }
-        SwitchOption("Activar/Desactivar alertas", Icons.Filled.Notifications, alertNotifications) {
-            alertNotifications = it
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-        Text("Temas y apariencia", fontSize = 18.sp, fontWeight = FontWeight.Bold)
-        SwitchOption("Activar/Desactivar modo oscuro", Icons.Filled.DarkMode, darkMode) {
-            darkMode = it
-        }
-        ConfigOption("Idioma", Icons.Filled.Language) {}
-        Spacer(modifier = Modifier.height(16.dp))
-        NavigationScreens(navController,modifier
-            .align(Alignment.CenterHorizontally)
-            .background(MaterialTheme.colorScheme.secondaryContainer.copy(0.5f))
-            .size(width = 400.dp, height = 70.dp))
     }
 }
+
 
 @Composable
 fun SwitchOption(text: String, icon: androidx.compose.ui.graphics.vector.ImageVector, state: Boolean, onToggle: (Boolean) -> Unit) {

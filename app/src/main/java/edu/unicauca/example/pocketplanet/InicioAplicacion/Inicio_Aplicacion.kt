@@ -39,6 +39,10 @@ import edu.unicauca.example.pocketplanet.Presentacion.bottonRedondo
 import edu.unicauca.example.pocketplanet.Presentacion.bottonRedondoStateless
 import edu.unicauca.example.pocketplanet.R
 import edu.unicauca.example.pocketplanet.Screens
+import androidx.compose.material.icons.filled.BarChart
+import androidx.compose.material3.Text
+import androidx.compose.ui.unit.sp
+
 //import edu.unicauca.example.pocketplanet.R
 import edu.unicauca.example.pocketplanet.ui.theme.PocketPlanetTheme
 
@@ -83,44 +87,68 @@ fun Screen_Inicio_Aplicacion(navController: NavHostController, modifier: Modifie
 }
 
 @Composable
-fun NavigationScreens(navController: NavHostController,modifier: Modifier){
-    Box(modifier=modifier) {
-        Row(horizontalArrangement = Arrangement.SpaceAround, modifier = modifier
-            .align(Alignment.Center)
-            .padding(10.dp)
-            .fillMaxWidth()) {
-            bottonRedondoStateless(
-                onClick = { navController.navigate(Screens.InicioAplicacion.name) },
-                Icons.Default.Home,
-                colors = MaterialTheme.colorScheme.tertiary,
-                modifier = Modifier
-                    .size(35.dp)
-            )
-            bottonRedondoStateless(
-                onClick = { navController.navigate(Screens.ConsejosScreen.name) },
-                Icons.Default.Notifications,
-                colors = MaterialTheme.colorScheme.tertiary,
-                modifier = Modifier
-                    .size(35.dp)
-            )
-            bottonRedondoStateless(
-                onClick = { navController.navigate(Screens.ConsejosScreen.name) },
-                Icons.Default.Star,
-                colors = MaterialTheme.colorScheme.tertiary,
-                modifier = Modifier
-                    .size(35.dp)
-            )
-            bottonRedondoStateless(
-                onClick = { navController.navigate(Screens.ConfiguracionesScreen.name) },
-                Icons.Default.Settings,
-                colors = MaterialTheme.colorScheme.tertiary,
-                modifier = Modifier
-                    .size(35.dp)
-            )
+fun NavigationScreens(navController: NavHostController, modifier: Modifier) {
+    Box(modifier = modifier) {
+        Row(
+            horizontalArrangement = Arrangement.SpaceAround,
+            modifier = modifier
+                .align(Alignment.Center)
+                .padding(10.dp)
+                .fillMaxWidth()
+        ) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                bottonRedondoStateless(
+                    onClick = { navController.navigate(Screens.InicioAplicacion.name) },
+                    Icons.Default.Home,
+                    colors = MaterialTheme.colorScheme.tertiary,
+                    modifier = Modifier.size(35.dp)
+                )
+                Text("Inicio", fontSize = 10.sp)
+            }
+
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                bottonRedondoStateless(
+                    onClick = { navController.navigate(Screens.ConsejosScreen.name) },
+                    Icons.Default.Notifications,
+                    colors = MaterialTheme.colorScheme.tertiary,
+                    modifier = Modifier.size(35.dp)
+                )
+                Text("Alertas", fontSize = 10.sp)
+            }
+
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                bottonRedondoStateless(
+                    onClick = { navController.navigate(Screens.ConsejosScreen.name) },
+                    Icons.Default.Star,
+                    colors = MaterialTheme.colorScheme.tertiary,
+                    modifier = Modifier.size(35.dp)
+                )
+                Text("Favoritos", fontSize = 10.sp)
+            }
+
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                bottonRedondoStateless(
+                    onClick = { navController.navigate(Screens.ConfiguracionesScreen.name) },
+                    Icons.Default.Settings,
+                    colors = MaterialTheme.colorScheme.tertiary,
+                    modifier = Modifier.size(35.dp)
+                )
+                Text("Perfil", fontSize = 10.sp)
+            }
+
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                bottonRedondoStateless(
+                    onClick = { navController.navigate(Screens.EstadisticasScreen.name) },
+                    icon = Icons.Default.BarChart,
+                    colors = MaterialTheme.colorScheme.tertiary,
+                    modifier = Modifier.size(35.dp)
+                )
+                Text("Estadísticas", fontSize = 10.sp)
+            }
         }
     }
-
 }
+
 /*
 @Preview
 @Composable
