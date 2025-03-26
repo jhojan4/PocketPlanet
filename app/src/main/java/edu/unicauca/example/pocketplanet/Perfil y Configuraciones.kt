@@ -58,7 +58,7 @@ class PerfilConfiguracion : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)//Esta linea evita que TopAppBarDefaults de error
 @Composable
 fun TopBar(navController: NavController) {
     androidx.compose.material3.TopAppBar(

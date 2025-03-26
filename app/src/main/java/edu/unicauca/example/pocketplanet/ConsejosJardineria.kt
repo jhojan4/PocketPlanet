@@ -43,15 +43,7 @@ class ConsejosJardineria : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             PocketPlanetTheme {
-                // Configuración de la navegación en la app
-                val navController = rememberNavController()
-                Scaffold(
-                    bottomBar = { BottomNavigationBar(navController) }
-                ) { paddingValues ->
-                    Box(modifier = Modifier.padding(paddingValues)) {
-                        ConsejosScreen(navController)
-                    }
-                }
+                AppNavigation() // Llamamos a la navegación completa
             }
         }
     }
@@ -205,16 +197,24 @@ fun DetallePlantaScreen(plantaNombre: String) {
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
-    NavHost(navController, startDestination = "consejos") {
-        composable("consejos") { ConsejosScreen(navController) }
-        composable("inicio") { /* Aquí va la pantalla de inicio */ }
-        composable("notificaciones") { /* Aquí va la pantalla de notificaciones */ }
-        composable("detalle_planta/{nombre}") { backStackEntry ->
-            val nombre = backStackEntry.arguments?.getString("nombre") ?: "Desconocida"
-            DetallePlantaScreen(plantaNombre = nombre)
+
+    Scaffold(
+        bottomBar = { BottomNavigationBar(navController) } // Asegura que la barra de navegación siempre esté visible
+    ) { paddingValues ->
+        Box(modifier = Modifier.padding(paddingValues)) {
+            NavHost(navController, startDestination = "consejos") {
+                composable("consejos") { ConsejosScreen(navController) }
+                composable("inicio") { /* Pantalla de inicio */ }
+                composable("notificaciones") { /* Pantalla de notificaciones */ }
+                composable("detalle_planta/{nombre}") { backStackEntry ->
+                    val nombre = backStackEntry.arguments?.getString("nombre") ?: "Desconocida"
+                    DetallePlantaScreen(plantaNombre = nombre)
+                }
+            }
         }
     }
 }
+
 
 //Previsualización del diseño
 @Preview(showBackground = true)
