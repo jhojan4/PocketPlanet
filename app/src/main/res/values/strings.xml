@@ -11,4 +11,5 @@
     <string name="Country">Pais</string>
     <string name="PhoneNumber">Número de Celular</string>
     <string name="RepeatPassword">Repite la contraseña\n</string>
+    <string name="buscador">Encuentra tu planta\n</string>
 </resources>

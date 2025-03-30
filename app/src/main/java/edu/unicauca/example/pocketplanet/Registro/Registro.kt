@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.LocationOn
@@ -29,17 +30,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.navOptions
 import edu.unicauca.example.pocketplanet.Funciones.BackGroundPocketPlanetInicial
 import edu.unicauca.example.pocketplanet.Funciones.Imagenes
 import edu.unicauca.example.pocketplanet.Inicio_Sesion.LabelDatos
-import edu.unicauca.example.pocketplanet.Presentacion.backgroundPocketPlanetPreview
-import edu.unicauca.example.pocketplanet.Presentacion.backgroundPresentacion
+import edu.unicauca.example.pocketplanet.Presentacion.bottonRedondoStateless
 import edu.unicauca.example.pocketplanet.Presentacion.cambioPantallaStateless
 import edu.unicauca.example.pocketplanet.R
+import edu.unicauca.example.pocketplanet.Screens
 import edu.unicauca.example.pocketplanet.ui.theme.PocketPlanetTheme
 
 
-class Registro : ComponentActivity(){
+/*class Registro(navController: NavHostController) : ComponentActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -57,16 +60,23 @@ class Registro : ComponentActivity(){
         }
     }
 
-}
+}*/
 @Composable
-fun backgroundRegistro(modifier: Modifier = Modifier) {
+fun backgroundRegistro(navController: NavHostController,modifier: Modifier=Modifier) {
     Box(modifier = modifier.fillMaxWidth()) {
         BackGroundPocketPlanetInicial()
-        Card_Registro(modifier.align(Alignment.Center))
+        Box(modifier=Modifier.align(Alignment.TopStart).padding(30.dp)){
+            bottonRedondoStateless(onClick={navController.navigate(Screens.PresentacionScreen.name)}, Icons.Default.ArrowBack,colors =MaterialTheme.colorScheme.tertiary, modifier = Modifier
+                .size(width = 40.dp, height = 40.dp)
+
+
+            )
+        }
+        Card_Registro(navController,modifier.align(Alignment.Center))
     }
 }
 @Composable
-fun Card_Registro(modifier: Modifier = Modifier) {
+fun Card_Registro(navController: NavHostController,modifier: Modifier = Modifier) {
     Box(modifier=modifier) {
         Card(
             modifier = modifier
@@ -107,7 +117,7 @@ fun Card_Registro(modifier: Modifier = Modifier) {
                 LabelDatos(stringResource(R.string.RepeatPassword), Icons.Default.Lock,
                     modifier = Modifier.size(width = 400.dp, height = 50.dp))
                 Spacer(modifier = Modifier.height(30.dp))
-                cambioPantallaStateless(onClick = {}, description = stringResource(R.string.Buttom_Register))
+                cambioPantallaStateless(onClick = {navController.navigate(Screens.InicioSesionScreen.name)}, description = stringResource(R.string.Buttom_Register))
 
 
 
@@ -124,7 +134,7 @@ fun backgroundRegistroPreview(){
             content = { paddingValues -> // 🔹 Corrige la estructura del lambda
                 Box(modifier = Modifier
                     .padding(paddingValues)) {
-                    backgroundRegistro()
+
                 }
             }
         )

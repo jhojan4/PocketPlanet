@@ -5,10 +5,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,35 +17,31 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import edu.unicauca.example.pocketplanet.Funciones.EndScreen
-import edu.unicauca.example.pocketplanet.Funciones.Imagenes
 import edu.unicauca.example.pocketplanet.R
 import edu.unicauca.example.pocketplanet.Funciones.TitleIcon
+import edu.unicauca.example.pocketplanet.Screens
 //import com.example.compose.PocketPlanetTheme
 import edu.unicauca.example.pocketplanet.ui.theme.PocketPlanetTheme
 
-class Presentacion : ComponentActivity(){
+/*class Presentacion(navController: NavHostController) : ComponentActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -55,7 +51,7 @@ class Presentacion : ComponentActivity(){
                     modifier = Modifier.fillMaxWidth(),
                     content = { paddingValues -> // 🔹 Corrige la estructura del lambda
                         Box(modifier = Modifier.padding(paddingValues)) {
-                            backgroundPresentacion()
+                            backgroundPresentacion(navController)
                         }
                     }
                 )
@@ -64,10 +60,11 @@ class Presentacion : ComponentActivity(){
     }
 
 }
-
+*/
 
 @Composable
-fun backgroundPresentacion(modifier: Modifier = Modifier.fillMaxSize()) {
+fun backgroundPresentacion(navController: NavHostController,
+    modifier: Modifier = Modifier.fillMaxSize()) {
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -89,11 +86,11 @@ fun backgroundPresentacion(modifier: Modifier = Modifier.fillMaxSize()) {
         Box(modifier = Modifier.align(Alignment.BottomCenter).padding(vertical=120.dp))  {
             Row() {
                 cambioPantallaStateless(
-                    onClick = {},
+                    onClick = {navController.navigate(Screens.InicioSesionScreen.name)},
                     description = stringResource(R.string.buttom_inicio)
                 )
                 Spacer(modifier = Modifier.width(30.dp))
-                cambioPantallaStateless(onClick = {}, description = stringResource(R.string.Buttom_Register),
+                cambioPantallaStateless(onClick = { navController.navigate(Screens.RegistroScreen.name) }, description = stringResource(R.string.Buttom_Register),
                 )
             }
 
@@ -105,7 +102,7 @@ fun backgroundPresentacion(modifier: Modifier = Modifier.fillMaxSize()) {
 
 
 
-@Preview
+/*@Preview
 @Composable
 fun backgroundPocketPlanetPreview() {
     PocketPlanetTheme{
@@ -118,7 +115,7 @@ fun backgroundPocketPlanetPreview() {
         )
     }
 }
-
+*/
 
 
 
@@ -143,7 +140,7 @@ fun MiddleScreen(modifier: Modifier=Modifier
 
 }
 //Acciones de los botones
-@Composable
+/*@Composable
 fun cambioImagenesStateless(urlImages:Int, texto:String,icon:String,onClick: () -> Unit,modifier: Modifier=Modifier){
     LazyRow {  }
     Imagenes(urlImages,100)
@@ -161,13 +158,13 @@ fun BottonActionImagenes(onClick: () -> Unit, description:String,modifier: Modif
         Text(description)
 
     }
-}
+}*/
 
 //Estas dos funciones estan con StateJetPackCompose y permite separar los botones de las acciones, si se desean usar y tomar como ejemplo las p
 //las pantallas de rsgistro e inicio, esa es la forma en las que van a quedar, solo hace falta las direcciones de ruta para que funcionen
 
 @Composable
-fun cambioPantallaStateless(onClick: () -> Unit, description:String, modifier: Modifier=Modifier):Unit {
+fun cambioPantallaStateless(onClick: () -> Unit, description:String,modifier: Modifier=Modifier):Unit {
     bottonCambioPantalla(onClick = onClick, description = description)
 }
 @Composable
@@ -182,5 +179,18 @@ fun bottonCambioPantalla(onClick: () -> Unit, description:String, modifier: Modi
 
     }
 }
-
-
+@Composable
+fun bottonRedondoStateless(onClick: () -> Unit, icon: ImageVector, colors:Color, modifier: Modifier=Modifier){
+    bottonRedondo(onClick = onClick, iconboton = icon,colorsbot = colors,modifier = modifier)
+}
+//Botones que redondos que permiten cambiar de pantallas o navegar por una pantalla
+@Composable
+fun bottonRedondo(onClick: () -> Unit, iconboton:ImageVector,colorsbot:Color ,modifier: Modifier=Modifier){
+    Button(onClick = onClick,colors = ButtonDefaults.buttonColors(colorsbot), contentPadding = PaddingValues(5.dp),modifier = modifier) {
+        Icon(
+            imageVector = iconboton,
+            contentDescription = null,
+            modifier = modifier
+        )
+    }
+}

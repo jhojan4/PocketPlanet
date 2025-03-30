@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -36,16 +37,18 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import edu.unicauca.example.pocketplanet.Funciones.BackGroundPocketPlanetInicial
 import edu.unicauca.example.pocketplanet.Funciones.Imagenes
-import edu.unicauca.example.pocketplanet.Presentacion.bottonCambioPantalla
+import edu.unicauca.example.pocketplanet.Presentacion.bottonRedondoStateless
 import edu.unicauca.example.pocketplanet.Presentacion.cambioPantallaStateless
 import edu.unicauca.example.pocketplanet.R
+import edu.unicauca.example.pocketplanet.Screens
 //import edu.unicauca.example.pocketplanet.Presentacion.backgroundPocketPlanet
 //import com.example.compose.PocketPlanetTheme
 import edu.unicauca.example.pocketplanet.ui.theme.PocketPlanetTheme
 
-class Inicio_Sesion : ComponentActivity(){
+/*class Inicio_Sesion(navController: NavHostController) : ComponentActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -62,27 +65,36 @@ class Inicio_Sesion : ComponentActivity(){
             }
         }
     }
-}
+}*/
 @Composable
-fun Inicio_Sesio(modifier: Modifier = Modifier) {
+fun Inicio_Sesio(navController: NavHostController,modifier: Modifier) {
     Box(
         modifier = modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.surface)
     ) {
+
         // Fondo estructurado en Column
         BackGroundPocketPlanetInicial()
+        //Botton superior
+        Box(modifier=Modifier.align(Alignment.TopStart).padding(30.dp)){
+            bottonRedondoStateless(onClick={navController.navigate(Screens.PresentacionScreen.name)}, Icons.Default.ArrowBack,colors =MaterialTheme.colorScheme.tertiary, modifier = Modifier
+                .size(width = 40.dp, height = 40.dp)
+
+
+            )
+        }
         // Tarjeta de Inicio de Sesión centrada en la pantalla
         Box(
             modifier = Modifier
                 .fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            Card_InicioSesion()
+            Card_InicioSesion(navController)
         }
     }
 }
-
+/*
 @Preview
 @Composable
 fun backgroundInicioSesionPreview(){
@@ -91,16 +103,16 @@ fun backgroundInicioSesionPreview(){
             content = { paddingValues -> // 🔹 Corrige la estructura del lambda
                 Box(modifier = Modifier
                     .padding(paddingValues)) {
-                    Inicio_Sesio()
+
                 }
             }
         )
     }
 }
-
+*/
 
 @Composable
-fun Card_InicioSesion(modifier: Modifier = Modifier) {
+fun Card_InicioSesion(navController: NavHostController,modifier: Modifier=Modifier) {
     Box(modifier=modifier){
         Card(
             modifier = modifier
@@ -132,7 +144,7 @@ fun Card_InicioSesion(modifier: Modifier = Modifier) {
                 LabelDatos(stringResource(R.string.Password),Icons.Default.Lock,
                     modifier = Modifier.size(width = 400.dp, height = 50.dp))
                 Spacer(modifier = Modifier.height(25.dp))
-                cambioPantallaStateless(onClick = {}, description = stringResource(R.string.buttom_iniciar_sesion))
+                cambioPantallaStateless(onClick = {navController.navigate(Screens.InicioAplicacion.name)}, description = stringResource(R.string.buttom_iniciar_sesion))
             }
         }
 
