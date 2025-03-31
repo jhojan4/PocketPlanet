@@ -51,6 +51,7 @@ dependencies {
     implementation(libs.androidx.material3)
     // Dependencia para la navegación en Compose
     implementation ("androidx.navigation:navigation-compose:2.6.0")
+    implementation(libs.androidx.appcompat)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
