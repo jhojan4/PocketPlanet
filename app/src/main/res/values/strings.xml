@@ -3,4 +3,13 @@
     <string name="title">POCKET PLANET</string>
     <string name="buttom_inicio">Inicio</string>
     <string name="Buttom_Register">Registrar</string>
+    <string name="Users">Usuario</string>
+    <string name="Password">Contraseña</string>
+    <string name="Presentacion1">Tu asistente inteligente para el cuidado de tus plantas</string>
+    <string name="buttom_iniciar_sesion">Ingresar</string>
+    <string name="Email">Correo Electrónico</string>
+    <string name="Country">Pais</string>
+    <string name="PhoneNumber">Número de Celular</string>
+    <string name="RepeatPassword">Repite la contraseña\n</string>
+    <string name="buscador">Encuentra tu planta\n</string>
 </resources>
