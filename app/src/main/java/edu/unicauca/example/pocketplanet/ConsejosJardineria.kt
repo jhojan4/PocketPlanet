@@ -41,15 +41,6 @@ class ConsejosJardineria : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             PocketPlanetTheme {
-                // Configuración de la navegación en la app
-                val navController = rememberNavController()
-                Scaffold(
-                    bottomBar = { BottomNavigationBar(navController) }
-                ) { paddingValues ->
-                    Box(modifier = Modifier.padding(paddingValues)) {
-                        ConsejosScreen(navController)
-                    }
-                }
             }
         }
     }
@@ -61,7 +52,6 @@ fun ConsejosScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFF5F5DC)) // Color beige de fondo
     ) {
         //Botón de regreso
         Row(
@@ -190,13 +180,11 @@ fun DetallePlantaScreen(plantaNombre: String) {
 }
 
 //Configuración de navegación
-@Composable
+/*Composable
 fun AppNavigation() {
     val navController = rememberNavController()
     NavHost(navController, startDestination = "consejos") {
         composable("consejos") { ConsejosScreen(navController) }
-        composable("inicio") { /* Aquí va la pantalla de inicio */ }
-        composable("notificaciones") { /* Aquí va la pantalla de notificaciones */ }
         composable("detalle_planta/{nombre}") { backStackEntry ->
             val nombre = backStackEntry.arguments?.getString("nombre") ?: "Desconocida"
             DetallePlantaScreen(plantaNombre = nombre)
@@ -212,4 +200,4 @@ fun PreviewConsejosScreen() {
     ConsejosScreen(navController)
 }
 
-
+*/

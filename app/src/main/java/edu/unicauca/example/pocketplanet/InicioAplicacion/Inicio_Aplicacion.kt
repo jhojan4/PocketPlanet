@@ -37,6 +37,7 @@ import edu.unicauca.example.pocketplanet.Inicio_Sesion.LabelDatos
 import edu.unicauca.example.pocketplanet.Presentacion.bottonRedondo
 import edu.unicauca.example.pocketplanet.Presentacion.bottonRedondoStateless
 import edu.unicauca.example.pocketplanet.R
+import edu.unicauca.example.pocketplanet.Screens
 //import edu.unicauca.example.pocketplanet.R
 import edu.unicauca.example.pocketplanet.ui.theme.PocketPlanetTheme
 
@@ -80,7 +81,7 @@ fun Screen_Inicio_Aplicacion(navController: NavHostController, modifier: Modifie
                     .fillMaxWidth()){
                     bottonRedondoStateless(onClick = {}, Icons.Default.Home, colors = MaterialTheme.colorScheme.tertiary, modifier = Modifier
                         .size(35.dp))
-                    bottonRedondoStateless(onClick = {}, Icons.Default.Notifications, colors = MaterialTheme.colorScheme.tertiary, modifier = Modifier
+                    bottonRedondoStateless(onClick = {navController.navigate(Screens.ConsejosScreen.name)}, Icons.Default.Notifications, colors = MaterialTheme.colorScheme.tertiary, modifier = Modifier
                         .size (35.dp))
                     bottonRedondoStateless(onClick = {}, Icons.Default.Star, colors = MaterialTheme.colorScheme.tertiary, modifier = Modifier
                         .size (35.dp))

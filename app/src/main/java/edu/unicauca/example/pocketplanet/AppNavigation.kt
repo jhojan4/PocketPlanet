@@ -8,10 +8,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import edu.unicauca.example.pocketplanet.InicioAplicacion.Screen_Inicio_Aplicacion
 import edu.unicauca.example.pocketplanet.Inicio_Sesion.Inicio_Sesio
+import edu.unicauca.example.pocketplanet.Presentacion.backgroundPresentacion
 //import edu.unicauca.example.pocketplanet.Presentacion
 //import edu.unicauca.example.pocketplanet.Registro.Registro
 //import edu.unicauca.example.pocketplanet.Inicio_Sesion.Inicio_Sesion
-import edu.unicauca.example.pocketplanet.Presentacion.backgroundPresentacion
+//import edu.unicauca.example.pocketplanet.Presentacion.backgroundPresentacion
 import edu.unicauca.example.pocketplanet.Registro.backgroundRegistro
 
 
@@ -32,6 +33,14 @@ fun AppNavigation(){
         composable(Screens.InicioAplicacion.name){
             Screen_Inicio_Aplicacion(navController)
         }
+        composable(Screens.ConsejosScreen.name) { ConsejosScreen(navController) }
+        composable(Screens.ConsejosScreen.name) { /* Aquí va la pantalla de inicio */ }
+        composable(Screens.ConsejosScreen.name) { /* Aquí va la pantalla de notificaciones */ }
+        composable(Screens.ConsejosScreen.name) { backStackEntry ->
+            val nombre = backStackEntry.arguments?.getString("nombre") ?: "Desconocida"
+            DetallePlantaScreen(plantaNombre = nombre)
+        }
+
     }
 
 }
@@ -40,4 +49,9 @@ enum class Screens(){
     InicioSesionScreen,
     RegistroScreen,
     InicioAplicacion,
+    ConsejosScreen,
+    InicioScreen,
+    NotificacionesScreen,
+    DetallePlantaScreen
+
 }
