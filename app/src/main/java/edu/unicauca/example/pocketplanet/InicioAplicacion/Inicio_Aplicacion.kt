@@ -8,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+//import androidx.compose.foundation.layout.BoxScopeInstance.align
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -71,27 +72,54 @@ fun Screen_Inicio_Aplicacion(navController: NavHostController, modifier: Modifie
             )
             Spacer(modifier = Modifier.weight(8f))
 
-            Box(modifier=Modifier.align(Alignment.CenterHorizontally)
-                .background(MaterialTheme.colorScheme.secondaryContainer.copy(0.5f))
-                .size(width = 400.dp, height = 70.dp)
 
-            ){
-                Row(horizontalArrangement = Arrangement.SpaceAround,modifier=Modifier.align(Alignment.Center)
-                    .padding(10.dp)
-                    .fillMaxWidth()){
-                    bottonRedondoStateless(onClick = {}, Icons.Default.Home, colors = MaterialTheme.colorScheme.tertiary, modifier = Modifier
-                        .size(35.dp))
-                    bottonRedondoStateless(onClick = {navController.navigate(Screens.ConsejosScreen.name)}, Icons.Default.Notifications, colors = MaterialTheme.colorScheme.tertiary, modifier = Modifier
-                        .size (35.dp))
-                    bottonRedondoStateless(onClick = {}, Icons.Default.Star, colors = MaterialTheme.colorScheme.tertiary, modifier = Modifier
-                        .size (35.dp))
-                    bottonRedondoStateless(onClick = {}, Icons.Default.Settings, colors = MaterialTheme.colorScheme.tertiary, modifier = Modifier
-                        .size (35.dp)
-                    )
-                }
-            }
+                //Aqui está lo de los botones de navigación aqui abajo
+                NavigationScreens(navController,modifier
+                    .align(Alignment.CenterHorizontally)
+                    .background(MaterialTheme.colorScheme.secondaryContainer.copy(0.5f))
+                    .size(width = 400.dp, height = 70.dp))
         }
     }
+}
+
+@Composable
+fun NavigationScreens(navController: NavHostController,modifier: Modifier){
+    Box(modifier=modifier) {
+        Row(horizontalArrangement = Arrangement.SpaceAround, modifier = modifier
+            .align(Alignment.Center)
+            .padding(10.dp)
+            .fillMaxWidth()) {
+            bottonRedondoStateless(
+                onClick = { navController.navigate(Screens.InicioAplicacion.name) },
+                Icons.Default.Home,
+                colors = MaterialTheme.colorScheme.tertiary,
+                modifier = Modifier
+                    .size(35.dp)
+            )
+            bottonRedondoStateless(
+                onClick = { navController.navigate(Screens.ConsejosScreen.name) },
+                Icons.Default.Notifications,
+                colors = MaterialTheme.colorScheme.tertiary,
+                modifier = Modifier
+                    .size(35.dp)
+            )
+            bottonRedondoStateless(
+                onClick = { navController.navigate(Screens.ConsejosScreen.name) },
+                Icons.Default.Star,
+                colors = MaterialTheme.colorScheme.tertiary,
+                modifier = Modifier
+                    .size(35.dp)
+            )
+            bottonRedondoStateless(
+                onClick = { navController.navigate(Screens.ConfiguracionesScreen.name) },
+                Icons.Default.Settings,
+                colors = MaterialTheme.colorScheme.tertiary,
+                modifier = Modifier
+                    .size(35.dp)
+            )
+        }
+    }
+
 }
 /*
 @Preview

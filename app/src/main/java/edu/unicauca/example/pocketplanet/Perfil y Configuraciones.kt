@@ -14,10 +14,13 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -38,9 +41,15 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Icon
+import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavHostController
+import edu.unicauca.example.pocketplanet.Funciones.TopScreen
+import edu.unicauca.example.pocketplanet.InicioAplicacion.NavigationScreens
+import edu.unicauca.example.pocketplanet.Inicio_Sesion.LabelDatos
+import edu.unicauca.example.pocketplanet.Presentacion.bottonRedondoStateless
 
 
-class PerfilConfiguracion : ComponentActivity() {
+/*class PerfilConfiguracion : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -56,9 +65,9 @@ class PerfilConfiguracion : ComponentActivity() {
             }
         }
     }
-}
+}*/
 
-@OptIn(ExperimentalMaterial3Api::class)//Esta linea evita que TopAppBarDefaults de error
+/*@OptIn(ExperimentalMaterial3Api::class)//Esta linea evita que TopAppBarDefaults de error
 @Composable
 fun TopBar(navController: NavController) {
     androidx.compose.material3.TopAppBar(
@@ -72,11 +81,11 @@ fun TopBar(navController: NavController) {
             containerColor = Color(0xFFA7ECA7)
         )
     )
-}
+}*/
 
 
 @Composable
-fun PerfilScreen(navController: NavController) {
+fun PerfilScreen(navController: NavHostController, modifier: Modifier) {
     var notificationsEnabled by remember { mutableStateOf(true) }
     var emailNotifications by remember { mutableStateOf(false) }
     var alertNotifications by remember { mutableStateOf(false) }
@@ -91,7 +100,10 @@ fun PerfilScreen(navController: NavController) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color(0xFFA7ECA7), RoundedCornerShape(bottomStart = 40.dp, bottomEnd = 40.dp)),
+                .background(
+                    Color(0xFFA7ECA7),
+                    RoundedCornerShape(bottomStart = 40.dp, bottomEnd = 40.dp)
+                ),
             contentAlignment = Alignment.Center
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -131,11 +143,10 @@ fun PerfilScreen(navController: NavController) {
         }
         ConfigOption("Idioma", Icons.Filled.Language) {}
         Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = { /* Cerrar sesión */ }, shape = RoundedCornerShape(8.dp)) {
-            Icon(Icons.Filled.Logout, contentDescription = null, modifier = Modifier.size(18.dp))
-            Spacer(modifier = Modifier.width(8.dp))
-            Text("Cerrar Sesión")
-        }
+        NavigationScreens(navController,modifier
+            .align(Alignment.CenterHorizontally)
+            .background(MaterialTheme.colorScheme.secondaryContainer.copy(0.5f))
+            .size(width = 400.dp, height = 70.dp))
     }
 }
 
@@ -169,12 +180,46 @@ fun ConfigOption(text: String, icon: androidx.compose.ui.graphics.vector.ImageVe
     }
 }
 
-@Preview(showBackground = true)
+/*@Preview(showBackground = true)
 @Composable
 fun PreviewPerfilScreen() {
     val navController = rememberNavController()
     PerfilScreen(navController)
 }
+*/
+/*@Composable
+fun PerfilConfiguraciones(navController: NavHostController, modifier: Modifier = Modifier) {
+    Box(modifier=modifier){
+        TopScreen()
+        Column(modifier=Modifier.padding(top=10.dp)){
+            LabelDatos(
+                stringResource(R.string.buscador), Icons.Default.Search,
+                modifier = Modifier.size(width = 400.dp, height = 50.dp)
+            )
+            Spacer(modifier = Modifier.weight(8f))
 
+            Box(modifier=Modifier.align(Alignment.CenterHorizontally)
+                .background(MaterialTheme.colorScheme.secondary.copy(0.5f))
+                .size(width = 400.dp, height = 70.dp)
 
+            ){
+                //Aqui está lo de los botones de navigación aqui abajo
+                Row(horizontalArrangement = Arrangement.SpaceAround,modifier=Modifier.align(Alignment.Center)
+                    .padding(10.dp)
+                    .fillMaxWidth()){
+                    bottonRedondoStateless(onClick = {navController.navigate(Screens.InicioAplicacion.name)}, Icons.Default.Home, colors = MaterialTheme.colorScheme.tertiary, modifier = Modifier
+                        .size(35.dp))
+                    bottonRedondoStateless(onClick = {navController.navigate(Screens.ConsejosScreen.name)}, Icons.Default.Notifications, colors = MaterialTheme.colorScheme.tertiary, modifier = Modifier
+                        .size (35.dp))
+                    bottonRedondoStateless(onClick = {navController.navigate(Screens.ConsejosScreen.name)}, Icons.Default.Star, colors = MaterialTheme.colorScheme.tertiary, modifier = Modifier
+                        .size (35.dp))
+                    bottonRedondoStateless(onClick = {navController.navigate(Screens.ConfiguracionesScreen.name)}, Icons.Default.Settings, colors = MaterialTheme.colorScheme.tertiary, modifier = Modifier
+                        .size (35.dp)
+                    )
+                }
+            }
+        }
+    }
+}
+*/
 

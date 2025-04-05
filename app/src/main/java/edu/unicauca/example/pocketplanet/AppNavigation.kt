@@ -34,15 +34,9 @@ fun AppNavigation(){
             Screen_Inicio_Aplicacion(navController)
         }
         composable(Screens.ConsejosScreen.name) { ConsejosScreen(navController) }
-        composable(Screens.ConsejosScreen.name) { /* Aquí va la pantalla de inicio */ }
-        composable(Screens.ConsejosScreen.name) { /* Aquí va la pantalla de notificaciones */ }
-        composable(Screens.ConsejosScreen.name) { backStackEntry ->
-            val nombre = backStackEntry.arguments?.getString("nombre") ?: "Desconocida"
-            DetallePlantaScreen(plantaNombre = nombre)
-        }
+        composable(Screens.ConfiguracionesScreen.name) { PerfilScreen(navController, modifier = Modifier) }
 
     }
-
 }
 enum class Screens(){
     PresentacionScreen,
@@ -52,6 +46,7 @@ enum class Screens(){
     ConsejosScreen,
     InicioScreen,
     NotificacionesScreen,
+    ConfiguracionesScreen,
     DetallePlantaScreen
 
 }

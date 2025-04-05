@@ -31,11 +31,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 import edu.unicauca.example.pocketplanet.ui.theme.PocketPlanetTheme
 
 
-class ConsejosJardineria : ComponentActivity() {
+/*class ConsejosJardineria : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -45,10 +46,10 @@ class ConsejosJardineria : ComponentActivity() {
         }
     }
 }
-
+*/
 //Pantalla principal de consejos de jardinería
 @Composable
-fun ConsejosScreen(navController: NavController) {
+fun ConsejosScreen(navController: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxSize()

@@ -1,9 +1,6 @@
 package edu.unicauca.example.pocketplanet.Presentacion
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,11 +14,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -30,41 +31,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import edu.unicauca.example.pocketplanet.Funciones.EndScreen
+import edu.unicauca.example.pocketplanet.Funciones.Imagenes
 import edu.unicauca.example.pocketplanet.R
 import edu.unicauca.example.pocketplanet.Funciones.TitleIcon
 import edu.unicauca.example.pocketplanet.Screens
 //import com.example.compose.PocketPlanetTheme
 import edu.unicauca.example.pocketplanet.ui.theme.PocketPlanetTheme
-
-/*class Presentacion(navController: NavHostController) : ComponentActivity(){
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            PocketPlanetTheme{
-                Scaffold(
-                    modifier = Modifier.fillMaxWidth(),
-                    content = { paddingValues -> // 🔹 Corrige la estructura del lambda
-                        Box(modifier = Modifier.padding(paddingValues)) {
-                            backgroundPresentacion(navController)
-                        }
-                    }
-                )
-            }
-        }
-    }
-
-}
-*/
-
 @Composable
 fun backgroundPresentacion(navController: NavHostController,
-    modifier: Modifier = Modifier.fillMaxSize()) {
+                           viewModel: PresentacionViewModel =viewModel(),
+                           modifier: Modifier = Modifier.fillMaxSize()) {
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -83,7 +65,9 @@ fun backgroundPresentacion(navController: NavHostController,
 
             }
 
-        Box(modifier = Modifier.align(Alignment.BottomCenter).padding(vertical=120.dp))  {
+        Box(modifier = Modifier
+            .align(Alignment.BottomCenter)
+            .padding(vertical = 120.dp))  {
             Row() {
                 cambioPantallaStateless(
                     onClick = {navController.navigate(Screens.InicioSesionScreen.name)},
@@ -133,17 +117,16 @@ fun MiddleScreen(modifier: Modifier=Modifier
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically){
             Box(modifier=Modifier.weight(1f)){
-                //cambioImagenesStateless(R.drawable.alerts,stringResource( R.string.Presentacion1),onClick = {})
+                cambioImagenesStateless(R.drawable.alerts,stringResource( R.string.Presentacion1),onClick = {})
             }
         }
     }
 
 }
 //Acciones de los botones
-/*@Composable
-fun cambioImagenesStateless(urlImages:Int, texto:String,icon:String,onClick: () -> Unit,modifier: Modifier=Modifier){
-    LazyRow {  }
-    Imagenes(urlImages,100)
+@Composable
+fun cambioImagenesStateless(urlImages:Int, texto:String, onClick:() -> Unit, modifier: Modifier=Modifier){
+
     BottonActionImagenes(onClick = onClick, description = texto)
 
 }
@@ -158,7 +141,7 @@ fun BottonActionImagenes(onClick: () -> Unit, description:String,modifier: Modif
         Text(description)
 
     }
-}*/
+}
 
 //Estas dos funciones estan con StateJetPackCompose y permite separar los botones de las acciones, si se desean usar y tomar como ejemplo las p
 //las pantallas de rsgistro e inicio, esa es la forma en las que van a quedar, solo hace falta las direcciones de ruta para que funcionen
