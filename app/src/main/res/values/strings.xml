@@ -12,4 +12,8 @@
     <string name="PhoneNumber">Número de Celular</string>
     <string name="RepeatPassword">Repite la contraseña\n</string>
     <string name="buscador">Encuentra tu planta\n</string>
+    <string name="statistics">Estadísticas</string>
+    <string name="recomendation">Consejos y más ...\n</string>
+    <string name="logo">Tu asistente inteligente para el cuidado de tus plantas</string>
+    <string name="alerts">Recordatorios Inteligentes</string>
 </resources>

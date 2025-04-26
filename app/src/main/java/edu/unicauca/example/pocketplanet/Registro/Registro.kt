@@ -1,9 +1,5 @@
 package edu.unicauca.example.pocketplanet.Registro
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,36 +36,14 @@ import edu.unicauca.example.pocketplanet.Presentacion.cambioPantallaStateless
 import edu.unicauca.example.pocketplanet.R
 import edu.unicauca.example.pocketplanet.Screens
 import edu.unicauca.example.pocketplanet.ui.theme.PocketPlanetTheme
-
-
-/*class Registro(navController: NavHostController) : ComponentActivity(){
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            PocketPlanetTheme{
-                Scaffold(
-                    modifier = Modifier.fillMaxWidth(),
-                    content = { paddingValues -> // 🔹 Corrige la estructura del lambda
-                        Box(modifier = Modifier.padding(paddingValues)) {
-                            backgroundRegistro()
-                        }
-                    }
-                )
-            }
-        }
-    }
-
-}*/
 @Composable
 fun backgroundRegistro(navController: NavHostController,modifier: Modifier=Modifier) {
     Box(modifier = modifier.fillMaxWidth()) {
         BackGroundPocketPlanetInicial()
         Box(modifier=Modifier.align(Alignment.TopStart).padding(30.dp)){
-            bottonRedondoStateless(onClick={navController.navigate(Screens.PresentacionScreen.name)}, Icons.Default.ArrowBack,colors =MaterialTheme.colorScheme.tertiary, modifier = Modifier
+            bottonRedondoStateless(onClick={navController.navigate(Screens.PresentacionScreen.name)},
+                Icons.Default.ArrowBack,colors =MaterialTheme.colorScheme.tertiary, modifier = Modifier
                 .size(width = 40.dp, height = 40.dp)
-
-
             )
         }
         Card_Registro(navController,modifier.align(Alignment.Center))
@@ -126,17 +100,4 @@ fun Card_Registro(navController: NavHostController,modifier: Modifier = Modifier
         }
     }
 }
-@Preview
-@Composable
-fun backgroundRegistroPreview(){
-    PocketPlanetTheme{
-        Scaffold(
-            content = { paddingValues -> // 🔹 Corrige la estructura del lambda
-                Box(modifier = Modifier
-                    .padding(paddingValues)) {
 
-                }
-            }
-        )
-    }
-}
