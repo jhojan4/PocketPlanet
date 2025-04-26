@@ -1,33 +1,21 @@
 package edu.unicauca.example.pocketplanet.Registro
 
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Call
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.navOptions
 import edu.unicauca.example.pocketplanet.Funciones.BackGroundPocketPlanetInicial
 import edu.unicauca.example.pocketplanet.Funciones.Imagenes
 import edu.unicauca.example.pocketplanet.Inicio_Sesion.LabelDatos
@@ -35,69 +23,128 @@ import edu.unicauca.example.pocketplanet.Presentacion.bottonRedondoStateless
 import edu.unicauca.example.pocketplanet.Presentacion.cambioPantallaStateless
 import edu.unicauca.example.pocketplanet.R
 import edu.unicauca.example.pocketplanet.Screens
-import edu.unicauca.example.pocketplanet.ui.theme.PocketPlanetTheme
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+
 @Composable
-fun backgroundRegistro(navController: NavHostController,modifier: Modifier=Modifier) {
-    Box(modifier = modifier.fillMaxWidth()) {
-        BackGroundPocketPlanetInicial()
-        Box(modifier=Modifier.align(Alignment.TopStart).padding(30.dp)){
-            bottonRedondoStateless(onClick={navController.navigate(Screens.PresentacionScreen.name)},
-                Icons.Default.ArrowBack,colors =MaterialTheme.colorScheme.tertiary, modifier = Modifier
-                .size(width = 40.dp, height = 40.dp)
+fun backgroundRegistro(navController: NavHostController, modifier: Modifier = Modifier) {
+    val viewModel: RegistroViewModel = viewModel()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val coroutineScope = rememberCoroutineScope()
+
+    Scaffold(
+        snackbarHost = { CustomSnackbarHost(hostState = snackbarHostState) } // 🔥 Snackbars personalizados
+    ) { paddingValues ->
+        Box(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(paddingValues)
+        ) {
+            BackGroundPocketPlanetInicial()
+
+            Box(modifier = Modifier.align(Alignment.TopStart).padding(30.dp)) {
+                bottonRedondoStateless(
+                    onClick = { navController.navigate(Screens.PresentacionScreen.name) },
+                    Icons.Default.ArrowBack,
+                    colors = MaterialTheme.colorScheme.tertiary,
+                    modifier = Modifier.size(40.dp)
+                )
+            }
+
+            Card_Registro(
+                navController = navController,
+                viewModel = viewModel,
+                snackbarHostState = snackbarHostState,
+                coroutineScope = coroutineScope,
+                modifier = Modifier.align(Alignment.Center)
             )
         }
-        Card_Registro(navController,modifier.align(Alignment.Center))
     }
 }
+
 @Composable
-fun Card_Registro(navController: NavHostController,modifier: Modifier = Modifier) {
-    Box(modifier=modifier) {
+fun Card_Registro(
+    navController: NavHostController,
+    viewModel: RegistroViewModel,
+    snackbarHostState: SnackbarHostState,
+    coroutineScope: CoroutineScope,
+    modifier: Modifier = Modifier
+) {
+    Box(modifier = modifier) {
         Card(
             modifier = modifier
                 .fillMaxWidth()
                 .height(800.dp)
                 .padding(30.dp)
-                .border(
-                    0.8.dp,
-                    MaterialTheme.colorScheme.scrim.copy(0.5f),
-                    RoundedCornerShape(30.dp)
-                ),
-
+                .border(0.8.dp, MaterialTheme.colorScheme.scrim.copy(0.5f), RoundedCornerShape(30.dp)),
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.surfaceDim.copy(0.3f)
             )
         ) {
             Column(
                 modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 20.dp),
-                horizontalAlignment = Alignment.CenterHorizontally){
-                Imagenes(R.drawable.logo,120)
+                    .fillMaxWidth()
+                    .padding(top = 20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Imagenes(R.drawable.logo, 120)
                 Spacer(modifier = Modifier.height(30.dp))
-                LabelDatos(stringResource(R.string.Users), Icons.Default.AccountCircle,modifier = Modifier.size(width = 400.dp, height = 50.dp))
-                Spacer(modifier = Modifier.height(30.dp),)
-                LabelDatos(stringResource(R.string.Email), Icons.Default.Email,
-                    modifier = Modifier.size(width = 400.dp, height = 50.dp))
+                LabelDatos(viewModel.userName, { viewModel.userName = it }, stringResource(R.string.Users), Icons.Default.AccountCircle, modifier = Modifier.size(400.dp, 50.dp))
                 Spacer(modifier = Modifier.height(30.dp))
-                LabelDatos(stringResource(R.string.Country), Icons.Default.LocationOn,
-                    modifier = Modifier.size(width = 400.dp, height = 50.dp))
+                LabelDatos(viewModel.email, { viewModel.email = it }, stringResource(R.string.Email), Icons.Default.Email, modifier = Modifier.size(400.dp, 50.dp))
                 Spacer(modifier = Modifier.height(30.dp))
-                LabelDatos(stringResource(R.string.PhoneNumber), Icons.Default.Call,
-                    modifier = Modifier.size(width = 400.dp, height = 50.dp))
+                LabelDatos(viewModel.country, { viewModel.country = it }, stringResource(R.string.Country), Icons.Default.LocationOn, modifier = Modifier.size(400.dp, 50.dp))
                 Spacer(modifier = Modifier.height(30.dp))
-                LabelDatos(stringResource(R.string.Password), Icons.Default.Lock,
-                    modifier = Modifier.size(width = 400.dp, height = 50.dp))
+                LabelDatos(viewModel.phoneNumber, { viewModel.phoneNumber = it }, stringResource(R.string.PhoneNumber), Icons.Default.Call, modifier = Modifier.size(400.dp, 50.dp))
                 Spacer(modifier = Modifier.height(30.dp))
-                LabelDatos(stringResource(R.string.RepeatPassword), Icons.Default.Lock,
-                    modifier = Modifier.size(width = 400.dp, height = 50.dp))
+                LabelDatos(viewModel.password, { viewModel.password = it }, stringResource(R.string.Password), Icons.Default.Lock, esPassword = true, modifier = Modifier.size(400.dp, 50.dp))
                 Spacer(modifier = Modifier.height(30.dp))
-                cambioPantallaStateless(onClick = {navController.navigate(Screens.InicioSesionScreen.name)}, description = stringResource(R.string.Buttom_Register))
+                LabelDatos(viewModel.repeatPassword, { viewModel.repeatPassword = it }, stringResource(R.string.RepeatPassword), Icons.Default.Lock, esPassword = true, modifier = Modifier.size(400.dp, 50.dp))
+                Spacer(modifier = Modifier.height(30.dp))
 
-
-
+                cambioPantallaStateless(
+                    onClick = {
+                        viewModel.registerUser(
+                            onSuccess = {
+                                coroutineScope.launch {
+                                    snackbarHostState.showSnackbar(
+                                        message = "✅ Usuario registrado correctamente",
+                                        duration = SnackbarDuration.Short
+                                    )
+                                    delay(1000) // esperar para ver el mensaje
+                                    navController.navigate(Screens.InicioSesionScreen.name)
+                                }
+                            },
+                            onError = { message ->
+                                coroutineScope.launch {
+                                    snackbarHostState.showSnackbar(
+                                        message = "❌ $message",
+                                        duration = SnackbarDuration.Long
+                                    )
+                                }
+                            }
+                        )
+                    },
+                    description = stringResource(R.string.Buttom_Register)
+                )
             }
-
         }
+    }
+}
+
+@Composable
+fun CustomSnackbarHost(hostState: SnackbarHostState) {
+    SnackbarHost(hostState = hostState) { data ->
+        val isSuccess = data.visuals.message.startsWith("✅")
+        val backgroundColor = if (isSuccess) Color(0xFF4CAF50) else Color(0xFFF44336)
+
+        Snackbar(
+            snackbarData = data,
+            containerColor = backgroundColor,
+            contentColor = Color.White,
+            actionColor = Color.Yellow
+        )
     }
 }
 

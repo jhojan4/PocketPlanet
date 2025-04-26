@@ -46,31 +46,13 @@ import androidx.compose.ui.unit.sp
 //import edu.unicauca.example.pocketplanet.R
 import edu.unicauca.example.pocketplanet.ui.theme.PocketPlanetTheme
 
-/*class Inicio_Aplicacion : ComponentActivity(){
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            PocketPlanetTheme{
-                Scaffold(
-                    modifier = Modifier.fillMaxWidth(),
-                    content = { paddingValues -> // 🔹 Corrige la estructura del lambda
-                        Box(modifier = Modifier.padding(paddingValues)) {
-                            Screen_Inicio_Aplicacion()
-                        }
-                    }
-                )
-            }
-        }
-    }
-}*/
 
 @Composable
 fun Screen_Inicio_Aplicacion(navController: NavHostController, modifier: Modifier = Modifier) {
     Box(modifier=modifier){
         TopScreen()
         Column(modifier=Modifier.padding(top=10.dp)){
-            LabelDatos(
+            LabelDatos(value = "", onValueChange = {},
                 stringResource(R.string.buscador), Icons.Default.Search,
                 modifier = Modifier.size(width = 400.dp, height = 50.dp)
             )

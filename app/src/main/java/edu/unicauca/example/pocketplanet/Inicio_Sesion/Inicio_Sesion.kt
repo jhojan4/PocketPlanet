@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -35,8 +36,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import edu.unicauca.example.pocketplanet.Funciones.BackGroundPocketPlanetInicial
 import edu.unicauca.example.pocketplanet.Funciones.Imagenes
@@ -47,28 +51,10 @@ import edu.unicauca.example.pocketplanet.Screens
 //import edu.unicauca.example.pocketplanet.Presentacion.backgroundPocketPlanet
 //import com.example.compose.PocketPlanetTheme
 import edu.unicauca.example.pocketplanet.ui.theme.PocketPlanetTheme
-
-/*class Inicio_Sesion(navController: NavHostController) : ComponentActivity(){
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            PocketPlanetTheme{
-                Scaffold(
-                    modifier = Modifier.fillMaxWidth(),
-                    content = { paddingValues -> // 🔹 Corrige la estructura del lambda
-                        Box(modifier = Modifier.padding(paddingValues)) {
-                            Inicio_Sesio()
-                        }
-                    }
-                )
-            }
-        }
-    }
-}*/
 @Composable
 fun Inicio_Sesio(navController: NavHostController,modifier: Modifier) {
-    Box(
+    val viewModel: LoginViewModel = viewModel()
+   Box(
         modifier = modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.surface)
@@ -90,7 +76,7 @@ fun Inicio_Sesio(navController: NavHostController,modifier: Modifier) {
                 .fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            Card_InicioSesion(navController)
+            Card_InicioSesion(navController,viewModel)
         }
     }
 }
@@ -112,7 +98,7 @@ fun backgroundInicioSesionPreview(){
 */
 
 @Composable
-fun Card_InicioSesion(navController: NavHostController,modifier: Modifier=Modifier) {
+fun Card_InicioSesion(navController: NavHostController,viewModel: LoginViewModel,modifier: Modifier=Modifier) {
     Box(modifier=modifier){
         Card(
             modifier = modifier
@@ -138,13 +124,31 @@ fun Card_InicioSesion(navController: NavHostController,modifier: Modifier=Modifi
             ) {
                 Imagenes(R.drawable.logo,120)
                 Spacer(modifier = Modifier.height(60.dp))
-                LabelDatos(stringResource(R.string.Users),Icons.Default.AccountCircle,
+                LabelDatos(value = viewModel.email, onValueChange = { viewModel.email = it } ,stringResource(R.string.Users),Icons.Default.AccountCircle,
                     modifier = Modifier.size(width = 400.dp, height = 50.dp))
                 Spacer(modifier = Modifier.height(15.dp))
-                LabelDatos(stringResource(R.string.Password),Icons.Default.Lock,
+                LabelDatos(value = viewModel.password, onValueChange = { viewModel.password = it },stringResource(R.string.Password),Icons.Default.Lock,
                     modifier = Modifier.size(width = 400.dp, height = 50.dp))
                 Spacer(modifier = Modifier.height(25.dp))
-                cambioPantallaStateless(onClick = {navController.navigate(Screens.InicioAplicacion.name)}, description = stringResource(R.string.buttom_iniciar_sesion))
+                //cambioPantallaStateless(onClick = {navController.navigate(Screens.InicioAplicacion.name)}, description = stringResource(R.string.buttom_iniciar_sesion))
+                cambioPantallaStateless(
+                    onClick = {
+                        viewModel.loginUser(
+                            onSuccess = {
+                                // Si el login es correcto, navegas y ya tienes el userId guardado
+                                navController.navigate(Screens.InicioAplicacion.name)
+                            },
+                            onError = { message ->
+                                // Mostrar Snackbar o error
+                            }
+                        )
+                    },
+                    description = stringResource(R.string.buttom_iniciar_sesion)
+
+                )
+                Spacer(modifier = Modifier.height(15.dp))
+                Text(stringResource(R.string.sinCuenta),modifier = Modifier.clickable { navController.navigate(
+                    Screens.RegistroScreen.name) })
             }
         }
 
@@ -157,12 +161,16 @@ fun Card_InicioSesion(navController: NavHostController,modifier: Modifier=Modifi
 //Recibe como parámetros de entrada un texto, un icono y un modificador
 @Composable
 fun LabelDatos(
+    value: String,
+    onValueChange: (String) -> Unit,
     textoId:String
-    ,icon: ImageVector
-    ,modifier: Modifier = Modifier) {
+    ,icon: ImageVector,
+    esPassword: Boolean = false,
+    modifier: Modifier = Modifier) {
     TextField(
-        value = "",
-        onValueChange = {},
+        value = value,
+        onValueChange = onValueChange,
+        visualTransformation = if (esPassword) PasswordVisualTransformation() else VisualTransformation.None,
         leadingIcon = {
             Icon(
                 imageVector = icon,
