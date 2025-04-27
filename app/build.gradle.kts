@@ -61,6 +61,10 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.13.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation(libs.firebase.firestore.ktx)
+    implementation ("androidx.datastore:datastore-preferences:1.0.0")  // DataStore preferences
+    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")  // Para trabajo con coroutines
+
+
 
 
     testImplementation(libs.junit)

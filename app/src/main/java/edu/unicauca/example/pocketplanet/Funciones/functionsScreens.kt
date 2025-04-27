@@ -1,5 +1,6 @@
 package edu.unicauca.example.pocketplanet.Funciones
 
+import android.Manifest
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -26,6 +27,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import edu.unicauca.example.pocketplanet.R
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
+import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 
 @Composable
 //Es un box que crea la parte inferior de lal background
@@ -107,3 +116,40 @@ fun TitleIcon(modifier: Modifier=Modifier){
         }
     }
 }
+//Crear un canal de notificaciones
+fun createNotificationChannel(context: Context) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        val name = "PocketPlanetChannel"
+        val descriptionText = "Canal para notificaciones de PocketPlanet"
+        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val channel = NotificationChannel("pocketplanet_channel", name, importance).apply {
+            description = descriptionText
+        }
+        val notificationManager: NotificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(channel)
+    }
+}
+
+fun enviarNotificacion(context: Context, titulo: String, mensaje: String) {
+    val builder = NotificationCompat.Builder(context, "pocketplanet_channel")
+        .setSmallIcon(R.drawable.logo)
+        .setContentTitle(titulo)
+        .setContentText(mensaje)
+        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+    val notificationManager = NotificationManagerCompat.from(context)
+
+    if (ActivityCompat.checkSelfPermission(
+            context,  // <<< AQUÍ
+            Manifest.permission.POST_NOTIFICATIONS
+        ) != PackageManager.PERMISSION_GRANTED
+    ) {
+        // Se debería pedir el permiso si no lo tengo, no solo return
+        return
+    }
+
+    notificationManager.notify(1, builder.build())
+}
+
+

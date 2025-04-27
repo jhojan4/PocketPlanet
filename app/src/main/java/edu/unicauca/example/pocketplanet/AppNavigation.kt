@@ -4,22 +4,29 @@ package edu.unicauca.example.pocketplanet
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import edu.unicauca.example.pocketplanet.Consejos.ConsejosScreen
+import edu.unicauca.example.pocketplanet.Consejos.DetallePlantaScreen
+import edu.unicauca.example.pocketplanet.Estadisticas.StatisticsScreen
 import edu.unicauca.example.pocketplanet.InicioAplicacion.Screen_Inicio_Aplicacion
 import edu.unicauca.example.pocketplanet.Inicio_Sesion.Inicio_Sesio
+import edu.unicauca.example.pocketplanet.PerfilConfiguraciones.PerfilScreen
+import edu.unicauca.example.pocketplanet.PerfilConfiguraciones.SettingsDataStore
 import edu.unicauca.example.pocketplanet.Presentacion.backgroundPresentacion
 //import edu.unicauca.example.pocketplanet.Presentacion
 //import edu.unicauca.example.pocketplanet.Registro.Registro
 //import edu.unicauca.example.pocketplanet.Inicio_Sesion.Inicio_Sesion
 //import edu.unicauca.example.pocketplanet.Presentacion.backgroundPresentacion
 import edu.unicauca.example.pocketplanet.Registro.backgroundRegistro
+import edu.unicauca.example.pocketplanet.ui.theme.ThemeViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppNavigation(){
+fun AppNavigation(themeViewModel: ThemeViewModel) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Screens.InicioSesionScreen.name) {
 
@@ -44,8 +51,17 @@ fun AppNavigation(){
         }
 
         composable(Screens.ConfiguracionesScreen.name) {
-            PerfilScreen(navController, modifier = Modifier)
+            val context = LocalContext.current // 👈 pido el context
+            val settingsDataStore = SettingsDataStore(context) // 👈 creo el objeto bien
+
+            PerfilScreen(
+                navController = navController,
+                modifier = Modifier,
+                themeViewModel = themeViewModel,
+                settingsDataStore = settingsDataStore
+            )
         }
+
 
         composable(Screens.EstadisticasScreen.name) {
             StatisticsScreen(navController, modifier = Modifier)
