@@ -3,6 +3,8 @@ package edu.unicauca.example.pocketplanet.PerfilConfiguraciones
 // Importaciones necesarias
 import android.content.pm.PackageManager
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -28,56 +30,84 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavHostController
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.FirebaseApp
 import edu.unicauca.example.pocketplanet.Funciones.enviarNotificacion
 import edu.unicauca.example.pocketplanet.InicioAplicacion.NavigationScreens
 import edu.unicauca.example.pocketplanet.R
 import edu.unicauca.example.pocketplanet.ui.theme.ThemeViewModel
 import kotlinx.coroutines.launch
 
-// Pantalla de perfil y configuración
+object PerfilScreenData {
+    var originalEmail: String = "correo@ejemplo.com"
+}
+
 @Composable
 fun PerfilScreen(
     navController: NavHostController,
     modifier: Modifier = Modifier,
-    themeViewModel: ThemeViewModel, // ViewModel para controlar el modo oscuro
-    settingsDataStore: SettingsDataStore // DataStore para persistir configuraciones
+    themeViewModel: ThemeViewModel,
+    settingsDataStore: SettingsDataStore
 ) {
-    // Scope para correr corrutinas desde el Composable
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
 
-    // Estados que observan el valor en el DataStore (ya persistente)
     val notificationsEnabled by settingsDataStore.notificationsEnabledFlow.collectAsState(initial = true)
     val emailNotifications by settingsDataStore.emailNotificationsFlow.collectAsState(initial = false)
 
-    // Otros estados locales que todavía no persisto (si quiero también podría guardarlos en DataStore)
     var alertNotifications by remember { mutableStateOf(false) }
     var darkMode by remember { mutableStateOf(false) }
 
-    // Lanzador para solicitud de permiso de notificaciones
+    // Estados para editar perfil
+    var showEditDialog by remember { mutableStateOf(false) }
+    var userName by remember { mutableStateOf("Nombre Usuario") }
+    var email by remember { mutableStateOf("correo@ejemplo.com") }
+
+    // Guardamos el correo original al entrar a la pantalla
+    PerfilScreenData.originalEmail = email
+
+    // 🔥 Cargar nombre y correo del usuario desde Firestore
+    LaunchedEffect(Unit) {
+        // Usamos la base de datos "database-pocketplanet"
+        val db = FirebaseFirestore.getInstance(FirebaseApp.getInstance("database-pocketplanet"))
+        val usersRef = db.collection("users")
+
+        usersRef.whereEqualTo("email", PerfilScreenData.originalEmail)
+            .get()
+            .addOnSuccessListener { documents ->
+                if (!documents.isEmpty) {
+                    val userDoc = documents.documents[0]
+                    userName = userDoc.getString("name") ?: "Nombre Usuario"
+                    email = userDoc.getString("email") ?: "correo@ejemplo.com"
+                    Toast.makeText(context, "Usuario cargado: $userName", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(context, "Usuario no encontrado", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(context, "Error al cargar usuario: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
+
     val requestPermissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
         onResult = { isGranted ->
             if (isGranted) {
-                // El permiso fue concedido
                 enviarNotificacion(
                     context = context,
                     titulo = "Esta es una notificación de prueba 🎉",
                     mensaje = "Prueba"
                 )
             } else {
-                // El permiso fue denegado
                 Toast.makeText(context, "Permiso de notificación denegado", Toast.LENGTH_SHORT).show()
             }
         }
     )
 
     Scaffold(
-        // Barra de navegación inferior de la app
         bottomBar = {
             Box(
                 modifier = Modifier.fillMaxWidth(),
@@ -99,7 +129,7 @@ fun PerfilScreen(
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Sección del encabezado del perfil
+            // Sección del perfil
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -119,11 +149,11 @@ fun PerfilScreen(
                         contentScale = ContentScale.Crop
                     )
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text("Nombre Usuario", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-                    Text("Correo", fontSize = 16.sp, color = Color.Gray)
+                    Text(userName, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                    Text(email, fontSize = 16.sp, color = Color.Gray)
                     Spacer(modifier = Modifier.height(8.dp))
                     Button(
-                        onClick = { /* Acción para editar perfil (pendiente de implementar) */ },
+                        onClick = { showEditDialog = true },
                         shape = RoundedCornerShape(8.dp)
                     ) {
                         Text("Editar Perfil")
@@ -133,10 +163,8 @@ fun PerfilScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Sección de Configuración de notificaciones
             Text("Configuración de notificaciones", fontSize = 18.sp, fontWeight = FontWeight.Bold)
 
-            // Switch de Activar/Desactivar notificaciones generales
             SwitchOption(
                 text = "Activar/Desactivar notificaciones",
                 icon = Icons.Filled.Notifications,
@@ -147,15 +175,11 @@ fun PerfilScreen(
                 }
             }
 
-            // Opción para configurar frecuencia de notificaciones
             ConfigOption(
                 text = "Frecuencia de notificaciones",
                 icon = Icons.Filled.Settings
-            ) {
-                // Aquí podría abrir una pantalla o diálogo más adelante
-            }
+            ) { }
 
-            // Switch de Activar/Desactivar notificaciones por correo
             SwitchOption(
                 text = "Notificaciones por correo",
                 icon = Icons.Filled.Email,
@@ -166,7 +190,6 @@ fun PerfilScreen(
                 }
             }
 
-            // Switch de Activar/Desactivar alertas (todavía no persiste en DataStore)
             SwitchOption(
                 text = "Activar/Desactivar alertas",
                 icon = Icons.Filled.Notifications,
@@ -175,10 +198,8 @@ fun PerfilScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Sección de Temas y apariencia
             Text("Temas y apariencia", fontSize = 18.sp, fontWeight = FontWeight.Bold)
 
-            // Switch de modo oscuro (lo maneja el ThemeViewModel)
             SwitchOption(
                 text = "Activar/Desactivar modo oscuro",
                 icon = Icons.Filled.DarkMode,
@@ -188,15 +209,11 @@ fun PerfilScreen(
                 themeViewModel.toggleTheme()
             }
 
-            // Configuración de idioma
             ConfigOption(
                 text = "Idioma",
                 icon = Icons.Filled.Language
-            ) {
-                // Aquí podríamos abrir selector de idiomas más adelante
-            }
+            ) { }
 
-            // Botón para probar notificación
             Button(
                 onClick = {
                     if (notificationsEnabled) {
@@ -211,7 +228,6 @@ fun PerfilScreen(
                                 mensaje = "Prueba"
                             )
                         } else {
-                            // Solicitar el permiso usando el launcher
                             requestPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
                         }
                     } else {
@@ -222,11 +238,71 @@ fun PerfilScreen(
             ) {
                 Text("Probar notificación")
             }
+
+            if (showEditDialog) {
+                AlertDialog(
+                    onDismissRequest = { showEditDialog = false },
+                    title = { Text("Editar Perfil") },
+                    text = {
+                        Column {
+                            OutlinedTextField(
+                                value = userName,
+                                onValueChange = { userName = it },
+                                label = { Text("Nombre de usuario") }
+                            )
+                            Spacer(modifier = Modifier.height(8.dp))
+                            OutlinedTextField(
+                                value = email,
+                                onValueChange = { email = it },
+                                label = { Text("Correo electrónico") }
+                            )
+                        }
+                    },
+                    confirmButton = {
+                        Button(
+                            onClick = {
+                                actualizarPerfilEnFirestore(
+                                    nuevoNombre = userName,
+                                    nuevoCorreo = email,
+                                    context = context,
+                                    onSuccess = {
+                                        showEditDialog = false
+                                        PerfilScreenData.originalEmail = email
+                                    }
+                                )
+                            }
+                        ) {
+                            Text("Guardar")
+                        }
+                    },
+                    dismissButton = {
+                        OutlinedButton(onClick = { showEditDialog = false }) {
+                            Text("Cancelar")
+                        }
+                    }
+                )
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Botón de Cerrar Sesión
+            Button(
+                onClick = {
+                    FirebaseAuth.getInstance().signOut()
+                    navController.navigate("login_screen") {
+                        popUpTo("home_screen") { inclusive = true }
+                    }
+                },
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(8.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
+            ) {
+                Text("Cerrar sesión", color = Color.White)
+            }
         }
     }
 }
 
-// Composable genérico para un switch configurable
 @Composable
 fun SwitchOption(
     text: String,
@@ -247,7 +323,6 @@ fun SwitchOption(
     }
 }
 
-// Composable genérico para opciones que no son switches
 @Composable
 fun ConfigOption(
     text: String,
@@ -267,17 +342,30 @@ fun ConfigOption(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewPerfilScreen() {
-    // Simulamos el estado del ViewModel y DataStore en la vista previa
-    val themeViewModel = ThemeViewModel() // Puedes usar un ViewModel simulado o mockeado si es necesario
-    val settingsDataStore = SettingsDataStore(LocalContext.current)
+fun actualizarPerfilEnFirestore(
+    nuevoNombre: String,
+    nuevoCorreo: String,
+    context: android.content.Context,
+    onSuccess: () -> Unit
+) {
+    val db = FirebaseFirestore.getInstance(FirebaseApp.getInstance("database-pocketplanet"))
+    val usersRef = db.collection("users")
 
-    // Llamamos a la función que muestra la pantalla de perfil
-    PerfilScreen(
-        navController = NavHostController(LocalContext.current),
-        themeViewModel = themeViewModel,
-        settingsDataStore = settingsDataStore
-    )
+    usersRef.whereEqualTo("email", nuevoCorreo)
+        .get()
+        .addOnSuccessListener { documents ->
+            if (documents.isEmpty) {
+                Toast.makeText(context, "Correo no registrado", Toast.LENGTH_SHORT).show()
+            } else {
+                val userDoc = documents.documents[0]
+                userDoc.reference.update("name", nuevoNombre, "email", nuevoCorreo)
+                    .addOnSuccessListener {
+                        Toast.makeText(context, "Perfil actualizado correctamente", Toast.LENGTH_SHORT).show()
+                        onSuccess()
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(context, "Error al actualizar el perfil: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+            }
+        }
 }

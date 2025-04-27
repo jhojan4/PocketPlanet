@@ -19,6 +19,7 @@ import androidx.navigation.NavHostController
 import edu.unicauca.example.pocketplanet.Funciones.BackGroundPocketPlanetInicial
 import edu.unicauca.example.pocketplanet.Funciones.Imagenes
 import edu.unicauca.example.pocketplanet.Inicio_Sesion.LabelDatos
+import edu.unicauca.example.pocketplanet.PerfilConfiguraciones.PerfilScreenData
 import edu.unicauca.example.pocketplanet.Presentacion.bottonRedondoStateless
 import edu.unicauca.example.pocketplanet.Presentacion.cambioPantallaStateless
 import edu.unicauca.example.pocketplanet.R
@@ -41,7 +42,7 @@ fun backgroundRegistro(navController: NavHostController, modifier: Modifier = Mo
                 .fillMaxWidth()
                 .padding(paddingValues)
         ) {
-            BackGroundPocketPlanetInicial()
+            BackGroundPocketPlanetInicial() // 🔥 Fondo personalizado PocketPlanet
 
             Box(modifier = Modifier.align(Alignment.TopStart).padding(30.dp)) {
                 bottonRedondoStateless(
@@ -88,7 +89,7 @@ fun Card_Registro(
                     .padding(top = 20.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Imagenes(R.drawable.logo, 120)
+                Imagenes(R.drawable.logo, 120) // 🔥 Logo de PocketPlanet
                 Spacer(modifier = Modifier.height(30.dp))
                 LabelDatos(viewModel.userName, { viewModel.userName = it }, stringResource(R.string.Users), Icons.Default.AccountCircle, modifier = Modifier.size(400.dp, 50.dp))
                 Spacer(modifier = Modifier.height(30.dp))
@@ -107,12 +108,15 @@ fun Card_Registro(
                     onClick = {
                         viewModel.registerUser(
                             onSuccess = {
+                                // 🔥 Guardamos el correo registrado para usarlo en la pantalla de Perfil
+                                PerfilScreenData.originalEmail = viewModel.email
+
                                 coroutineScope.launch {
                                     snackbarHostState.showSnackbar(
                                         message = "✅ Usuario registrado correctamente",
                                         duration = SnackbarDuration.Short
                                     )
-                                    delay(1000) // esperar para ver el mensaje
+                                    delay(1000) // 🔥 Espera 1 segundo para ver el mensaje
                                     navController.navigate(Screens.InicioSesionScreen.name)
                                 }
                             },
@@ -147,4 +151,3 @@ fun CustomSnackbarHost(hostState: SnackbarHostState) {
         )
     }
 }
-
