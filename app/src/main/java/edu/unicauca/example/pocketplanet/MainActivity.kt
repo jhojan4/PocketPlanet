@@ -4,48 +4,33 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.runtime.collectAsState
+import edu.unicauca.example.pocketplanet.Funciones.createNotificationChannel
 import edu.unicauca.example.pocketplanet.ui.theme.PocketPlanetTheme
-
-//import com.example.compose.PocketPlanetTheme
-
-//import edu.unicauca.example.pocketplanet.ui.theme.PocketPlanetTheme
+import edu.unicauca.example.pocketplanet.ui.theme.ThemeViewModel
 
 class MainActivity : ComponentActivity() {
+
+    private val themeViewModel: ThemeViewModel by viewModels() // 👈 Añadimos esto
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        createNotificationChannel(this)
         enableEdgeToEdge()
         setContent {
-            PocketPlanetTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+            val isDarkTheme by themeViewModel.isDarkTheme.collectAsState()
+
+            PocketPlanetTheme(darkTheme = isDarkTheme) { // pasamos si está oscuro o no
+                Surface(modifier = Modifier.fillMaxSize()) {
+                    AppNavigation(themeViewModel) // mandamos el ViewModel a la navegación
                 }
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    PocketPlanetTheme {
-        Greeting("Android")
-    }
-}

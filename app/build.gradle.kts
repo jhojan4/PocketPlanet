@@ -1,7 +1,9 @@
 plugins {
+
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -40,7 +42,7 @@ android {
 }
 
 dependencies {
-
+    implementation(libs.androidx.navigation.compose.v277)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -49,13 +51,20 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    // Dependencia para la navegación en Compose
-    implementation ("androidx.navigation:navigation-compose:2.6.0")
+    implementation(libs.androidx.navigation.compose)
     //iconos para darkmode, language, logout
     implementation ("androidx.compose.material:material-icons-extended:1.4.3")
     //
     implementation ("androidx.compose.material3:material3:1.2.0")
-    
+    implementation(libs.annotations)
+    //Dependencias de firebase
+    implementation(platform("com.google.firebase:firebase-bom:33.13.0"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation(libs.firebase.firestore.ktx)
+    implementation ("androidx.datastore:datastore-preferences:1.0.0")  // DataStore preferences
+    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")  // Para trabajo con coroutines
+
+
 
 
     testImplementation(libs.junit)
