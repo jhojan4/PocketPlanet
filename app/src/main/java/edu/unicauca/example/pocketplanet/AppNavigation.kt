@@ -9,6 +9,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import edu.unicauca.example.pocketplanet.Agregar_Planta.AgregarPlanta
 import edu.unicauca.example.pocketplanet.Consejos.ConsejosScreen
 import edu.unicauca.example.pocketplanet.Consejos.DetallePlantaScreen
 import edu.unicauca.example.pocketplanet.Estadisticas.StatisticsScreen
@@ -17,7 +18,6 @@ import edu.unicauca.example.pocketplanet.Inicio_Sesion.Inicio_Sesio
 import edu.unicauca.example.pocketplanet.PerfilConfiguraciones.LanguageViewModel
 import edu.unicauca.example.pocketplanet.PerfilConfiguraciones.PerfilScreen
 import edu.unicauca.example.pocketplanet.PerfilConfiguraciones.SettingsDataStore
-import edu.unicauca.example.pocketplanet.PerfilConfiguraciones.UpdateUserViewModel
 import edu.unicauca.example.pocketplanet.Presentacion.backgroundPresentacion
 //import edu.unicauca.example.pocketplanet.Presentacion
 //import edu.unicauca.example.pocketplanet.Registro.Registro
@@ -60,18 +60,14 @@ fun AppNavigation(themeViewModel: ThemeViewModel) {
         composable(Screens.ConfiguracionesScreen.name) {
             val context = LocalContext.current // pido el context
             val settingsDataStore = SettingsDataStore(context) // creo el objeto bien
-
             // Obtengo la instancia del LanguageViewModel
             val LanguageViewModel: LanguageViewModel = viewModel()
-            val UpdateUserViewModel: UpdateUserViewModel = viewModel()
-
             PerfilScreen(
                 navController = navController,
                 modifier = Modifier,
                 themeViewModel = themeViewModel,
                 settingsDataStore = settingsDataStore,
-                languageViewModel = LanguageViewModel,
-                updateUserViewModel = UpdateUserViewModel,
+                languageViewModel = LanguageViewModel
             )
         }
 
@@ -85,6 +81,13 @@ fun AppNavigation(themeViewModel: ThemeViewModel) {
             val nombre = backStackEntry.arguments?.getString("nombre") ?: "Desconocida"
             DetallePlantaScreen(plantaNombre = nombre, navController)
         }
+
+        // Nueva ruta para la pantalla AgregarPlanta
+        composable(Screens.AgregarPlantaScreen.name) {
+            AgregarPlanta(navController = navController)
+        }
+
+
     }
 }
 
@@ -98,6 +101,6 @@ enum class Screens(){
     NotificacionesScreen,
     ConfiguracionesScreen,
     EstadisticasScreen,
-    DetallePlantaScreen
-
+    DetallePlantaScreen,
+    AgregarPlantaScreen
 }
