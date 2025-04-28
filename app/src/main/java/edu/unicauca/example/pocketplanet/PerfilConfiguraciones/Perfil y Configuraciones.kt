@@ -50,7 +50,8 @@ fun PerfilScreen(
     navController: NavHostController,
     modifier: Modifier = Modifier,
     themeViewModel: ThemeViewModel,
-    settingsDataStore: SettingsDataStore
+    settingsDataStore: SettingsDataStore,
+    languageViewModel: LanguageViewModel // Agregar el viewModel para el idioma
 ) {
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
@@ -60,6 +61,9 @@ fun PerfilScreen(
 
     var alertNotifications by remember { mutableStateOf(false) }
     var darkMode by remember { mutableStateOf(false) }
+
+    // Estado para cambiar idioma
+    val currentLanguage by languageViewModel.currentLanguage.collectAsState() // Aquí recogemos el idioma actual
 
     // Estados para editar perfil
     var showEditDialog by remember { mutableStateOf(false) }
@@ -73,6 +77,7 @@ fun PerfilScreen(
     LaunchedEffect(Unit) {
         // Usamos la base de datos "database-pocketplanet"
         val db = FirebaseFirestore.getInstance(FirebaseApp.getInstance("database-pocketplanet"))
+        //val database = FirebaseDatabase.getInstance()
         val usersRef = db.collection("users")
 
         usersRef.whereEqualTo("email", PerfilScreenData.originalEmail)
@@ -209,10 +214,14 @@ fun PerfilScreen(
                 themeViewModel.toggleTheme()
             }
 
+            // Mostrar idioma actual
             ConfigOption(
-                text = "Idioma",
+                text = "Idioma (Actual: $currentLanguage)",  // Mostrar idioma actual
                 icon = Icons.Filled.Language
-            ) { }
+            ) {
+                // Aquí cambiamos el idioma cuando se hace clic
+                languageViewModel.cambiarIdioma(if (currentLanguage == "en") "es" else "en")
+            }
 
             Button(
                 onClick = {

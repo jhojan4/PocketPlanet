@@ -5,6 +5,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -13,6 +14,7 @@ import edu.unicauca.example.pocketplanet.Consejos.DetallePlantaScreen
 import edu.unicauca.example.pocketplanet.Estadisticas.StatisticsScreen
 import edu.unicauca.example.pocketplanet.InicioAplicacion.Screen_Inicio_Aplicacion
 import edu.unicauca.example.pocketplanet.Inicio_Sesion.Inicio_Sesio
+import edu.unicauca.example.pocketplanet.PerfilConfiguraciones.LanguageViewModel
 import edu.unicauca.example.pocketplanet.PerfilConfiguraciones.PerfilScreen
 import edu.unicauca.example.pocketplanet.PerfilConfiguraciones.SettingsDataStore
 import edu.unicauca.example.pocketplanet.Presentacion.backgroundPresentacion
@@ -51,14 +53,18 @@ fun AppNavigation(themeViewModel: ThemeViewModel) {
         }
 
         composable(Screens.ConfiguracionesScreen.name) {
-            val context = LocalContext.current // 👈 pido el context
-            val settingsDataStore = SettingsDataStore(context) // 👈 creo el objeto bien
+            val context = LocalContext.current // pido el context
+            val settingsDataStore = SettingsDataStore(context) // creo el objeto bien
+
+            // Obtengo la instancia del LanguageViewModel
+            val LanguageViewModel: LanguageViewModel = viewModel()
 
             PerfilScreen(
                 navController = navController,
                 modifier = Modifier,
                 themeViewModel = themeViewModel,
-                settingsDataStore = settingsDataStore
+                settingsDataStore = settingsDataStore,
+                languageViewModel = LanguageViewModel
             )
         }
 
