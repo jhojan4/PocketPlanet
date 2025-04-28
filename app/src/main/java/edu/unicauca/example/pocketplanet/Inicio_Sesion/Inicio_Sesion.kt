@@ -27,10 +27,14 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -47,38 +51,47 @@ import edu.unicauca.example.pocketplanet.Funciones.Imagenes
 import edu.unicauca.example.pocketplanet.Presentacion.bottonRedondoStateless
 import edu.unicauca.example.pocketplanet.Presentacion.cambioPantallaStateless
 import edu.unicauca.example.pocketplanet.R
+import edu.unicauca.example.pocketplanet.Registro.CustomSnackbarHost
 import edu.unicauca.example.pocketplanet.Screens
 //import edu.unicauca.example.pocketplanet.Presentacion.backgroundPocketPlanet
 //import com.example.compose.PocketPlanetTheme
 import edu.unicauca.example.pocketplanet.ui.theme.PocketPlanetTheme
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+
 @Composable
 fun Inicio_Sesio(navController: NavHostController,modifier: Modifier) {
     val viewModel: LoginViewModel = viewModel()
-   Box(
-        modifier = modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.surface)
-    ) {
+    val snackbarHostState = remember { SnackbarHostState() }
+    val coroutineScope = rememberCoroutineScope()
 
-        // Fondo estructurado en Column
-        BackGroundPocketPlanetInicial()
-        //Botton superior
-        Box(modifier=Modifier.align(Alignment.TopStart).padding(30.dp)){
-            bottonRedondoStateless(onClick={navController.navigate(Screens.PresentacionScreen.name)}, Icons.Default.ArrowBack,colors =MaterialTheme.colorScheme.tertiary, modifier = Modifier
-                .size(width = 40.dp, height = 40.dp)
-
-
-            )
-        }
-        // Tarjeta de Inicio de Sesión centrada en la pantalla
-        Box(
-            modifier = Modifier
-                .fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            Card_InicioSesion(navController,viewModel)
-        }
-    }
+   Scaffold(snackbarHost = { CustomSnackbarHost(hostState = snackbarHostState) } ){paddingValues ->
+       Box(
+           modifier = modifier
+               .fillMaxSize()
+               .background(MaterialTheme.colorScheme.surface)
+               .padding(paddingValues)
+       ) {
+           // Fondo estructurado en Column
+           BackGroundPocketPlanetInicial()
+           //Botton superior
+           Box(modifier=Modifier.align(Alignment.TopStart).padding(10.dp)){
+               bottonRedondoStateless(onClick={navController.navigate(Screens.PresentacionScreen.name)}, Icons.Default.ArrowBack,colors =MaterialTheme.colorScheme.tertiary, modifier = Modifier
+                   .size(width = 40.dp, height = 40.dp)
+               )
+           }
+           // Tarjeta de Inicio de Sesión centrada en la pantalla
+           Box(
+               modifier = Modifier
+                   .fillMaxSize(),
+               contentAlignment = Alignment.Center
+           ) {
+               Card_InicioSesion(navController,viewModel,snackbarHostState = snackbarHostState,
+                   coroutineScope = coroutineScope,)
+           }
+       }
+   }
 }
 /*
 @Preview
@@ -98,7 +111,8 @@ fun backgroundInicioSesionPreview(){
 */
 
 @Composable
-fun Card_InicioSesion(navController: NavHostController,viewModel: LoginViewModel,modifier: Modifier=Modifier) {
+fun Card_InicioSesion(navController: NavHostController, viewModel: LoginViewModel,snackbarHostState: SnackbarHostState,
+                      coroutineScope: CoroutineScope,modifier: Modifier=Modifier) {
     Box(modifier=modifier){
         Card(
             modifier = modifier
@@ -127,7 +141,7 @@ fun Card_InicioSesion(navController: NavHostController,viewModel: LoginViewModel
                 LabelDatos(value = viewModel.email, onValueChange = { viewModel.email = it } ,stringResource(R.string.Users),Icons.Default.AccountCircle,
                     modifier = Modifier.size(width = 400.dp, height = 50.dp))
                 Spacer(modifier = Modifier.height(15.dp))
-                LabelDatos(value = viewModel.password, onValueChange = { viewModel.password = it },stringResource(R.string.Password),Icons.Default.Lock,
+                LabelDatos(value = viewModel.password, onValueChange = { viewModel.password = it },stringResource(R.string.Password),Icons.Default.Lock,esPassword = true,
                     modifier = Modifier.size(width = 400.dp, height = 50.dp))
                 Spacer(modifier = Modifier.height(25.dp))
                 //cambioPantallaStateless(onClick = {navController.navigate(Screens.InicioAplicacion.name)}, description = stringResource(R.string.buttom_iniciar_sesion))
@@ -136,10 +150,23 @@ fun Card_InicioSesion(navController: NavHostController,viewModel: LoginViewModel
                         viewModel.loginUser(
                             onSuccess = {
                                 // Si el login es correcto, navegas y ya tienes el userId guardado
-                                navController.navigate(Screens.InicioAplicacion.name)
+                                coroutineScope.launch {
+                                    snackbarHostState.showSnackbar(
+                                        message = "✅ Inicio de sesión exitoso",
+                                        duration = SnackbarDuration.Short
+                                    )
+                                    delay(1000) // esperar para ver el mensaje
+                                    navController.navigate(Screens.InicioAplicacion.name)
+                                }
                             },
                             onError = { message ->
                                 // Mostrar Snackbar o error
+                                coroutineScope.launch {
+                                    snackbarHostState.showSnackbar(
+                                        message = "❌ $message",
+                                        duration = SnackbarDuration.Long
+                                    )
+                                }
                             }
                         )
                     },

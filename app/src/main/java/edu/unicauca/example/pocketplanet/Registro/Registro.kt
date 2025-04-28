@@ -43,7 +43,7 @@ fun backgroundRegistro(navController: NavHostController, modifier: Modifier = Mo
         ) {
             BackGroundPocketPlanetInicial()
 
-            Box(modifier = Modifier.align(Alignment.TopStart).padding(30.dp)) {
+            Box(modifier = Modifier.align(Alignment.TopStart).padding(10.dp)) {
                 bottonRedondoStateless(
                     onClick = { navController.navigate(Screens.PresentacionScreen.name) },
                     Icons.Default.ArrowBack,

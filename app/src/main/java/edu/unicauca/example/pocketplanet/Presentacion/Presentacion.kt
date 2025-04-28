@@ -62,39 +62,42 @@ import edu.unicauca.example.pocketplanet.ui.theme.PocketPlanetTheme
 @Composable
 fun backgroundPresentacion(navController: NavHostController,
                            modifier: Modifier = Modifier.fillMaxSize()) {
-    Box(
-        modifier = modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.onPrimary) // Fondo superior blanco
-    ) {
-        Column(
-            modifier = Modifier
+    Scaffold{paddingValues ->
+        Box(
+            modifier = modifier
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.SpaceBetween
+                .background(MaterialTheme.colorScheme.onPrimary).padding(paddingValues) // Fondo superior blanco
         ) {
-            TitleIcon()
-            MiddleScreen()
-            Spacer(modifier = Modifier.weight(1f)) // Empuja el contenido hacia arriba
-            EndScreen() // ✅ Ahora está dentro del fondo
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                TitleIcon()
+                MiddleScreen()
+                Spacer(modifier = Modifier.weight(1f)) // Empuja el contenido hacia arriba
+                EndScreen() // ✅ Ahora está dentro del fondo
 
             }
 
-        Box(modifier = Modifier
-            .align(Alignment.BottomCenter)
-            .padding(vertical = 120.dp))  {
-            Row() {
-                cambioPantallaStateless(
-                    onClick = {navController.navigate(Screens.InicioSesionScreen.name)},
-                    description = stringResource(R.string.buttom_inicio)
-                )
-                Spacer(modifier = Modifier.width(30.dp))
-                cambioPantallaStateless(onClick = { navController.navigate(Screens.RegistroScreen.name) }, description = stringResource(R.string.Buttom_Register),
-                )
-            }
+            Box(modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(vertical = 120.dp))  {
+                Row() {
+                    cambioPantallaStateless(
+                        onClick = {navController.navigate(Screens.InicioSesionScreen.name)},
+                        description = stringResource(R.string.buttom_inicio)
+                    )
+                    Spacer(modifier = Modifier.width(30.dp))
+                    cambioPantallaStateless(onClick = { navController.navigate(Screens.RegistroScreen.name) }, description = stringResource(R.string.Buttom_Register),
+                    )
+                }
 
+            }
         }
     }
+
 }
 
 

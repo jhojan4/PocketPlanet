@@ -30,7 +30,7 @@ class InicioAplicacionViewModel : ViewModel() {
                     plantas.clear()
                     for (document in documents) {
                         val nombre = document.getString("nombre") ?: "Sin nombre"
-                        val imagenUrl = document.getString("imagen") ?: ""
+                        val imagenUrl = document.getString("imagenUrl") ?: ""
                         plantas.add(Planta(nombre, imagenUrl))
                     }
                 }
@@ -39,6 +39,7 @@ class InicioAplicacionViewModel : ViewModel() {
                 }
         }
     }
+
 }
 
 /**

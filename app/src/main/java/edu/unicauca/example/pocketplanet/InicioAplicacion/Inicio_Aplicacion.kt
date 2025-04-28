@@ -1,24 +1,24 @@
 package edu.unicauca.example.pocketplanet.InicioAplicacion
 
-//import android.os.Build.VERSION_CODES.R
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-//import androidx.compose.foundation.layout.BoxScopeInstance.align
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
@@ -33,44 +33,126 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import edu.unicauca.example.pocketplanet.Funciones.TopScreen
-import edu.unicauca.example.pocketplanet.Inicio_Sesion.Inicio_Sesio
 import edu.unicauca.example.pocketplanet.Inicio_Sesion.LabelDatos
-import edu.unicauca.example.pocketplanet.Presentacion.bottonRedondo
 import edu.unicauca.example.pocketplanet.Presentacion.bottonRedondoStateless
 import edu.unicauca.example.pocketplanet.R
 import edu.unicauca.example.pocketplanet.Screens
 import androidx.compose.material.icons.filled.BarChart
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.unit.sp
-
-//import edu.unicauca.example.pocketplanet.R
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.rememberNavController
+import edu.unicauca.example.pocketplanet.Funciones.Imagenes
+import edu.unicauca.example.pocketplanet.Inicio_Aplicacion.InicioAplicacionViewModel
+import edu.unicauca.example.pocketplanet.Inicio_Aplicacion.Planta
 import edu.unicauca.example.pocketplanet.ui.theme.PocketPlanetTheme
+import kotlinx.coroutines.delay
 
 
 @Composable
 fun Screen_Inicio_Aplicacion(navController: NavHostController, modifier: Modifier = Modifier) {
-    Box(modifier=modifier){
-        TopScreen()
-        Column(modifier=Modifier.padding(top=10.dp)){
-            LabelDatos(value = "", onValueChange = {},
-                stringResource(R.string.buscador), Icons.Default.Search,
-                modifier = Modifier.size(width = 400.dp, height = 50.dp)
-            )
-            Spacer(modifier = Modifier.weight(8f))
+    val viewModel : InicioAplicacionViewModel=viewModel()
+    // Al entrar a la pantalla, cargar las plantas desde Firestore
+    /*LaunchedEffect(Unit) {
+        viewModel.cargarPlantas()
+    }*/
+    LaunchedEffect(Unit) {
+        while (true) { // 🔥 Bucle infinito controlado
+            viewModel.cargarPlantas()
+            delay(30000) // espera 30 segundos (30000 milisegundos) antes de volver a cargar
+        }
+    }
 
 
+    Scaffold{paddingValues ->
+        Box(modifier=modifier.padding(paddingValues).fillMaxSize()){
+            TopScreen()
+            Column(modifier=Modifier.padding(top=10.dp).fillMaxSize()){
+                LabelDatos(value = "", onValueChange = {},
+                    stringResource(R.string.buscador), Icons.Default.Search,
+                    modifier = Modifier.size(width = 400.dp, height = 50.dp)
+                )
+                Spacer(modifier = Modifier.height(30.dp))
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    modifier = Modifier
+                        .padding(10.dp)
+                        //.fillMaxWidth()
+                        .fillMaxSize()
+                        //.height(570.dp)
+                        //.background(MaterialTheme.colorScheme.secondaryContainer.copy(0.5f))
+                ){
+                    items(viewModel.plantas.size) { index ->
+                        PlantaCard(planta = viewModel.plantas[index])
+                    }
+                }
                 //Aqui está lo de los botones de navigación aqui abajo
-                NavigationScreens(navController,modifier
-                    .align(Alignment.CenterHorizontally)
-                    .background(MaterialTheme.colorScheme.secondaryContainer.copy(0.5f))
-                    .size(width = 400.dp, height = 70.dp))
+
+
+
+            }
+            Box(modifier=Modifier
+                .padding(horizontal = 30.dp,vertical = 90.dp)
+                //.fillMaxWidth()
+                .size(40.dp).align(Alignment.BottomEnd),
+               /* contentAlignment = Alignment.BottomEnd*/){
+                bottonRedondoStateless(onClick={/*Colocal el navcontroller para la pagina de agregar*/},
+                    Icons.Default.Add,colors =MaterialTheme.colorScheme.tertiary,
+                    modifier = Modifier
+                        .size(width = 40.dp, height = 40.dp)
+                )
+            }
+            NavigationScreens(navController,modifier
+                .background(MaterialTheme.colorScheme.secondaryContainer.copy(0.5f))
+                .fillMaxWidth()
+                .size(70.dp)
+                .align(Alignment.BottomCenter)
+
+            )
+        }
+
+    }
+
+}
+
+@Composable
+fun PlantaCard(planta: Planta) {
+    Card(
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceDim.copy(0.3f)
+        ),
+        modifier = Modifier
+            .padding(8.dp)
+            .fillMaxWidth()
+            .height(150.dp)
+            .border(0.4.dp, MaterialTheme.colorScheme.scrim, RoundedCornerShape(20.dp)),
+        //elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(1.dp)
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            // Luego puedes poner imagen si quieres
+            Imagenes(R.drawable.logo,80)
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(text = planta.nombre, style = MaterialTheme.typography.bodyLarge)
         }
     }
 }
 
+
+
 @Composable
-fun NavigationScreens(navController: NavHostController, modifier: Modifier) {
-    Box(modifier = modifier) {
+fun NavigationScreens(navController: NavHostController,modifier: Modifier) {
+    Box(modifier = modifier,) {
         Row(
             horizontalArrangement = Arrangement.SpaceAround,
             modifier = modifier
@@ -130,19 +212,3 @@ fun NavigationScreens(navController: NavHostController, modifier: Modifier) {
         }
     }
 }
-
-/*
-@Preview
-@Composable
-fun Inicio_AplicacionPreview(){
-    PocketPlanetTheme{
-        Scaffold(
-            content = { paddingValues -> // 🔹 Corrige la estructura del lambda
-                Box(modifier = Modifier
-                    .padding(paddingValues)) {
-                    Screen_Inicio_Aplicacion()
-                }
-            }
-        )
-    }
-}*/
