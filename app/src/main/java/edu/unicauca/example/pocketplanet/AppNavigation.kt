@@ -60,10 +60,8 @@ fun AppNavigation(themeViewModel: ThemeViewModel) {
         composable(Screens.ConfiguracionesScreen.name) {
             val context = LocalContext.current // pido el context
             val settingsDataStore = SettingsDataStore(context) // creo el objeto bien
-
             // Obtengo la instancia del LanguageViewModel
             val LanguageViewModel: LanguageViewModel = viewModel()
-
             PerfilScreen(
                 navController = navController,
                 modifier = Modifier,

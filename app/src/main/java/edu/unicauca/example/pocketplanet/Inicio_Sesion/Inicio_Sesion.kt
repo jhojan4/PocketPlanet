@@ -53,6 +53,7 @@ import edu.unicauca.example.pocketplanet.Presentacion.cambioPantallaStateless
 import edu.unicauca.example.pocketplanet.R
 import edu.unicauca.example.pocketplanet.Registro.CustomSnackbarHost
 import edu.unicauca.example.pocketplanet.Screens
+import edu.unicauca.example.pocketplanet.Session.UserSessionViewModel
 //import edu.unicauca.example.pocketplanet.Presentacion.backgroundPocketPlanet
 //import com.example.compose.PocketPlanetTheme
 import edu.unicauca.example.pocketplanet.ui.theme.PocketPlanetTheme
@@ -65,8 +66,10 @@ fun Inicio_Sesio(navController: NavHostController,modifier: Modifier) {
     val viewModel: LoginViewModel = viewModel()
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
+    val userSessionViewModel: UserSessionViewModel = viewModel()
 
-   Scaffold(snackbarHost = { CustomSnackbarHost(hostState = snackbarHostState) } ){paddingValues ->
+
+    Scaffold(snackbarHost = { CustomSnackbarHost(hostState = snackbarHostState) } ){paddingValues ->
        Box(
            modifier = modifier
                .fillMaxSize()
@@ -87,7 +90,7 @@ fun Inicio_Sesio(navController: NavHostController,modifier: Modifier) {
                    .fillMaxSize(),
                contentAlignment = Alignment.Center
            ) {
-               Card_InicioSesion(navController,viewModel,snackbarHostState = snackbarHostState,
+               Card_InicioSesion(navController,viewModel,userSessionViewModel,snackbarHostState = snackbarHostState,
                    coroutineScope = coroutineScope,)
            }
        }
@@ -111,7 +114,7 @@ fun backgroundInicioSesionPreview(){
 */
 
 @Composable
-fun Card_InicioSesion(navController: NavHostController,viewModel: LoginViewModel,snackbarHostState: SnackbarHostState,
+fun Card_InicioSesion(navController: NavHostController,viewModel: LoginViewModel, userSessionViewModel: UserSessionViewModel,snackbarHostState: SnackbarHostState,
                       coroutineScope: CoroutineScope,modifier: Modifier=Modifier) {
     Box(modifier=modifier){
         Card(
@@ -150,6 +153,10 @@ fun Card_InicioSesion(navController: NavHostController,viewModel: LoginViewModel
                         viewModel.loginUser(
                             onSuccess = {
                                 // Si el login es correcto, navegas y ya tienes el userId guardado
+                                //Aqui guardo el id en la variable de viewmodel de usersession
+                                viewModel.userId?.let { id ->
+                                    userSessionViewModel.setUserId(id) // 🔥 Guardas el userId globalmente
+                                }
                                 coroutineScope.launch {
                                     snackbarHostState.showSnackbar(
                                         message = "✅ Inicio de sesión exitoso",

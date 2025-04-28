@@ -22,7 +22,6 @@ import edu.unicauca.example.pocketplanet.Agregar_Planta.AgregarPlanta
 import edu.unicauca.example.pocketplanet.Funciones.BackGroundPocketPlanetInicial
 import edu.unicauca.example.pocketplanet.Funciones.Imagenes
 import edu.unicauca.example.pocketplanet.Inicio_Sesion.LabelDatos
-import edu.unicauca.example.pocketplanet.PerfilConfiguraciones.PerfilScreenData
 import edu.unicauca.example.pocketplanet.Presentacion.bottonRedondoStateless
 import edu.unicauca.example.pocketplanet.Presentacion.cambioPantallaStateless
 import edu.unicauca.example.pocketplanet.R
@@ -112,8 +111,7 @@ fun Card_Registro(
                         viewModel.registerUser(
                             onSuccess = {
                                 // 🔥 Guardamos el correo registrado para usarlo en la pantalla de Perfil
-                                PerfilScreenData.originalEmail = viewModel.email
-
+                                //PerfilScreenData.originalEmail = viewModel.email
                                 coroutineScope.launch {
                                     snackbarHostState.showSnackbar(
                                         message = "✅ Usuario registrado correctamente",
