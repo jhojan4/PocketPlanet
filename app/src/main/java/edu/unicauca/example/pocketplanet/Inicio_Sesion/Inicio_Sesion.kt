@@ -111,7 +111,7 @@ fun backgroundInicioSesionPreview(){
 */
 
 @Composable
-fun Card_InicioSesion(navController: NavHostController, viewModel: LoginViewModel,snackbarHostState: SnackbarHostState,
+fun Card_InicioSesion(navController: NavHostController,viewModel: LoginViewModel,snackbarHostState: SnackbarHostState,
                       coroutineScope: CoroutineScope,modifier: Modifier=Modifier) {
     Box(modifier=modifier){
         Card(
@@ -156,7 +156,8 @@ fun Card_InicioSesion(navController: NavHostController, viewModel: LoginViewMode
                                         duration = SnackbarDuration.Short
                                     )
                                     delay(1000) // esperar para ver el mensaje
-                                    navController.navigate(Screens.InicioAplicacion.name)
+                                    //Se le pasa el Id de la persona que inicio sesión
+                                    navController.navigate("${Screens.InicioAplicacion.name}/${viewModel.userId}")
                                 }
                             },
                             onError = { message ->

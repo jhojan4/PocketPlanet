@@ -43,6 +43,10 @@ import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
@@ -54,15 +58,16 @@ import kotlinx.coroutines.delay
 
 
 @Composable
-fun Screen_Inicio_Aplicacion(navController: NavHostController, modifier: Modifier = Modifier) {
+fun Screen_Inicio_Aplicacion(navController: NavHostController, userId: String, modifier: Modifier = Modifier) {
     val viewModel : InicioAplicacionViewModel=viewModel()
+    var textoBusqueda by remember { mutableStateOf("") }
     // Al entrar a la pantalla, cargar las plantas desde Firestore
     /*LaunchedEffect(Unit) {
         viewModel.cargarPlantas()
     }*/
     LaunchedEffect(Unit) {
         while (true) { // 🔥 Bucle infinito controlado
-            viewModel.cargarPlantas()
+            viewModel.cargarPlantas(userId)
             delay(30000) // espera 30 segundos (30000 milisegundos) antes de volver a cargar
         }
     }
@@ -72,7 +77,10 @@ fun Screen_Inicio_Aplicacion(navController: NavHostController, modifier: Modifie
         Box(modifier=modifier.padding(paddingValues).fillMaxSize()){
             TopScreen()
             Column(modifier=Modifier.padding(top=10.dp).fillMaxSize()){
-                LabelDatos(value = "", onValueChange = {},
+                LabelDatos(value = textoBusqueda, onValueChange = { nuevoValor ->
+                    textoBusqueda = nuevoValor
+                    viewModel.buscarPlantas(nuevoValor)
+                },
                     stringResource(R.string.buscador), Icons.Default.Search,
                     modifier = Modifier.size(width = 400.dp, height = 50.dp)
                 )
@@ -86,9 +94,10 @@ fun Screen_Inicio_Aplicacion(navController: NavHostController, modifier: Modifie
                         //.height(570.dp)
                         //.background(MaterialTheme.colorScheme.secondaryContainer.copy(0.5f))
                 ){
-                    items(viewModel.plantas.size) { index ->
-                        PlantaCard(planta = viewModel.plantas[index])
+                    items(viewModel.plantasFiltradas.size) { index ->
+                        PlantaCard(planta = viewModel.plantasFiltradas[index])
                     }
+
                 }
                 //Aqui está lo de los botones de navigación aqui abajo
 

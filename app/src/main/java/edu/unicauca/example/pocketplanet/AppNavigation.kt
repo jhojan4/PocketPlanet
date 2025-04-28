@@ -30,7 +30,7 @@ import edu.unicauca.example.pocketplanet.ui.theme.ThemeViewModel
 @Composable
 fun AppNavigation(themeViewModel: ThemeViewModel) {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = Screens.InicioSesionScreen.name) {
+    NavHost(navController = navController, startDestination = Screens.PresentacionScreen.name) {
 
         composable(Screens.PresentacionScreen.name) {
             backgroundPresentacion(navController)
@@ -44,8 +44,12 @@ fun AppNavigation(themeViewModel: ThemeViewModel) {
             backgroundRegistro(navController)
         }
 
-        composable(Screens.InicioAplicacion.name) {
+        /*composable(Screens.InicioAplicacion.name) {
             Screen_Inicio_Aplicacion(navController)
+        }*/
+        composable("${Screens.InicioAplicacion.name}/{userId}") { backStackEntry ->
+            val userId = backStackEntry.arguments?.getString("userId") ?: ""
+            Screen_Inicio_Aplicacion(navController = navController, userId = userId)
         }
 
         composable(Screens.ConsejosScreen.name) {
