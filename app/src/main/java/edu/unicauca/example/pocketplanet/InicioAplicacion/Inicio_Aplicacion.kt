@@ -109,7 +109,7 @@ fun Screen_Inicio_Aplicacion(navController: NavHostController, userId: String, m
                 //.fillMaxWidth()
                 .size(40.dp).align(Alignment.BottomEnd),
                /* contentAlignment = Alignment.BottomEnd*/){
-                bottonRedondoStateless(onClick={/*Colocal el navcontroller para la pagina de agregar*/},
+                bottonRedondoStateless(onClick={navController.navigate(Screens.AgregarPlantaScreen.name)},
                     Icons.Default.Add,colors =MaterialTheme.colorScheme.tertiary,
                     modifier = Modifier
                         .size(width = 40.dp, height = 40.dp)

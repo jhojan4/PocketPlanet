@@ -9,6 +9,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import edu.unicauca.example.pocketplanet.Agregar_Planta.AgregarPlanta
 import edu.unicauca.example.pocketplanet.Consejos.ConsejosScreen
 import edu.unicauca.example.pocketplanet.Consejos.DetallePlantaScreen
 import edu.unicauca.example.pocketplanet.Estadisticas.StatisticsScreen
@@ -82,6 +83,13 @@ fun AppNavigation(themeViewModel: ThemeViewModel) {
             val nombre = backStackEntry.arguments?.getString("nombre") ?: "Desconocida"
             DetallePlantaScreen(plantaNombre = nombre, navController)
         }
+
+        // Nueva ruta para la pantalla AgregarPlanta
+        composable(Screens.AgregarPlantaScreen.name) {
+            AgregarPlanta(navController = navController)
+        }
+
+
     }
 }
 
@@ -95,6 +103,6 @@ enum class Screens(){
     NotificacionesScreen,
     ConfiguracionesScreen,
     EstadisticasScreen,
-    DetallePlantaScreen
-
+    DetallePlantaScreen,
+    AgregarPlantaScreen
 }
