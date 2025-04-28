@@ -35,6 +35,7 @@ import androidx.navigation.NavHostController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.FirebaseApp
+import com.google.firebase.database.FirebaseDatabase
 import edu.unicauca.example.pocketplanet.Funciones.enviarNotificacion
 import edu.unicauca.example.pocketplanet.InicioAplicacion.NavigationScreens
 import edu.unicauca.example.pocketplanet.R
@@ -51,7 +52,8 @@ fun PerfilScreen(
     modifier: Modifier = Modifier,
     themeViewModel: ThemeViewModel,
     settingsDataStore: SettingsDataStore,
-    languageViewModel: LanguageViewModel // Agregar el viewModel para el idioma
+    languageViewModel: LanguageViewModel, // Agregar el viewModel para el idioma
+    updateUserViewModel: UpdateUserViewModel
 ) {
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
@@ -71,15 +73,15 @@ fun PerfilScreen(
     var email by remember { mutableStateOf("correo@ejemplo.com") }
 
     // Guardamos el correo original al entrar a la pantalla
-    PerfilScreenData.originalEmail = email
+    // Dentro del proceso de inicio de sesión, después de la autenticación:
+    PerfilScreenData.originalEmail = FirebaseAuth.getInstance().currentUser?.email ?: "correo@ejemplo.com"
 
-    // 🔥 Cargar nombre y correo del usuario desde Firestore
+
     LaunchedEffect(Unit) {
-        // Usamos la base de datos "database-pocketplanet"
-        val db = FirebaseFirestore.getInstance(FirebaseApp.getInstance("database-pocketplanet"))
-        //val database = FirebaseDatabase.getInstance()
+        val db = FirebaseFirestore.getInstance()
         val usersRef = db.collection("users")
 
+        // Usamos el correo del usuario autenticado
         usersRef.whereEqualTo("email", PerfilScreenData.originalEmail)
             .get()
             .addOnSuccessListener { documents ->
@@ -96,6 +98,7 @@ fun PerfilScreen(
                 Toast.makeText(context, "Error al cargar usuario: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
+
 
     val requestPermissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
@@ -270,15 +273,7 @@ fun PerfilScreen(
                     confirmButton = {
                         Button(
                             onClick = {
-                                actualizarPerfilEnFirestore(
-                                    nuevoNombre = userName,
-                                    nuevoCorreo = email,
-                                    context = context,
-                                    onSuccess = {
-                                        showEditDialog = false
-                                        PerfilScreenData.originalEmail = email
-                                    }
-                                )
+                                updateUserViewModel.updateUser(userName, email)
                             }
                         ) {
                             Text("Guardar")
@@ -367,14 +362,13 @@ fun actualizarPerfilEnFirestore(
                 Toast.makeText(context, "Correo no registrado", Toast.LENGTH_SHORT).show()
             } else {
                 val userDoc = documents.documents[0]
-                userDoc.reference.update("name", nuevoNombre, "email", nuevoCorreo)
-                    .addOnSuccessListener {
-                        Toast.makeText(context, "Perfil actualizado correctamente", Toast.LENGTH_SHORT).show()
-                        onSuccess()
-                    }
-                    .addOnFailureListener { e ->
-                        Toast.makeText(context, "Error al actualizar el perfil: ${e.message}", Toast.LENGTH_SHORT).show()
-                    }
+                userDoc.reference.update(
+                    mapOf("name" to nuevoNombre, "email" to nuevoCorreo)
+                ).addOnSuccessListener {
+                    onSuccess()
+                }.addOnFailureListener { exception ->
+                    Toast.makeText(context, "Error al actualizar: ${exception.message}", Toast.LENGTH_SHORT).show()
+                }
             }
         }
 }

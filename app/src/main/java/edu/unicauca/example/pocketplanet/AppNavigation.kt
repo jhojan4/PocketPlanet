@@ -17,6 +17,7 @@ import edu.unicauca.example.pocketplanet.Inicio_Sesion.Inicio_Sesio
 import edu.unicauca.example.pocketplanet.PerfilConfiguraciones.LanguageViewModel
 import edu.unicauca.example.pocketplanet.PerfilConfiguraciones.PerfilScreen
 import edu.unicauca.example.pocketplanet.PerfilConfiguraciones.SettingsDataStore
+import edu.unicauca.example.pocketplanet.PerfilConfiguraciones.UpdateUserViewModel
 import edu.unicauca.example.pocketplanet.Presentacion.backgroundPresentacion
 //import edu.unicauca.example.pocketplanet.Presentacion
 //import edu.unicauca.example.pocketplanet.Registro.Registro
@@ -58,13 +59,15 @@ fun AppNavigation(themeViewModel: ThemeViewModel) {
 
             // Obtengo la instancia del LanguageViewModel
             val LanguageViewModel: LanguageViewModel = viewModel()
+            val UpdateUserViewModel: UpdateUserViewModel = viewModel()
 
             PerfilScreen(
                 navController = navController,
                 modifier = Modifier,
                 themeViewModel = themeViewModel,
                 settingsDataStore = settingsDataStore,
-                languageViewModel = LanguageViewModel
+                languageViewModel = LanguageViewModel,
+                updateUserViewModel = UpdateUserViewModel,
             )
         }
 
