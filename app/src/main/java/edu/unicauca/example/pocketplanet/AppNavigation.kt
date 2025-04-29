@@ -82,9 +82,14 @@ fun AppNavigation(themeViewModel: ThemeViewModel) {
             DetallePlantaScreen(plantaNombre = nombre, navController)
         }
 
-        // Nueva ruta para la pantalla AgregarPlanta
-        composable(Screens.AgregarPlantaScreen.name) {
-            AgregarPlanta(navController = navController)
+        composable("${Screens.AgregarPlantaScreen.name}/{userId}") { backStackEntry ->
+            val userId = backStackEntry.arguments?.getString("userId") ?: ""
+            if (userId.isNotEmpty()) {
+                AgregarPlanta(navController = navController, userId = userId) // Pasamos el userId a la pantalla
+            } else {
+                // Si no hay userId, redirigir al inicio de sesión
+                navController.navigate(Screens.InicioSesionScreen.name)
+            }
         }
 
 
