@@ -46,6 +46,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.google.firebase.auth.FirebaseAuth
 import edu.unicauca.example.pocketplanet.Funciones.BackGroundPocketPlanetInicial
 import edu.unicauca.example.pocketplanet.Funciones.Imagenes
 import edu.unicauca.example.pocketplanet.Presentacion.bottonRedondoStateless
@@ -67,7 +68,9 @@ fun Inicio_Sesio(navController: NavHostController,modifier: Modifier) {
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
     val userSessionViewModel: UserSessionViewModel = viewModel()
+//linea agregada para obteneter el userId
 
+    val userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
 
     Scaffold(snackbarHost = { CustomSnackbarHost(hostState = snackbarHostState) } ){paddingValues ->
        Box(
@@ -156,6 +159,9 @@ fun Card_InicioSesion(navController: NavHostController,viewModel: LoginViewModel
                                 //Aqui guardo el id en la variable de viewmodel de usersession
                                 viewModel.userId?.let { id ->
                                     userSessionViewModel.setUserId(id) // 🔥 Guardas el userId globalmente
+
+
+
                                 }
                                 coroutineScope.launch {
                                     snackbarHostState.showSnackbar(
