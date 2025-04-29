@@ -57,14 +57,16 @@ fun AppNavigation(themeViewModel: ThemeViewModel) {
             ConsejosScreen(navController, modifier = Modifier)
         }
 
-        composable(Screens.ConfiguracionesScreen.name) {
+        composable("${Screens.ConfiguracionesScreen.name}/{userId}") { backStackEntry ->
             val context = LocalContext.current // pido el context
             val settingsDataStore = SettingsDataStore(context) // creo el objeto bien
             // Obtengo la instancia del LanguageViewModel
             val LanguageViewModel: LanguageViewModel = viewModel()
+            val userId = backStackEntry.arguments?.getString("userId") ?: ""
             PerfilScreen(
                 navController = navController,
                 modifier = Modifier,
+                userId = userId,
                 themeViewModel = themeViewModel,
                 settingsDataStore = settingsDataStore,
                 languageViewModel = LanguageViewModel
@@ -83,8 +85,9 @@ fun AppNavigation(themeViewModel: ThemeViewModel) {
         }
 
         // Nueva ruta para la pantalla AgregarPlanta
-        composable(Screens.AgregarPlantaScreen.name) {
-            AgregarPlanta(navController = navController)
+        composable("${Screens.AgregarPlantaScreen.name}/{userId}") {backStackEntry ->
+            val userId = backStackEntry.arguments?.getString("userId") ?: ""
+            AgregarPlanta(navController = navController,userId)
         }
 
 

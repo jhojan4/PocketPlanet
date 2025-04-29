@@ -90,7 +90,7 @@ fun Inicio_Sesio(navController: NavHostController,modifier: Modifier) {
                    .fillMaxSize(),
                contentAlignment = Alignment.Center
            ) {
-               Card_InicioSesion(navController,viewModel,userSessionViewModel,snackbarHostState = snackbarHostState,
+               Card_InicioSesion(navController,viewModel,snackbarHostState = snackbarHostState,
                    coroutineScope = coroutineScope,)
            }
        }
@@ -114,7 +114,7 @@ fun backgroundInicioSesionPreview(){
 */
 
 @Composable
-fun Card_InicioSesion(navController: NavHostController,viewModel: LoginViewModel, userSessionViewModel: UserSessionViewModel,snackbarHostState: SnackbarHostState,
+fun Card_InicioSesion(navController: NavHostController,viewModel: LoginViewModel,snackbarHostState: SnackbarHostState,
                       coroutineScope: CoroutineScope,modifier: Modifier=Modifier) {
     Box(modifier=modifier){
         Card(
@@ -154,9 +154,6 @@ fun Card_InicioSesion(navController: NavHostController,viewModel: LoginViewModel
                             onSuccess = {
                                 // Si el login es correcto, navegas y ya tienes el userId guardado
                                 //Aqui guardo el id en la variable de viewmodel de usersession
-                                viewModel.userId?.let { id ->
-                                    userSessionViewModel.setUserId(id) // 🔥 Guardas el userId globalmente
-                                }
                                 coroutineScope.launch {
                                     snackbarHostState.showSnackbar(
                                         message = "✅ Inicio de sesión exitoso",

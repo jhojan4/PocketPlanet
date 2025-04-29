@@ -109,13 +109,13 @@ fun Screen_Inicio_Aplicacion(navController: NavHostController, userId: String, m
                 //.fillMaxWidth()
                 .size(40.dp).align(Alignment.BottomEnd),
                /* contentAlignment = Alignment.BottomEnd*/){
-                bottonRedondoStateless(onClick={navController.navigate(Screens.AgregarPlantaScreen.name)},
+                bottonRedondoStateless(onClick={navController.navigate("${Screens.AgregarPlantaScreen.name}/${userId}")},
                     Icons.Default.Add,colors =MaterialTheme.colorScheme.tertiary,
                     modifier = Modifier
                         .size(width = 40.dp, height = 40.dp)
                 )
             }
-            NavigationScreens(navController,modifier
+            NavigationScreens(navController,userId,modifier
                 .background(MaterialTheme.colorScheme.secondaryContainer.copy(0.5f))
                 .fillMaxWidth()
                 .size(70.dp)
@@ -160,7 +160,7 @@ fun PlantaCard(planta: Planta) {
 
 
 @Composable
-fun NavigationScreens(navController: NavHostController,modifier: Modifier) {
+fun NavigationScreens(navController: NavHostController,userId: String,modifier: Modifier) {
     Box(modifier = modifier,) {
         Row(
             horizontalArrangement = Arrangement.SpaceAround,
@@ -201,7 +201,7 @@ fun NavigationScreens(navController: NavHostController,modifier: Modifier) {
 
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 bottonRedondoStateless(
-                    onClick = { navController.navigate(Screens.ConfiguracionesScreen.name) },
+                    onClick = { navController.navigate("${Screens.ConfiguracionesScreen.name}/${userId}") },
                     Icons.Default.Settings,
                     colors = MaterialTheme.colorScheme.tertiary,
                     modifier = Modifier.size(35.dp)

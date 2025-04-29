@@ -36,7 +36,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AgregarPlanta(navController: NavHostController, modifier: Modifier = Modifier) {
+fun AgregarPlanta(navController: NavHostController, userId:String,modifier: Modifier = Modifier) {
     // Estado para los campos del formulario
     val nombrePlanta = remember { mutableStateOf("") }
     val tipoPlanta = remember { mutableStateOf("") }
@@ -52,7 +52,7 @@ fun AgregarPlanta(navController: NavHostController, modifier: Modifier = Modifie
     val coroutineScope = rememberCoroutineScope()
 
     // Obtener el userId de Firebase Authentication
-    val userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+    //val userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
 
     // ViewModel
     val viewModel: AgregarPlantaViewModel = viewModel()
