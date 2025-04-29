@@ -39,12 +39,14 @@ fun StatisticsScreen(navController: NavHostController, modifier: Modifier) {
                 modifier = Modifier.fillMaxWidth(),
                 contentAlignment = Alignment.Center
             ) {
-                NavigationScreens(
+                //cambiar Userid
+                //ontimecar sas
+                /*NavigationScreens(
                     navController,
                     modifier = Modifier
                         .background(MaterialTheme.colorScheme.secondaryContainer.copy(0.5f)) // Fondo translúcido
                         .size(width = 400.dp, height = 70.dp) // Tamaño fijo
-                )
+                )*/
             }
         }
     ) { paddingValues ->

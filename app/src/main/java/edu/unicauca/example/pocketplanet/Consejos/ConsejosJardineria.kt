@@ -44,7 +44,7 @@ import edu.unicauca.example.pocketplanet.R
 */
 //Pantalla principal de consejos de jardinería
 @Composable
-fun ConsejosScreen(navController: NavHostController, modifier: Modifier) {
+fun ConsejosScreen(navController: NavHostController,userId: String="", modifier: Modifier) {
     Scaffold(
         // Barra de navegación inferior centrada
         bottomBar = {
@@ -52,12 +52,12 @@ fun ConsejosScreen(navController: NavHostController, modifier: Modifier) {
                 modifier = Modifier.fillMaxWidth(),
                 contentAlignment = Alignment.Center
             ) {
-                NavigationScreens(
+                /*NavigationScreens(
                     navController,
                     modifier = Modifier
                         .background(MaterialTheme.colorScheme.secondaryContainer.copy(0.5f)) // Color de fondo translúcido
                         .size(width = 400.dp, height = 70.dp) // Tamaño fijo para la barra
-                )
+                )*/
             }
         }
     ) { paddingValues ->
@@ -248,12 +248,12 @@ fun DetallePlantaScreen(plantaNombre: String, navController: NavHostController) 
                 modifier = Modifier.fillMaxWidth(),
                 contentAlignment = Alignment.Center
             ) {
-                NavigationScreens(
+               /* NavigationScreens(
                     navController,
                     modifier = Modifier
                         .background(MaterialTheme.colorScheme.secondaryContainer.copy(0.5f)) // Fondo translúcido
                         .size(width = 400.dp, height = 70.dp) // Tamaño fijo
-                )
+                )*/
             }
         }
     ){ padding ->

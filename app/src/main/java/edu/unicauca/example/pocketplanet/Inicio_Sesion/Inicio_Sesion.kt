@@ -46,7 +46,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.google.firebase.auth.FirebaseAuth
 import edu.unicauca.example.pocketplanet.Funciones.BackGroundPocketPlanetInicial
 import edu.unicauca.example.pocketplanet.Funciones.Imagenes
 import edu.unicauca.example.pocketplanet.Presentacion.bottonRedondoStateless
@@ -68,9 +67,7 @@ fun Inicio_Sesio(navController: NavHostController,modifier: Modifier) {
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
     val userSessionViewModel: UserSessionViewModel = viewModel()
-//linea agregada para obteneter el userId
 
-    val userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
 
     Scaffold(snackbarHost = { CustomSnackbarHost(hostState = snackbarHostState) } ){paddingValues ->
        Box(
@@ -93,7 +90,7 @@ fun Inicio_Sesio(navController: NavHostController,modifier: Modifier) {
                    .fillMaxSize(),
                contentAlignment = Alignment.Center
            ) {
-               Card_InicioSesion(navController,viewModel,userSessionViewModel,snackbarHostState = snackbarHostState,
+               Card_InicioSesion(navController,viewModel,snackbarHostState = snackbarHostState,
                    coroutineScope = coroutineScope,)
            }
        }
@@ -117,7 +114,7 @@ fun backgroundInicioSesionPreview(){
 */
 
 @Composable
-fun Card_InicioSesion(navController: NavHostController,viewModel: LoginViewModel, userSessionViewModel: UserSessionViewModel,snackbarHostState: SnackbarHostState,
+fun Card_InicioSesion(navController: NavHostController,viewModel: LoginViewModel,snackbarHostState: SnackbarHostState,
                       coroutineScope: CoroutineScope,modifier: Modifier=Modifier) {
     Box(modifier=modifier){
         Card(
@@ -157,12 +154,6 @@ fun Card_InicioSesion(navController: NavHostController,viewModel: LoginViewModel
                             onSuccess = {
                                 // Si el login es correcto, navegas y ya tienes el userId guardado
                                 //Aqui guardo el id en la variable de viewmodel de usersession
-                                viewModel.userId?.let { id ->
-                                    userSessionViewModel.setUserId(id) // 🔥 Guardas el userId globalmente
-
-
-
-                                }
                                 coroutineScope.launch {
                                     snackbarHostState.showSnackbar(
                                         message = "✅ Inicio de sesión exitoso",
