@@ -47,6 +47,8 @@ class AgregarPlantaViewModel : ViewModel() {
                 println("Error al obtener el último ID: $e")
             }
     }
+
+
 }
 
 // Definir la data class Planta dentro del ViewModel
