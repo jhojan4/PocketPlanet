@@ -45,13 +45,16 @@ object PerfilScreenData {
     var originalEmail: String = "correo@ejemplo.com"
 }
 
+//malo
+
 @Composable
 fun PerfilScreen(
     navController: NavHostController,
     modifier: Modifier = Modifier,
+    userId2: String,
     themeViewModel: ThemeViewModel,
     settingsDataStore: SettingsDataStore,
-    languageViewModel: LanguageViewModel // Agregar el viewModel para el idioma
+    languageViewModel: LanguageViewModel// Agregar el viewModel para el idioma
 ) {
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
@@ -120,6 +123,7 @@ fun PerfilScreen(
             ) {
                 NavigationScreens(
                     navController,
+                    userId2,
                     modifier = Modifier
                         .background(MaterialTheme.colorScheme.secondaryContainer.copy(0.5f))
                         .size(width = 400.dp, height = 70.dp)

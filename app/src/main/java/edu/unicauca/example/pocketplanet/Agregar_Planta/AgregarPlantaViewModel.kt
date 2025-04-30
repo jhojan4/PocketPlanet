@@ -10,7 +10,8 @@ class AgregarPlantaViewModel : ViewModel() {
 
     // Función para agregar la planta a Firestore
     fun agregarPlanta(planta: Planta, userId: String) {
-        val plantasCollection = db.collection("dataplants")
+        //val plantasCollection = db.collection("dataplants")
+        val plantasCollection = db.collection("plantas")
         val configuracionDoc = db.collection("configuracion").document("id_planta") // Documento único que guarda el último ID
 
         // Obtener el último ID registrado

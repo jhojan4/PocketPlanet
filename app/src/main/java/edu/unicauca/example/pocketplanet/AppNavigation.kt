@@ -62,11 +62,11 @@ fun AppNavigation(themeViewModel: ThemeViewModel) {
             val settingsDataStore = SettingsDataStore(context) // creo el objeto bien
             // Obtengo la instancia del LanguageViewModel
             val LanguageViewModel: LanguageViewModel = viewModel()
-            val userId = backStackEntry.arguments?.getString("userId") ?: ""
+            val userId2 = backStackEntry.arguments?.getString("userId") ?: ""
             PerfilScreen(
                 navController = navController,
                 modifier = Modifier,
-                userId = userId,
+                userId2 = userId2,
                 themeViewModel = themeViewModel,
                 settingsDataStore = settingsDataStore,
                 languageViewModel = LanguageViewModel
