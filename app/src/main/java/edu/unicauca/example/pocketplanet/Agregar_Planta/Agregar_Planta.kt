@@ -30,14 +30,13 @@ import androidx.navigation.NavHostController
 import androidx.compose.ui.Modifier
 
 import com.google.firebase.auth.FirebaseAuth
-import edu.unicauca.example.pocketplanet.Screens
 
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AgregarPlanta(navController: NavHostController,userId:String, modifier: Modifier = Modifier) {
+fun AgregarPlanta(navController: NavHostController, userId:String,modifier: Modifier = Modifier) {
     // Estado para los campos del formulario
     val nombrePlanta = remember { mutableStateOf("") }
     val tipoPlanta = remember { mutableStateOf("") }
@@ -54,13 +53,6 @@ fun AgregarPlanta(navController: NavHostController,userId:String, modifier: Modi
 
     // Obtener el userId de Firebase Authentication
     //val userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
-
-    //if (userId.isEmpty()) {
-        // Si no hay un userId, redirige a la pantalla de login o muestra un mensaje de error
-      //  navController.navigate(Screens.InicioSesionScreen.name)
-       // return
-    //}
-
 
     // ViewModel
     val viewModel: AgregarPlantaViewModel = viewModel()
