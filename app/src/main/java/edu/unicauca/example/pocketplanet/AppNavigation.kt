@@ -17,6 +17,7 @@ import edu.unicauca.example.pocketplanet.InicioAplicacion.Screen_Inicio_Aplicaci
 import edu.unicauca.example.pocketplanet.Inicio_Sesion.Inicio_Sesio
 import edu.unicauca.example.pocketplanet.PerfilConfiguraciones.LanguageViewModel
 import edu.unicauca.example.pocketplanet.PerfilConfiguraciones.PerfilScreen
+import edu.unicauca.example.pocketplanet.PerfilConfiguraciones.PerfilViewModel
 import edu.unicauca.example.pocketplanet.PerfilConfiguraciones.SettingsDataStore
 import edu.unicauca.example.pocketplanet.Presentacion.backgroundPresentacion
 //import edu.unicauca.example.pocketplanet.Presentacion
@@ -53,9 +54,17 @@ fun AppNavigation(themeViewModel: ThemeViewModel) {
             Screen_Inicio_Aplicacion(navController = navController, userId = userId)
         }
 
-        composable(Screens.ConsejosScreen.name) {
-            ConsejosScreen(navController, modifier = Modifier)
+        composable("${Screens.ConsejosScreen.name}/{userId}") { backStackEntry ->
+            val userId = backStackEntry.arguments?.getString("userId") ?: ""
+            val perfilViewModel: PerfilViewModel = viewModel()  // <-- Esto es lo que faltaba
+            ConsejosScreen(
+                navController = navController,
+                perfilViewModel = perfilViewModel,
+                modifier = Modifier,
+                userId = userId
+            )
         }
+
 
         composable("${Screens.ConfiguracionesScreen.name}/{userId}") { backStackEntry ->
             val context = LocalContext.current // pido el context

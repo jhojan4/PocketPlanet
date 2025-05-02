@@ -28,6 +28,9 @@ import edu.unicauca.example.pocketplanet.InicioAplicacion.NavigationScreens
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewmodel.compose.viewModel
+import edu.unicauca.example.pocketplanet.PerfilConfiguraciones.PerfilViewModel
 import edu.unicauca.example.pocketplanet.R
 
 
@@ -44,7 +47,14 @@ import edu.unicauca.example.pocketplanet.R
 */
 //Pantalla principal de consejos de jardinería
 @Composable
-fun ConsejosScreen(navController: NavHostController,userId: String="", modifier: Modifier) {
+fun ConsejosScreen(
+    navController: NavHostController,
+    perfilViewModel: PerfilViewModel,
+    userId: String,
+    modifier: Modifier
+){
+    val storedUserId by remember { mutableStateOf(userId) }
+
     Scaffold(
         // Barra de navegación inferior centrada
         bottomBar = {
@@ -52,14 +62,16 @@ fun ConsejosScreen(navController: NavHostController,userId: String="", modifier:
                 modifier = Modifier.fillMaxWidth(),
                 contentAlignment = Alignment.Center
             ) {
-                /*NavigationScreens(
+                NavigationScreens(
                     navController,
                     modifier = Modifier
-                        .background(MaterialTheme.colorScheme.secondaryContainer.copy(0.5f)) // Color de fondo translúcido
-                        .size(width = 400.dp, height = 70.dp) // Tamaño fijo para la barra
-                )*/
+                        .background(MaterialTheme.colorScheme.secondaryContainer.copy(0.5f))
+                        .size(width = 400.dp, height = 70.dp),
+                    userId = storedUserId // Pasando el userId desde el ViewModel
+                )
             }
         }
+
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -166,76 +178,76 @@ fun PlantItem(nombre: String, imagen: Int, onClick: () -> Unit) {
 fun DetallePlantaScreen(plantaNombre: String, navController: NavHostController) {
     val infoPlanta = when (plantaNombre) {
         "Aloe Vera" -> mapOf(
-            "nombreCientifico" to "Aloe barbadensis miller.",
-            "tipo" to "Suculenta.",
-            "ubicacion" to "Interior y exterior.",
-            "riego" to "Cada 2-3 semanas en verano, menos en invierno.",
-            "luz" to "Necesita luz indirecta brillante o sol directo parcial.",
-            "riegoDetalle" to "Usa el 'método del suelo seco': riega solo cuando la tierra esté completamente seca.",
-            "maceta" to "Prefiere macetas de barro con buen drenaje.",
-            "sustrato" to "Usa tierra para suculentas o una mezcla de arena y tierra normal.",
-            "poda" to "Corta hojas secas o dañadas con una herramienta desinfectada.",
-            "plagas" to "Puede atraer cochinillas y ácaros si hay exceso de humedad."
+            "nombreCientifico" to stringResource(R.string.aloe_nombre_cientifico),
+            "tipo" to stringResource(R.string.aloe_tipo),
+            "ubicacion" to stringResource(R.string.aloe_ubicacion),
+            "riego" to stringResource(R.string.aloe_riego),
+            "luz" to stringResource(R.string.aloe_luz),
+            "riegoDetalle" to stringResource(R.string.aloe_riego_detalle),
+            "maceta" to stringResource(R.string.aloe_maceta),
+            "sustrato" to stringResource(R.string.aloe_sustrato),
+            "poda" to stringResource(R.string.aloe_poda),
+            "plagas" to stringResource(R.string.aloe_plagas)
         )
         "Albahaca" -> mapOf(
-            "nombreCientifico" to "Ocimum basilicum.",
-            "tipo" to "Hierba aromática.",
-            "ubicacion" to "Principalmente exterior, con buena luz.",
-            "riego" to "Riega cada 2 días en verano, cada 3-4 días en climas más frescos.",
-            "luz" to "Luz solar directa al menos 6 horas al día.",
-            "riegoDetalle" to "Mantén el sustrato ligeramente húmedo, pero evita el encharcamiento.",
-            "maceta" to "Macetas con buen drenaje, preferiblemente de arcilla.",
-            "sustrato" to "Sustrato fértil y bien drenado, con compost.",
-            "poda" to "Pellizca los tallos regularmente para fomentar un crecimiento frondoso.",
-            "plagas" to "Mosca blanca, pulgones y mildiu."
+            "nombreCientifico" to stringResource(R.string.albahaca_nombre_cientifico),
+            "tipo" to stringResource(R.string.albahaca_tipo),
+            "ubicacion" to stringResource(R.string.albahaca_ubicacion),
+            "riego" to stringResource(R.string.albahaca_riego),
+            "luz" to stringResource(R.string.albahaca_luz),
+            "riegoDetalle" to stringResource(R.string.albahaca_riego_detalle),
+            "maceta" to stringResource(R.string.albahaca_maceta),
+            "sustrato" to stringResource(R.string.albahaca_sustrato),
+            "poda" to stringResource(R.string.albahaca_poda),
+            "plagas" to stringResource(R.string.albahaca_plagas)
         )
         "Agave" -> mapOf(
-            "nombreCientifico" to "Agave americana.",
-            "tipo" to "Suculenta.",
-            "ubicacion" to "Exterior, zonas soleadas.",
-            "riego" to "Muy esporádico, cada 3-4 semanas.",
-            "luz" to "Sol directo todo el día.",
-            "riegoDetalle" to "Solo riega cuando el sustrato esté completamente seco.",
-            "maceta" to "Macetas grandes y pesadas, de barro o concreto.",
-            "sustrato" to "Sustrato arenoso, bien drenado.",
-            "poda" to "Retira hojas muertas en la base con cuidado.",
-            "plagas" to "Cochinillas y hongos si hay exceso de agua."
+            "nombreCientifico" to stringResource(R.string.agave_nombre_cientifico),
+            "tipo" to stringResource(R.string.agave_tipo),
+            "ubicacion" to stringResource(R.string.agave_ubicacion),
+            "riego" to stringResource(R.string.agave_riego),
+            "luz" to stringResource(R.string.agave_luz),
+            "riegoDetalle" to stringResource(R.string.agave_riego_detalle),
+            "maceta" to stringResource(R.string.agave_maceta),
+            "sustrato" to stringResource(R.string.agave_sustrato),
+            "poda" to stringResource(R.string.agave_poda),
+            "plagas" to stringResource(R.string.agave_plagas)
         )
         "Buganvilla" -> mapOf(
-            "nombreCientifico" to "Bougainvillea spp.",
-            "tipo" to "Planta trepadora con flores.",
-            "ubicacion" to "Exterior, ideal en muros o pérgolas.",
-            "riego" to "Una vez por semana, menos en invierno.",
-            "luz" to "Sol directo todo el día.",
-            "riegoDetalle" to "Prefiere riegos profundos pero espaciados.",
-            "maceta" to "Macetas grandes con buen drenaje.",
-            "sustrato" to "Ligero, arenoso, con algo de materia orgánica.",
-            "poda" to "Pódala después de la floración para darle forma.",
-            "plagas" to "Pulgones, cochinillas y araña roja."
+            "nombreCientifico" to stringResource(R.string.buganvilla_nombre_cientifico),
+            "tipo" to stringResource(R.string.buganvilla_tipo),
+            "ubicacion" to stringResource(R.string.buganvilla_ubicacion),
+            "riego" to stringResource(R.string.buganvilla_riego),
+            "luz" to stringResource(R.string.buganvilla_luz),
+            "riegoDetalle" to stringResource(R.string.buganvilla_riego_detalle),
+            "maceta" to stringResource(R.string.buganvilla_maceta),
+            "sustrato" to stringResource(R.string.buganvilla_sustrato),
+            "poda" to stringResource(R.string.buganvilla_poda),
+            "plagas" to stringResource(R.string.buganvilla_plagas)
         )
         "Bambú" -> mapOf(
-            "nombreCientifico" to "Bambusa vulgaris.",
-            "tipo" to "Gramínea perenne.",
-            "ubicacion" to "Exterior o interior amplio con luz.",
-            "riego" to "Frecuente en verano, 3 veces por semana.",
-            "luz" to "Luz indirecta brillante o media sombra.",
-            "riegoDetalle" to "Mantén el suelo húmedo, no encharcado.",
-            "maceta" to "Macetas grandes y profundas.",
-            "sustrato" to "Rico en nutrientes, con buen drenaje.",
-            "poda" to "Corta cañas secas o débiles en la base.",
-            "plagas" to "Ácaros, pulgones y hongos."
+            "nombreCientifico" to stringResource(R.string.bambu_nombre_cientifico),
+            "tipo" to stringResource(R.string.bambu_tipo),
+            "ubicacion" to stringResource(R.string.bambu_ubicacion),
+            "riego" to stringResource(R.string.bambu_riego),
+            "luz" to stringResource(R.string.bambu_luz),
+            "riegoDetalle" to stringResource(R.string.bambu_riego_detalle),
+            "maceta" to stringResource(R.string.bambu_maceta),
+            "sustrato" to stringResource(R.string.bambu_sustrato),
+            "poda" to stringResource(R.string.bambu_poda),
+            "plagas" to stringResource(R.string.bambu_plagas)
         )
         "Calatea" -> mapOf(
-            "nombreCientifico" to "Calathea spp.",
-            "tipo" to "Planta ornamental de interior.",
-            "ubicacion" to "Interior con humedad.",
-            "riego" to "2-3 veces por semana en verano.",
-            "luz" to "Luz indirecta, nunca sol directo.",
-            "riegoDetalle" to "Usa agua sin cal. El sustrato debe estar húmedo pero no encharcado.",
-            "maceta" to "Macetas medianas con drenaje.",
-            "sustrato" to "Tierra para interior con perlita y turba.",
-            "poda" to "Elimina hojas secas desde la base.",
-            "plagas" to "Araña roja, cochinilla y hongos si hay poca ventilación."
+            "nombreCientifico" to stringResource(R.string.calatea_nombre_cientifico),
+            "tipo" to stringResource(R.string.calatea_tipo),
+            "ubicacion" to stringResource(R.string.calatea_ubicacion),
+            "riego" to stringResource(R.string.calatea_riego),
+            "luz" to stringResource(R.string.calatea_luz),
+            "riegoDetalle" to stringResource(R.string.calatea_riego_detalle),
+            "maceta" to stringResource(R.string.calatea_maceta),
+            "sustrato" to stringResource(R.string.calatea_sustrato),
+            "poda" to stringResource(R.string.calatea_poda),
+            "plagas" to stringResource(R.string.calatea_plagas)
         )
         else -> emptyMap()
     }
@@ -309,10 +321,10 @@ fun DetallePlantaScreen(plantaNombre: String, navController: NavHostController) 
 
                     Spacer(modifier = Modifier.height(8.dp))
 
-                    Text("🌿 Nombre científico: ${infoPlanta["nombreCientifico"]}")
-                    Text("🌱 Tipo de planta: ${infoPlanta["tipo"]}")
-                    Text("📍 Ubicación: ${infoPlanta["ubicacion"]}")
-                    Text("💧 Frecuencia de riego: ${infoPlanta["riego"]}")
+                    Text("${stringResource(R.string.etiqueta_nombre_cientifico)} ${infoPlanta["nombreCientifico"]}")
+                    Text("${stringResource(R.string.etiqueta_tipo)} ${infoPlanta["tipo"]}")
+                    Text("${stringResource(R.string.etiqueta_ubicacion)} ${infoPlanta["ubicacion"]}")
+                    Text("${stringResource(R.string.etiqueta_riego)} ${infoPlanta["riego"]}")
                 }
             }
 
@@ -325,43 +337,19 @@ fun DetallePlantaScreen(plantaNombre: String, navController: NavHostController) 
                 colors = CardDefaults.cardColors(containerColor = Color(0xFFF8F8F8))
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
-                    Text("🌟 Consejos Claves", fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.seccion_consejos), fontWeight = FontWeight.Bold)
 
                     Spacer(modifier = Modifier.height(8.dp))
 
-                    Text("🔆 Luz: ${infoPlanta["luz"]}")
-                    Text("💧 Riego: ${infoPlanta["riegoDetalle"]}")
-                    Text("🪴 Maceta: ${infoPlanta["maceta"]}")
-                    Text("🌱 Sustrato: ${infoPlanta["sustrato"]}")
-                    Text("✂️ Poda: ${infoPlanta["poda"]}")
-                    Text("🐛 Plagas comunes: ${infoPlanta["plagas"]}")
+                    Text("${stringResource(R.string.etiqueta_luz)} ${infoPlanta["luz"]}")
+                    Text("${stringResource(R.string.etiqueta_riego_detalle)} ${infoPlanta["riegoDetalle"]}")
+                    Text("${stringResource(R.string.etiqueta_maceta)} ${infoPlanta["maceta"]}")
+                    Text("${stringResource(R.string.etiqueta_sustrato)} ${infoPlanta["sustrato"]}")
+                    Text("${stringResource(R.string.etiqueta_poda)} ${infoPlanta["poda"]}")
+                    Text("${stringResource(R.string.etiqueta_plagas)} ${infoPlanta["plagas"]}")
                 }
             }
         }
     }
 }
 
-
-
-//Configuración de navegación
-/*Composable
-fun AppNavigation() {
-    val navController = rememberNavController()
-    NavHost(navController, startDestination = "consejos") {
-        composable("consejos") { ConsejosScreen(navController) }
-        composable("detalle_planta/{nombre}") { backStackEntry ->
-            val nombre = backStackEntry.arguments?.getString("nombre") ?: "Desconocida"
-            DetallePlantaScreen(plantaNombre = nombre)
-        }
-    }
-}
-
-//Previsualización del diseño
-@Preview(showBackground = true)
-@Composable
-fun PreviewConsejosScreen() {
-    val navController = rememberNavController()
-    ConsejosScreen(navController)
-}
-
-*/

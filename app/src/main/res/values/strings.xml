@@ -17,4 +17,97 @@
     <string name="logo">Tu asistente inteligente para el cuidado de tus plantas</string>
     <string name="alerts">Recordatorios Inteligentes</string>
     <string name="sinCuenta">¿No tienes cuenta?</string>
+
+    <!-- ConsejosScreen -->
+    <string name="volver">Regresar</string>
+    <string name="titulo_consejos">Consejos de Jardinería</string>
+    <string name="buscar_consejos_placeholder">Busca consejos</string>
+
+    <!-- Títulos de secciones -->
+    <string name="seccion_descripcion">📄 Descripción General</string>
+    <string name="seccion_consejos">🌟 Consejos Claves</string>
+
+    <!-- Etiquetas con emojis -->
+    <string name="etiqueta_nombre_cientifico">🌿 Nombre científico:</string>
+    <string name="etiqueta_tipo">🌱 Tipo de planta:</string>
+    <string name="etiqueta_ubicacion">📍 Ubicación:</string>
+    <string name="etiqueta_riego">💧 Frecuencia de riego:</string>
+
+    <string name="etiqueta_luz">🔆 Luz:</string>
+    <string name="etiqueta_riego_detalle">💧 Riego:</string>
+    <string name="etiqueta_maceta">🪴 Maceta:</string>
+    <string name="etiqueta_sustrato">🌱 Sustrato:</string>
+    <string name="etiqueta_poda">✂️ Poda:</string>
+    <string name="etiqueta_plagas">🐛 Plagas comunes:</string>
+
+    <!-- Aloe Vera -->
+    <string name="aloe_nombre_cientifico">Aloe barbadensis miller.</string>
+    <string name="aloe_tipo">Suculenta.</string>
+    <string name="aloe_ubicacion">Interior y exterior.</string>
+    <string name="aloe_riego">Cada 2-3 semanas en verano, menos en invierno.</string>
+    <string name="aloe_luz">Necesita luz indirecta brillante o sol directo parcial.</string>
+    <string name="aloe_riego_detalle">Usa el método del suelo seco: riega solo cuando la tierra esté completamente seca.</string>
+    <string name="aloe_maceta">Prefiere macetas de barro con buen drenaje.</string>
+    <string name="aloe_sustrato">Usa tierra para suculentas o una mezcla de arena y tierra normal.</string>
+    <string name="aloe_poda">Corta hojas secas o dañadas con una herramienta desinfectada.</string>
+    <string name="aloe_plagas">Puede atraer cochinillas y ácaros si hay exceso de humedad.</string>
+
+    <!-- Albahaca -->
+    <string name="albahaca_nombre_cientifico">Ocimum basilicum.</string>
+    <string name="albahaca_tipo">Hierba aromática.</string>
+    <string name="albahaca_ubicacion">Principalmente exterior, con buena luz.</string>
+    <string name="albahaca_riego">Riega cada 2 días en verano, cada 3-4 días en climas más frescos.</string>
+    <string name="albahaca_luz">Luz solar directa al menos 6 horas al día.</string>
+    <string name="albahaca_riego_detalle">Mantén el sustrato ligeramente húmedo, pero evita el encharcamiento.</string>
+    <string name="albahaca_maceta">Macetas con buen drenaje, preferiblemente de arcilla.</string>
+    <string name="albahaca_sustrato">Sustrato fértil y bien drenado, con compost.</string>
+    <string name="albahaca_poda">Pellizca los tallos regularmente para fomentar un crecimiento frondoso.</string>
+    <string name="albahaca_plagas">Mosca blanca, pulgones y mildiu.</string>
+
+    <!-- Agave -->
+    <string name="agave_nombre_cientifico">Agave americana.</string>
+    <string name="agave_tipo">Suculenta.</string>
+    <string name="agave_ubicacion">Exterior, zonas soleadas.</string>
+    <string name="agave_riego">Muy esporádico, cada 3-4 semanas.</string>
+    <string name="agave_luz">Sol directo todo el día.</string>
+    <string name="agave_riego_detalle">Solo riega cuando el sustrato esté completamente seco.</string>
+    <string name="agave_maceta">Macetas grandes y pesadas, de barro o concreto.</string>
+    <string name="agave_sustrato">Sustrato arenoso, bien drenado.</string>
+    <string name="agave_poda">Retira hojas muertas en la base con cuidado.</string>
+    <string name="agave_plagas">Cochinillas y hongos si hay exceso de agua.</string>
+
+    <string name="buganvilla_nombre_cientifico">Bougainvillea spp.</string>
+    <string name="buganvilla_tipo">Planta trepadora con flores.</string>
+    <string name="buganvilla_ubicacion">Exterior, ideal en muros o pérgolas.</string>
+    <string name="buganvilla_riego">Una vez por semana, menos en invierno.</string>
+    <string name="buganvilla_luz">Sol directo todo el día.</string>
+    <string name="buganvilla_riego_detalle">Prefiere riegos profundos pero espaciados.</string>
+    <string name="buganvilla_maceta">Macetas grandes con buen drenaje.</string>
+    <string name="buganvilla_sustrato">Ligero, arenoso, con algo de materia orgánica.</string>
+    <string name="buganvilla_poda">Pódala después de la floración para darle forma.</string>
+    <string name="buganvilla_plagas">Pulgones, cochinillas y araña roja.</string>
+
+    <!-- Bambú -->
+    <string name="bambu_nombre_cientifico">Bambusa vulgaris.</string>
+    <string name="bambu_tipo">Gramínea perenne.</string>
+    <string name="bambu_ubicacion">Exterior o interior amplio con luz.</string>
+    <string name="bambu_riego">Frecuente en verano, 3 veces por semana.</string>
+    <string name="bambu_luz">Luz indirecta brillante o media sombra.</string>
+    <string name="bambu_riego_detalle">Mantén el suelo húmedo, no encharcado.</string>
+    <string name="bambu_maceta">Macetas grandes y profundas.</string>
+    <string name="bambu_sustrato">Rico en nutrientes, con buen drenaje.</string>
+    <string name="bambu_poda">Corta cañas secas o débiles en la base.</string>
+    <string name="bambu_plagas">Ácaros, pulgones y hongos.</string>
+
+    <!-- Calatea -->
+    <string name="calatea_nombre_cientifico">Calathea spp.</string>
+    <string name="calatea_tipo">Planta ornamental de interior.</string>
+    <string name="calatea_ubicacion">Interior con humedad.</string>
+    <string name="calatea_riego">2-3 veces por semana en verano.</string>
+    <string name="calatea_luz">Luz indirecta, nunca sol directo.</string>
+    <string name="calatea_riego_detalle">Usa agua sin cal. El sustrato debe estar húmedo pero no encharcado.</string>
+    <string name="calatea_maceta">Macetas medianas con drenaje.</string>
+    <string name="calatea_sustrato">Tierra para interior con perlita y turba.</string>
+    <string name="calatea_poda">Elimina hojas secas desde la base.</string>
+    <string name="calatea_plagas">Araña roja, cochinilla y hongos si hay poca ventilación.</string>
 </resources>

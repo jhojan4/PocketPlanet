@@ -28,4 +28,9 @@ class LanguageViewModel(application: Application) : AndroidViewModel(application
         // Notificar el cambio de idioma a la UI
         _currentLanguage.value = idioma
     }
+
+    fun toggleLanguage() {
+        val nuevoIdioma = if (_currentLanguage.value == "en") "es" else "en"
+        cambiarIdioma(nuevoIdioma)
+    }
 }

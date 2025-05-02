@@ -14,7 +14,6 @@ class SettingsDataStore(private val context: Context) {
     // Definir llaves para cada opción
     companion object {
         val NOTIFICATIONS_ENABLED = booleanPreferencesKey("notifications_enabled")
-        val EMAIL_NOTIFICATIONS = booleanPreferencesKey("email_notifications")
     }
 
     // Funciones para guardar valores
@@ -24,20 +23,11 @@ class SettingsDataStore(private val context: Context) {
         }
     }
 
-    suspend fun saveEmailNotifications(enabled: Boolean) {
-        context.dataStore.edit { settings ->
-            settings[EMAIL_NOTIFICATIONS] = enabled
-        }
-    }
-
     // Funciones para leer valores
     val notificationsEnabledFlow: Flow<Boolean> = context.dataStore.data
         .map { preferences ->
             preferences[NOTIFICATIONS_ENABLED] ?: true // valor por defecto
         }
 
-    val emailNotificationsFlow: Flow<Boolean> = context.dataStore.data
-        .map { preferences ->
-            preferences[EMAIL_NOTIFICATIONS] ?: false
-        }
+
 }

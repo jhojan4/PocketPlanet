@@ -9,13 +9,17 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -33,18 +37,15 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavHostController
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.FirebaseApp
-import com.google.firebase.database.FirebaseDatabase
 import edu.unicauca.example.pocketplanet.Funciones.enviarNotificacion
 import edu.unicauca.example.pocketplanet.InicioAplicacion.NavigationScreens
 import edu.unicauca.example.pocketplanet.R
+import edu.unicauca.example.pocketplanet.Session.UserSessionViewModel
 import edu.unicauca.example.pocketplanet.ui.theme.ThemeViewModel
 import kotlinx.coroutines.launch
-
-object PerfilScreenData {
-    var originalEmail: String = "correo@ejemplo.com"
-}
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun PerfilScreen(
@@ -53,15 +54,18 @@ fun PerfilScreen(
     themeViewModel: ThemeViewModel,
     settingsDataStore: SettingsDataStore,
     languageViewModel: LanguageViewModel, // Agregar el viewModel para el idioma
-    updateUserViewModel: UpdateUserViewModel
+    perfilViewModel: PerfilViewModel = viewModel(), // Usamos el PerfilViewModel
+    userId: String
 ) {
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
+    // ahora puedes usar userId
+    val coroutineScope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
 
     val notificationsEnabled by settingsDataStore.notificationsEnabledFlow.collectAsState(initial = true)
-    val emailNotifications by settingsDataStore.emailNotificationsFlow.collectAsState(initial = false)
 
-    var alertNotifications by remember { mutableStateOf(false) }
+
     var darkMode by remember { mutableStateOf(false) }
 
     // Estado para cambiar idioma
@@ -69,34 +73,31 @@ fun PerfilScreen(
 
     // Estados para editar perfil
     var showEditDialog by remember { mutableStateOf(false) }
-    var userName by remember { mutableStateOf("Nombre Usuario") }
-    var email by remember { mutableStateOf("correo@ejemplo.com") }
 
-    // Guardamos el correo original al entrar a la pantalla
-    // Dentro del proceso de inicio de sesión, después de la autenticación:
-    PerfilScreenData.originalEmail = FirebaseAuth.getInstance().currentUser?.email ?: "correo@ejemplo.com"
+    // Obtenemos los datos del usuario del ViewModel
+    var nombre by remember { mutableStateOf("") }
+    var correo by remember { mutableStateOf("") }
 
 
-    LaunchedEffect(Unit) {
-        val db = FirebaseFirestore.getInstance()
-        val usersRef = db.collection("users")
 
-        // Usamos el correo del usuario autenticado
-        usersRef.whereEqualTo("email", PerfilScreenData.originalEmail)
-            .get()
-            .addOnSuccessListener { documents ->
-                if (!documents.isEmpty) {
-                    val userDoc = documents.documents[0]
-                    userName = userDoc.getString("name") ?: "Nombre Usuario"
-                    email = userDoc.getString("email") ?: "correo@ejemplo.com"
-                    Toast.makeText(context, "Usuario cargado: $userName", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(context, "Usuario no encontrado", Toast.LENGTH_SHORT).show()
+
+
+    // Cargar perfil si el userId no está vacío
+    LaunchedEffect(userId) {
+        userId?.let { safeUserId ->
+            perfilViewModel.cargarPerfil(
+                onSuccess = {
+                    nombre = perfilViewModel.userName
+                    correo = perfilViewModel.email
+                },
+                userId = safeUserId,
+                onError = { errorMsg ->
+                    coroutineScope.launch {
+                        snackbarHostState.showSnackbar("❌ $errorMsg")
+                    }
                 }
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(context, "Error al cargar usuario: ${e.message}", Toast.LENGTH_SHORT).show()
-            }
+            )
+        }
     }
 
 
@@ -125,7 +126,8 @@ fun PerfilScreen(
                     navController,
                     modifier = Modifier
                         .background(MaterialTheme.colorScheme.secondaryContainer.copy(0.5f))
-                        .size(width = 400.dp, height = 70.dp)
+                        .size(width = 400.dp, height = 70.dp),
+                    userId = perfilViewModel.userId // Pasando el userId desde el ViewModel
                 )
             }
         }
@@ -134,6 +136,7 @@ fun PerfilScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
+                .verticalScroll(rememberScrollState()) // Habilita el scroll vertical
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -157,8 +160,29 @@ fun PerfilScreen(
                         contentScale = ContentScale.Crop
                     )
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text(userName, fontSize = 20.sp, fontWeight = FontWeight.Bold)
-                    Text(email, fontSize = 16.sp, color = Color.Gray)
+                    // Mostrar datos de perfil
+                    OutlinedTextField(
+                        value = nombre,
+                        onValueChange = {},
+                        label = { Text("Nombre") },
+                        leadingIcon = { Icon(Icons.Default.Person, contentDescription = null) },
+                        //enabled = true, // No editable aquí
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp)
+                    )
+
+                    OutlinedTextField(
+                        value = correo,
+                        onValueChange = {},
+                        label = { Text("Correo electrónico") },
+                        leadingIcon = { Icon(Icons.Default.Email, contentDescription = null) },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                        //enabled = true,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp)
+                    )
                     Spacer(modifier = Modifier.height(8.dp))
                     Button(
                         onClick = { showEditDialog = true },
@@ -182,27 +206,6 @@ fun PerfilScreen(
                     settingsDataStore.saveNotificationsEnabled(enabled)
                 }
             }
-
-            ConfigOption(
-                text = "Frecuencia de notificaciones",
-                icon = Icons.Filled.Settings
-            ) { }
-
-            SwitchOption(
-                text = "Notificaciones por correo",
-                icon = Icons.Filled.Email,
-                state = emailNotifications
-            ) { enabled ->
-                scope.launch {
-                    settingsDataStore.saveEmailNotifications(enabled)
-                }
-            }
-
-            SwitchOption(
-                text = "Activar/Desactivar alertas",
-                icon = Icons.Filled.Notifications,
-                state = alertNotifications
-            ) { alertNotifications = it }
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -258,14 +261,14 @@ fun PerfilScreen(
                     text = {
                         Column {
                             OutlinedTextField(
-                                value = userName,
-                                onValueChange = { userName = it },
+                                value = nombre,
+                                onValueChange = { nombre = it },
                                 label = { Text("Nombre de usuario") }
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             OutlinedTextField(
-                                value = email,
-                                onValueChange = { email = it },
+                                value = correo,
+                                onValueChange = { correo = it },
                                 label = { Text("Correo electrónico") }
                             )
                         }
@@ -273,7 +276,18 @@ fun PerfilScreen(
                     confirmButton = {
                         Button(
                             onClick = {
-                                updateUserViewModel.updateUser(userName, email)
+                                perfilViewModel.actualizarPerfil(
+                                    userId = userId,
+                                    nuevoNombre = nombre,
+                                    nuevoCorreo = correo,
+                                    onSuccess = {
+                                        Toast.makeText(context, "Perfil actualizado", Toast.LENGTH_SHORT).show()
+                                        showEditDialog = false
+                                    },
+                                    onError = { error ->
+                                        Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+                                    }
+                                )
                             }
                         ) {
                             Text("Guardar")
@@ -286,6 +300,7 @@ fun PerfilScreen(
                     }
                 )
             }
+
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -344,31 +359,4 @@ fun ConfigOption(
         Spacer(modifier = Modifier.width(16.dp))
         Text(text, fontSize = 16.sp)
     }
-}
-
-fun actualizarPerfilEnFirestore(
-    nuevoNombre: String,
-    nuevoCorreo: String,
-    context: android.content.Context,
-    onSuccess: () -> Unit
-) {
-    val db = FirebaseFirestore.getInstance(FirebaseApp.getInstance("database-pocketplanet"))
-    val usersRef = db.collection("users")
-
-    usersRef.whereEqualTo("email", nuevoCorreo)
-        .get()
-        .addOnSuccessListener { documents ->
-            if (documents.isEmpty) {
-                Toast.makeText(context, "Correo no registrado", Toast.LENGTH_SHORT).show()
-            } else {
-                val userDoc = documents.documents[0]
-                userDoc.reference.update(
-                    mapOf("name" to nuevoNombre, "email" to nuevoCorreo)
-                ).addOnSuccessListener {
-                    onSuccess()
-                }.addOnFailureListener { exception ->
-                    Toast.makeText(context, "Error al actualizar: ${exception.message}", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
 }
