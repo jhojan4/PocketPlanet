@@ -55,22 +55,35 @@ import edu.unicauca.example.pocketplanet.Inicio_Aplicacion.InicioAplicacionViewM
 import edu.unicauca.example.pocketplanet.Inicio_Aplicacion.Planta
 import edu.unicauca.example.pocketplanet.ui.theme.PocketPlanetTheme
 import kotlinx.coroutines.delay
+import java.security.KeyStore.TrustedCertificateEntry
 
 
 @Composable
 fun Screen_Inicio_Aplicacion(navController: NavHostController, userId: String, modifier: Modifier = Modifier) {
     val viewModel : InicioAplicacionViewModel=viewModel()
     var textoBusqueda by remember { mutableStateOf("") }
+    var control :Boolean=true
+    val isBuscando = textoBusqueda.isNotEmpty()
+
+    LaunchedEffect(isBuscando) {
+        while (!isBuscando && control) {
+            viewModel.cargarPlantas(userId)
+            delay(3000) // Se ejecuta solo si no se está buscando
+        }
+    }
+
     // Al entrar a la pantalla, cargar las plantas desde Firestore
     /*LaunchedEffect(Unit) {
         viewModel.cargarPlantas()
     }*/
-    LaunchedEffect(Unit) {
-        while (true) { // 🔥 Bucle infinito controlado
+
+    /*LaunchedEffect(Unit) {
+
+        while (control) { // 🔥 Bucle infinito controlado
             viewModel.cargarPlantas(userId)
             delay(3000) // espera 30 segundos (30000 milisegundos) antes de volver a cargar
         }
-    }
+    }*/
 
 
     Scaffold{paddingValues ->
@@ -176,7 +189,7 @@ fun NavigationScreens(navController: NavHostController,userId: String,modifier: 
                     colors = MaterialTheme.colorScheme.tertiary,
                     modifier = Modifier.size(35.dp)
                 )
-                Text("Inicio", fontSize = 10.sp)
+                Text(stringResource(R.string.Inicio), fontSize = 10.sp)
             }
 
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -186,17 +199,17 @@ fun NavigationScreens(navController: NavHostController,userId: String,modifier: 
                     colors = MaterialTheme.colorScheme.tertiary,
                     modifier = Modifier.size(35.dp)
                 )
-                Text("Alertas", fontSize = 10.sp)
+                Text(stringResource(R.string.Alertas), fontSize = 10.sp)
             }
 
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 bottonRedondoStateless(
-                    onClick = { navController.navigate(Screens.ConsejosScreen.name) },
+                    onClick = { navController.navigate("${Screens.ConsejosScreen.name}/${userId}") },
                     Icons.Default.Star,
                     colors = MaterialTheme.colorScheme.tertiary,
                     modifier = Modifier.size(35.dp)
                 )
-                Text("Favoritos", fontSize = 10.sp)
+                Text(stringResource(R.string.Favoritos), fontSize = 10.sp)
             }
 
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -206,7 +219,7 @@ fun NavigationScreens(navController: NavHostController,userId: String,modifier: 
                     colors = MaterialTheme.colorScheme.tertiary,
                     modifier = Modifier.size(35.dp)
                 )
-                Text("Perfil", fontSize = 10.sp)
+                Text(stringResource(R.string.Perfil), fontSize = 10.sp)
             }
 
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -216,7 +229,7 @@ fun NavigationScreens(navController: NavHostController,userId: String,modifier: 
                     colors = MaterialTheme.colorScheme.tertiary,
                     modifier = Modifier.size(35.dp)
                 )
-                Text("Estadísticas", fontSize = 10.sp)
+                Text(stringResource(R.string.Estadisticas), fontSize = 10.sp)
             }
         }
     }
