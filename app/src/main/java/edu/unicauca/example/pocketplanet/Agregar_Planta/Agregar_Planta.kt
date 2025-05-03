@@ -6,9 +6,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
@@ -30,6 +34,8 @@ import androidx.navigation.NavHostController
 import androidx.compose.ui.Modifier
 
 import com.google.firebase.auth.FirebaseAuth
+import edu.unicauca.example.pocketplanet.Presentacion.bottonRedondoStateless
+import edu.unicauca.example.pocketplanet.Screens
 
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -68,6 +74,11 @@ fun AgregarPlanta(navController: NavHostController, userId:String,modifier: Modi
                 .fillMaxWidth()
                 .padding(paddingValues)
         ) {
+            Box(modifier=Modifier.align(Alignment.TopStart).padding(10.dp)){
+                bottonRedondoStateless(onClick={navController.navigate("${Screens.InicioAplicacion.name}/${userId}")}, Icons.Default.ArrowBack,colors = MaterialTheme.colorScheme.tertiary, modifier = Modifier
+                    .size(width = 40.dp, height = 40.dp)
+                )
+            }
             // Caja con los campos del formulario
             Column(
                 modifier = Modifier

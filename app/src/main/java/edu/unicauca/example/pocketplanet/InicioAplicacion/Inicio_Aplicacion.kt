@@ -68,7 +68,7 @@ fun Screen_Inicio_Aplicacion(navController: NavHostController, userId: String, m
     LaunchedEffect(Unit) {
         while (true) { // 🔥 Bucle infinito controlado
             viewModel.cargarPlantas(userId)
-            delay(30000) // espera 30 segundos (30000 milisegundos) antes de volver a cargar
+            delay(3000) // espera 30 segundos (30000 milisegundos) antes de volver a cargar
         }
     }
 
@@ -171,7 +171,7 @@ fun NavigationScreens(navController: NavHostController,userId: String,modifier: 
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 bottonRedondoStateless(
-                    onClick = { navController.navigate(Screens.InicioAplicacion.name) },
+                    onClick = { navController.navigate("${Screens.InicioAplicacion.name}/${userId}") },
                     Icons.Default.Home,
                     colors = MaterialTheme.colorScheme.tertiary,
                     modifier = Modifier.size(35.dp)

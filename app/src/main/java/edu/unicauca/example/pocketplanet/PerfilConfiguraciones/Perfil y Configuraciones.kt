@@ -46,6 +46,7 @@ import kotlinx.coroutines.launch
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.lifecycle.viewmodel.compose.viewModel
+import edu.unicauca.example.pocketplanet.Funciones.TopScreen
 
 @Composable
 fun PerfilScreen(
@@ -126,8 +127,9 @@ fun PerfilScreen(
                     navController,
                     modifier = Modifier
                         .background(MaterialTheme.colorScheme.secondaryContainer.copy(0.5f))
-                        .size(width = 400.dp, height = 70.dp),
-                    userId = perfilViewModel.userId // Pasando el userId desde el ViewModel
+                        .fillMaxWidth()
+                        .size(70.dp),
+                    userId = userId // Pasando el userId desde el ViewModel
                 )
             }
         }
@@ -136,21 +138,25 @@ fun PerfilScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .verticalScroll(rememberScrollState()) // Habilita el scroll vertical
-                .padding(16.dp),
+                .verticalScroll(rememberScrollState()), // Habilita el scroll vertical
+                //.padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
             // Sección del perfil
             Box(
-                modifier = Modifier
+                /*modifier = Modifier
                     .fillMaxWidth()
                     .background(
                         Color(0xFFA7ECA7),
                         RoundedCornerShape(bottomStart = 40.dp, bottomEnd = 40.dp)
                     ),
-                contentAlignment = Alignment.Center
+                contentAlignment = Alignment.Center*/
             ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                TopScreen()
+                Column(
+                    modifier = Modifier.padding(10.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally) {
                     Image(
                         painter = painterResource(id = R.drawable.logo),
                         contentDescription = "Foto de perfil",
