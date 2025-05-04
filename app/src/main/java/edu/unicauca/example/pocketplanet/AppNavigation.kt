@@ -89,7 +89,8 @@ fun AppNavigation(themeViewModel: ThemeViewModel) {
         //Esta ruta para mostrar la pantalla de detalles por planta
         composable("detalle_planta/{nombre}") { backStackEntry ->
             val nombre = backStackEntry.arguments?.getString("nombre") ?: "Desconocida"
-            DetallePlantaScreen(plantaNombre = nombre, navController)
+            val userId = backStackEntry.arguments?.getString("userId") ?: ""
+            DetallePlantaScreen(plantaNombre = nombre, navController, userId)
         }
 
         // Nueva ruta para la pantalla AgregarPlanta

@@ -51,32 +51,34 @@ fun ConsejosScreen(
     navController: NavHostController,
     userId: String,
     modifier: Modifier
-){
-    val storedUserId by remember { mutableStateOf(userId) }
+) {
+    //val storedUserId by remember { mutableStateOf(userId) }
+    var searchText by remember { mutableStateOf("") }
 
     Scaffold(
-        // Barra de navegación inferior centrada
         bottomBar = {
             Box(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .navigationBarsPadding(),
                 contentAlignment = Alignment.Center
             ) {
                 NavigationScreens(
                     navController,
                     modifier = Modifier
                         .background(MaterialTheme.colorScheme.secondaryContainer.copy(0.5f))
-                        .size(width = 400.dp, height = 70.dp),
-                    userId = storedUserId // Pasando el userId desde el ViewModel
+                        .fillMaxWidth()
+                        .height(70.dp), // Usa height en lugar de size para evitar restricciones innecesarias
+                    userId = userId
                 )
             }
         }
-
     ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues) // Padding para evitar que el contenido se solape con la barra
-                .padding(16.dp) // Padding general de la pantalla
+                .padding(paddingValues)
+                .padding(16.dp)
         ) {
             // Botón de regreso
             IconButton(onClick = { navController.popBackStack() }) {
@@ -86,35 +88,35 @@ fun ConsejosScreen(
             Spacer(modifier = Modifier.height(8.dp))
 
             // Título de la pantalla
-            Text(
-                "Consejos de Jardinería",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
-            )
+            Text("Consejos de Jardinería", fontSize = 20.sp, fontWeight = FontWeight.Bold)
 
             Spacer(modifier = Modifier.height(16.dp))
 
             // Barra de búsqueda
-            SearchBar()
+            SearchBar{searchText = it}
 
             Spacer(modifier = Modifier.height(16.dp))
 
             // Lista de plantas
-            PlantList(navController)
+            PlantList(navController, searchText)
         }
     }
 }
 
 
 
+
 //Barra de búsqueda
 @Composable
-fun SearchBar() {
+fun SearchBar(onSearchChanged: (String) -> Unit) {
     var searchText by remember { mutableStateOf("") }
 
     TextField(
         value = searchText,
-        onValueChange = { searchText = it },
+        onValueChange = {
+            searchText = it
+            onSearchChanged(it)  // Llama a la función para actualizar el texto en la pantalla principal
+        },
         placeholder = { Text("Busca consejos") },
         leadingIcon = { Icon(Icons.Filled.Search, contentDescription = "Buscar") },
         modifier = Modifier
@@ -124,9 +126,10 @@ fun SearchBar() {
     )
 }
 
+
 //Lista de plantas disponibles
 @Composable
-fun PlantList(navController: NavController) {
+fun PlantList(navController: NavController, searchText: String) {
     val plantas = listOf(
         "Aloe Vera" to R.drawable.aloe_vera,
         "Albahaca" to R.drawable.albahaca,
@@ -136,10 +139,14 @@ fun PlantList(navController: NavController) {
         "Calatea" to R.drawable.calatea
     )
 
+    //Variable para filtrar plantas en la busqueda
+    val filteredPlantas = plantas.filter { it.first.contains(searchText, ignoreCase = true) }
+
+
     LazyColumn(
         modifier = Modifier.padding(horizontal = 16.dp)
     ) {
-        items(plantas) { (nombre, imagen) ->
+        items(filteredPlantas) { (nombre, imagen) ->  // <-- ahora usas el listado filtrado
             PlantItem(nombre, imagen) {
                 //Navega a la pantalla de detalle de la planta seleccionada
                 navController.navigate("detalle_planta/$nombre")
@@ -174,7 +181,8 @@ fun PlantItem(nombre: String, imagen: Int, onClick: () -> Unit) {
 //Pantalla de detalle de planta
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetallePlantaScreen(plantaNombre: String, navController: NavHostController) {
+fun DetallePlantaScreen(plantaNombre: String, navController: NavHostController, userId: String) {
+    val storedUserId by remember { mutableStateOf(userId) }
     val infoPlanta = when (plantaNombre) {
         "Aloe Vera" -> mapOf(
             "nombreCientifico" to stringResource(R.string.aloe_nombre_cientifico),
@@ -253,21 +261,24 @@ fun DetallePlantaScreen(plantaNombre: String, navController: NavHostController) 
 
 
     Scaffold(
-        // Barra de navegación inferior centrada
         bottomBar = {
             Box(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .navigationBarsPadding(),
                 contentAlignment = Alignment.Center
             ) {
-               /* NavigationScreens(
+                NavigationScreens(
                     navController,
                     modifier = Modifier
-                        .background(MaterialTheme.colorScheme.secondaryContainer.copy(0.5f)) // Fondo translúcido
-                        .size(width = 400.dp, height = 70.dp) // Tamaño fijo
-                )*/
+                        .background(MaterialTheme.colorScheme.secondaryContainer.copy(0.5f))
+                        .fillMaxWidth()
+                        .height(70.dp), // Usa height en lugar de size para evitar restricciones innecesarias
+                    userId = storedUserId
+                )
             }
         }
-    ){ padding ->
+    ) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -286,7 +297,7 @@ fun DetallePlantaScreen(plantaNombre: String, navController: NavHostController) 
                     .fillMaxWidth()
                     .padding(vertical = 8.dp),
                 shape = RoundedCornerShape(30.dp),
-                colors = CardDefaults.cardColors(containerColor = Color(0xFFA7ECA7))
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer) // Utilizar el color del tema
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Image(
@@ -297,11 +308,15 @@ fun DetallePlantaScreen(plantaNombre: String, navController: NavHostController) 
                             .padding(8.dp)
                             .clip(CircleShape)
                     )
-                    Text(plantaNombre, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                    Text(
+                        plantaNombre,
+                        style = MaterialTheme.typography.headlineSmall, // Utilizar tipografía del tema
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
                     Icon(
                         imageVector = Icons.Default.Star,
                         contentDescription = null,
-                        tint = Color.White,
+                        tint = MaterialTheme.colorScheme.secondary, // Usar color del tema
                         modifier = Modifier
                             .padding(bottom = 8.dp)
                             .size(30.dp)
@@ -313,10 +328,10 @@ fun DetallePlantaScreen(plantaNombre: String, navController: NavHostController) 
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
-                colors = CardDefaults.cardColors(containerColor = Color(0xFFF8F8F8))
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant) // Utilizar color del tema
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
-                    Text("📄 Descripción General", fontWeight = FontWeight.Bold)
+                    Text("📄 Descripción General", style = MaterialTheme.typography.titleMedium)
 
                     Spacer(modifier = Modifier.height(8.dp))
 
@@ -333,10 +348,10 @@ fun DetallePlantaScreen(plantaNombre: String, navController: NavHostController) 
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
-                colors = CardDefaults.cardColors(containerColor = Color(0xFFF8F8F8))
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant) // Usar el color del tema
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
-                    Text(stringResource(R.string.seccion_consejos), fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.seccion_consejos), style = MaterialTheme.typography.titleMedium)
 
                     Spacer(modifier = Modifier.height(8.dp))
 
