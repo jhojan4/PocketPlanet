@@ -9,15 +9,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import java.security.MessageDigest
+import com.google.firebase.auth.FirebaseAuth
+
 
 class LoginViewModel : ViewModel() {
-
+    private val auth = FirebaseAuth.getInstance()
     var email by mutableStateOf("")
     var password by mutableStateOf("")
     var userId by mutableStateOf<String?>(null) // 👈 Aquí guardamos el ID del usuario que se loguea
 
     private val db = FirebaseFirestore.getInstance()
-
     fun loginUser(
         onSuccess: () -> Unit,
         onError: (String) -> Unit
@@ -61,6 +62,30 @@ class LoginViewModel : ViewModel() {
                 }
         }
     }
+    /*fun loginUser(
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    ) {
+        if (email.isBlank() || password.isBlank()) {
+            onError("Correo y contraseña no pueden estar vacíos")
+            return
+        }
+
+        if (!isValidEmail(email)) {
+            onError("Formato de correo inválido")
+            return
+        }
+
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    userId = auth.currentUser?.uid
+                    onSuccess()
+                } else {
+                    onError(task.exception?.localizedMessage ?: "Fallo al iniciar sesión")
+                }
+            }
+    }*/
 
     private fun isValidEmail(email: String): Boolean {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()

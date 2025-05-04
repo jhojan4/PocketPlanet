@@ -47,6 +47,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.lifecycle.viewmodel.compose.viewModel
 import edu.unicauca.example.pocketplanet.Funciones.TopScreen
+import edu.unicauca.example.pocketplanet.Screens
 
 @Composable
 fun PerfilScreen(
@@ -313,9 +314,9 @@ fun PerfilScreen(
             // Botón de Cerrar Sesión
             Button(
                 onClick = {
-                    FirebaseAuth.getInstance().signOut()
-                    navController.navigate("login_screen") {
-                        popUpTo("home_screen") { inclusive = true }
+                    // Navegar a la pantalla de inicio de sesión
+                    navController.navigate(Screens.InicioSesionScreen.name) {
+                        popUpTo(Screens.InicioSesionScreen.name) { inclusive = true }
                     }
                 },
                 modifier = Modifier.fillMaxWidth(),
