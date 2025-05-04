@@ -11,13 +11,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.runtime.collectAsState
 import edu.unicauca.example.pocketplanet.Funciones.createNotificationChannel
+import edu.unicauca.example.pocketplanet.PerfilConfiguraciones.SettingsDataStore
+import edu.unicauca.example.pocketplanet.PerfilConfiguraciones.ThemeViewModelFactory
 import edu.unicauca.example.pocketplanet.ui.theme.PocketPlanetTheme
 import edu.unicauca.example.pocketplanet.ui.theme.ThemeViewModel
 
 class MainActivity : ComponentActivity() {
 
-    private val themeViewModel: ThemeViewModel by viewModels() // 👈 Añadimos esto
-
+    private val themeRepository by lazy { SettingsDataStore(context = applicationContext) } // Crea la instancia del repositorio
+    private val themeViewModel: ThemeViewModel by viewModels {
+        ThemeViewModelFactory(themeRepository) // Asegúrate de usar el Factory que pasará el repositorio
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         createNotificationChannel(this)

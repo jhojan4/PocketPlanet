@@ -29,5 +29,19 @@ class SettingsDataStore(private val context: Context) {
             preferences[NOTIFICATIONS_ENABLED] ?: true // valor por defecto
         }
 
+    //Guardda vlaor booleando para saber si el modo oscuro está habilitado
+    private val darkModeKey = booleanPreferencesKey("dark_mode_enabled")
+
+    val isDarkModeEnabled: Flow<Boolean> = context.dataStore.data
+        .map { preferences ->
+            preferences[darkModeKey] ?: false  // Retorna `false` por defecto
+        }
+
+    suspend fun setDarkMode(enabled: Boolean) {
+        context.dataStore.edit { preferences ->
+            preferences[darkModeKey] = enabled
+        }
+    }
+
 
 }

@@ -68,7 +68,7 @@ fun PerfilScreen(
     val notificationsEnabled by settingsDataStore.notificationsEnabledFlow.collectAsState(initial = true)
 
 
-    var darkMode by remember { mutableStateOf(false) }
+    val darkMode by themeViewModel.isDarkTheme.collectAsState()
 
     // Estado para cambiar idioma
     val currentLanguage by languageViewModel.currentLanguage.collectAsState() // Aquí recogemos el idioma actual
@@ -226,8 +226,8 @@ fun PerfilScreen(
                 icon = Icons.Filled.DarkMode,
                 state = darkMode
             ) {
-                darkMode = it
-                themeViewModel.toggleTheme()
+                themeViewModel.setDarkTheme(it)
+               //themeViewModel.toggleTheme()
             }
 
             // Mostrar idioma actual
