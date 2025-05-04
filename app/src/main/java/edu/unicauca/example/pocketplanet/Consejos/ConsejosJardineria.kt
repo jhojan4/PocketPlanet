@@ -49,7 +49,6 @@ import edu.unicauca.example.pocketplanet.R
 @Composable
 fun ConsejosScreen(
     navController: NavHostController,
-    perfilViewModel: PerfilViewModel,
     userId: String,
     modifier: Modifier
 ){

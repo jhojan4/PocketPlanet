@@ -120,20 +120,23 @@ fun PerfilScreen(
 
     Scaffold(
         bottomBar = {
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            ) {
-                NavigationScreens(
-                    navController,
-                    modifier = Modifier
-                        .background(MaterialTheme.colorScheme.secondaryContainer.copy(0.5f))
-                        .fillMaxWidth()
-                        .size(70.dp),
-                    userId = userId // Pasando el userId desde el ViewModel
-                )
-            }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .navigationBarsPadding(),
+            contentAlignment = Alignment.Center
+        ) {
+            NavigationScreens(
+                navController,
+                modifier = Modifier
+                    .background(MaterialTheme.colorScheme.secondaryContainer.copy(0.5f))
+                    .fillMaxWidth()
+                    .height(70.dp), // Usa height en lugar de size para evitar restricciones innecesarias
+                userId = userId
+            )
         }
+    }
+
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -149,7 +152,7 @@ fun PerfilScreen(
                 /*modifier = Modifier
                     .fillMaxWidth()
                     .background(
-                        Color(0xFFA7ECA7),
+                        MaterialTheme.colorScheme.secondaryContainer.copy(0.5f),
                         RoundedCornerShape(bottomStart = 40.dp, bottomEnd = 40.dp)
                     ),
                 contentAlignment = Alignment.Center*/
@@ -320,10 +323,9 @@ fun PerfilScreen(
                     }
                 },
                 modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(8.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
+                shape = RoundedCornerShape(8.dp)
             ) {
-                Text("Cerrar sesión", color = Color.White)
+                Text("Cerrar sesión")
             }
         }
     }

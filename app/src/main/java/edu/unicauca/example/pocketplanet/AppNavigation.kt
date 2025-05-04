@@ -56,14 +56,13 @@ fun AppNavigation(themeViewModel: ThemeViewModel) {
 
         composable("${Screens.ConsejosScreen.name}/{userId}") { backStackEntry ->
             val userId = backStackEntry.arguments?.getString("userId") ?: ""
-            val perfilViewModel: PerfilViewModel = viewModel()  // <-- Esto es lo que faltaba
             ConsejosScreen(
                 navController = navController,
-                perfilViewModel = perfilViewModel,
                 modifier = Modifier,
                 userId = userId
             )
         }
+
 
 
         composable("${Screens.ConfiguracionesScreen.name}/{userId}") { backStackEntry ->
