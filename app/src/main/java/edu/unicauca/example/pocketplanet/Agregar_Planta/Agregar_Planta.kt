@@ -57,9 +57,6 @@ fun AgregarPlanta(navController: NavHostController, userId:String,modifier: Modi
     // Crear un Scope para las corrutinas
     val coroutineScope = rememberCoroutineScope()
 
-    // Obtener el userId de Firebase Authentication
-    //val userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
-
     // ViewModel
     val viewModel: AgregarPlantaViewModel = viewModel()
 
@@ -74,17 +71,22 @@ fun AgregarPlanta(navController: NavHostController, userId:String,modifier: Modi
                 .fillMaxWidth()
                 .padding(paddingValues)
         ) {
-            Box(modifier=Modifier.align(Alignment.TopStart).padding(10.dp)){
-                bottonRedondoStateless(onClick={navController.navigate("${Screens.InicioAplicacion.name}/${userId}")}, Icons.Default.ArrowBack,colors = MaterialTheme.colorScheme.tertiary, modifier = Modifier
-                    .size(width = 40.dp, height = 40.dp)
-                )
-            }
             // Caja con los campos del formulario
             Column(
                 modifier = Modifier
-                    .align(Alignment.Center)
+                    .align(Alignment.CenterStart)
                     .padding(16.dp)
             ) {
+                // Botón de regreso
+                Box(modifier = Modifier.padding(bottom = 16.dp)) {
+                    bottonRedondoStateless(onClick={navController.navigate("${Screens.InicioAplicacion.name}/${userId}")},
+                        Icons.Default.ArrowBack,
+                        colors = MaterialTheme.colorScheme.tertiary,
+                        modifier = Modifier
+                            .size(width = 40.dp, height = 40.dp)
+                    )
+                }
+
                 TextField(
                     value = nombrePlanta.value,
                     onValueChange = { nombrePlanta.value = it },
@@ -163,6 +165,8 @@ fun AgregarPlanta(navController: NavHostController, userId:String,modifier: Modi
                     Text("Guardar Planta")
                 }
             }
+
+
         }
     }
 }
