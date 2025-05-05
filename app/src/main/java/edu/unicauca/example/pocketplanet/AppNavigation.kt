@@ -13,17 +13,15 @@ import edu.unicauca.example.pocketplanet.Agregar_Planta.AgregarPlanta
 import edu.unicauca.example.pocketplanet.Consejos.ConsejosScreen
 import edu.unicauca.example.pocketplanet.Consejos.DetallePlantaScreen
 import edu.unicauca.example.pocketplanet.Estadisticas.StatisticsScreen
+import edu.unicauca.example.pocketplanet.Informacion_Planta.Informacion_Planta
 import edu.unicauca.example.pocketplanet.InicioAplicacion.Screen_Inicio_Aplicacion
 import edu.unicauca.example.pocketplanet.Inicio_Sesion.Inicio_Sesio
 import edu.unicauca.example.pocketplanet.PerfilConfiguraciones.LanguageViewModel
 import edu.unicauca.example.pocketplanet.PerfilConfiguraciones.PerfilScreen
-import edu.unicauca.example.pocketplanet.PerfilConfiguraciones.PerfilViewModel
+
 import edu.unicauca.example.pocketplanet.PerfilConfiguraciones.SettingsDataStore
 import edu.unicauca.example.pocketplanet.Presentacion.backgroundPresentacion
-//import edu.unicauca.example.pocketplanet.Presentacion
-//import edu.unicauca.example.pocketplanet.Registro.Registro
-//import edu.unicauca.example.pocketplanet.Inicio_Sesion.Inicio_Sesion
-//import edu.unicauca.example.pocketplanet.Presentacion.backgroundPresentacion
+
 import edu.unicauca.example.pocketplanet.Registro.backgroundRegistro
 import edu.unicauca.example.pocketplanet.ui.theme.ThemeViewModel
 
@@ -100,6 +98,12 @@ fun AppNavigation(themeViewModel: ThemeViewModel) {
         }
 
 
+        composable("informacion_planta/{nombre}") { backStackEntry ->
+            val nombre = backStackEntry.arguments?.getString("nombre") ?: ""
+            Informacion_Planta(navController = navController, plantaNombre = nombre)
+        }
+
+
     }
 }
 
@@ -109,10 +113,10 @@ enum class Screens(){
     RegistroScreen,
     InicioAplicacion,
     ConsejosScreen,
-    InicioScreen,
-    NotificacionesScreen,
+    //InicioScreen,
+    //NotificacionesScreen,
     ConfiguracionesScreen,
     EstadisticasScreen,
-    DetallePlantaScreen,
+    //DetallePlantaScreen,
     AgregarPlantaScreen
 }
