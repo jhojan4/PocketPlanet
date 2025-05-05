@@ -10,8 +10,11 @@ import android.os.Build
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -25,9 +28,17 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import androidx.navigation.NavHostController
+import edu.unicauca.example.pocketplanet.InicioAplicacion.NavigationScreens
+import edu.unicauca.example.pocketplanet.Presentacion.bottonRedondoStateless
 
 @Composable
-fun AlertConfigScreen(context: Context) {
+fun AlertConfigScreen(
+    context: Context,
+    navController: NavHostController,
+    userId: String,
+    onBack: () -> Unit
+) {
     val notificationChannelId = "alerts_channel"
 
     // Crear canal de notificación (para API 26+)
@@ -48,70 +59,89 @@ fun AlertConfigScreen(context: Context) {
     var isFertilizacionEnabled by remember { mutableStateOf(false) }
     var isPodaEnabled by remember { mutableStateOf(false) }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFFE0F7E9)), // Color verde claro
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        // Encabezado
-        Box(
+    MaterialTheme { // Aplicar el tema del proyecto
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .background(Color(0xFFB2EBF2)) // Color verde menta
-                .padding(16.dp)
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background), // Fondo según el tema
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Icon(
-                imageVector = Icons.Default.Notifications,
-                contentDescription = "Icono de notificación",
-                modifier = Modifier.align(Alignment.Center),
-                tint = Color.Black
+            // Encabezado con botón de regreso redondo
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.primary) // Color primario del tema
+                    .padding(16.dp)
+            ) {
+                // Botón redondo en la parte superior izquierda
+                Box(modifier = Modifier.padding(bottom = 16.dp)) {
+                    bottonRedondoStateless(
+                        onClick = onBack, // Acción para volver
+                        icon = Icons.Default.ArrowBack,
+                        colors = MaterialTheme.colorScheme.tertiary,
+                        modifier = Modifier.size(40.dp)
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Título
+            Text(
+                text = "Configuración Alertas",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onBackground // Color según el tema
+            )
+
+            Text(
+                text = "Activa / Desactiva las alertas",
+                fontSize = 14.sp,
+                color = MaterialTheme.colorScheme.onBackground
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Opciones de configuración
+            AlertOption(
+                title = "RIEGO",
+                isEnabled = isRiegoEnabled,
+                onToggle = { isRiegoEnabled = it },
+                context = context,
+                notificationChannelId = notificationChannelId
+            )
+
+            AlertOption(
+                title = "FERTILIZACIÓN",
+                isEnabled = isFertilizacionEnabled,
+                onToggle = { isFertilizacionEnabled = it },
+                context = context,
+                notificationChannelId = notificationChannelId
+            )
+
+            AlertOption(
+                title = "PODA",
+                isEnabled = isPodaEnabled,
+                onToggle = { isPodaEnabled = it },
+                context = context,
+                notificationChannelId = notificationChannelId
+            )
+
+            Spacer(modifier = Modifier.weight(1f)) // Espaciado flexible para empujar el navegador a la parte inferior
+
+            // Navegador en la parte inferior
+            NavigationScreens(
+                navController = navController,
+                userId = userId,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.surface) // Fondo del navegador
             )
         }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Título
-        Text(
-            text = "Configuración Alertas",
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold
-        )
-
-        Text(
-            text = "Activa / Desactiva las alertas",
-            fontSize = 14.sp,
-            color = Color.Gray
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Opciones de configuración
-        AlertOption(
-            title = "RIEGO",
-            isEnabled = isRiegoEnabled,
-            onToggle = { isRiegoEnabled = it },
-            context = context,
-            notificationChannelId = notificationChannelId
-        )
-
-        AlertOption(
-            title = "FERTILIZACIÓN",
-            isEnabled = isFertilizacionEnabled,
-            onToggle = { isFertilizacionEnabled = it },
-            context = context,
-            notificationChannelId = notificationChannelId
-        )
-
-        AlertOption(
-            title = "PODA",
-            isEnabled = isPodaEnabled,
-            onToggle = { isPodaEnabled = it },
-            context = context,
-            notificationChannelId = notificationChannelId
-        )
     }
 }
+
+
 
 @Composable
 fun AlertOption(
@@ -174,3 +204,5 @@ private fun sendNotification(context: Context, channelId: String, title: String)
         notify(title.hashCode(), builder.build()) // ID único para cada notificación
     }
 }
+
+

@@ -101,7 +101,12 @@ fun AppNavigation(themeViewModel: ThemeViewModel) {
         composable("${Screens.AlertConfigScreen.name}/{userId}") { backStackEntry ->
             val context = LocalContext.current // Obtenemos el contexto actual
             val userId = backStackEntry.arguments?.getString("userId") ?: "" // Extraemos el parámetro userId
-            AlertConfigScreen(context = context) // Llama a la pantalla de configuración de alertas
+            AlertConfigScreen(
+                context = context,
+                navController = navController, // Pasamos el navController necesario para NavigationScreens
+                userId = userId, // Pasamos el userId necesario para NavigationScreens
+                onBack = { navController.popBackStack() } // Acción para regresar a la pantalla anterior
+            )
         }
 
 
