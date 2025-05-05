@@ -70,7 +70,7 @@ fun AlertConfigScreen(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.primary) // Color primario del tema
+                    .background(MaterialTheme.colorScheme.secondaryContainer) // Color primario del tema
                     .padding(16.dp)
             ) {
                 // Botón redondo en la parte superior izquierda
