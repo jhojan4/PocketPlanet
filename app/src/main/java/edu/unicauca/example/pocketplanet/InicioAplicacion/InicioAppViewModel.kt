@@ -56,7 +56,11 @@ class InicioAplicacionViewModel : ViewModel() {
 /**
  * Modelo de datos para representar una planta.
  */
+
 data class Planta(
+
     val nombre: String,
-    val imagenUrl: String
+    val imagenUrl: String,
+
 )
+

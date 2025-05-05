@@ -2,6 +2,7 @@ package edu.unicauca.example.pocketplanet.InicioAplicacion
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -108,7 +109,9 @@ fun Screen_Inicio_Aplicacion(navController: NavHostController, userId: String, m
                         //.background(MaterialTheme.colorScheme.secondaryContainer.copy(0.5f))
                 ){
                     items(viewModel.plantasFiltradas.size) { index ->
-                        PlantaCard(planta = viewModel.plantasFiltradas[index])
+                        // Aquí vamos a agregar la acción de navegación al hacer clic en una planta
+                        val planta = viewModel.plantasFiltradas[index]
+                        PlantaCard(planta = planta, navController = navController) // Pasamos el navController
                     }
 
                 }
@@ -142,7 +145,7 @@ fun Screen_Inicio_Aplicacion(navController: NavHostController, userId: String, m
 }
 
 @Composable
-fun PlantaCard(planta: Planta) {
+fun PlantaCard(planta: Planta,navController: NavHostController) {
     Card(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceDim.copy(0.3f)
@@ -151,9 +154,10 @@ fun PlantaCard(planta: Planta) {
             .padding(8.dp)
             .fillMaxWidth()
             .height(150.dp)
-            .border(0.4.dp, MaterialTheme.colorScheme.scrim, RoundedCornerShape(20.dp)),
-        //elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
-
+            .border(0.4.dp, MaterialTheme.colorScheme.scrim, RoundedCornerShape(20.dp))
+            .clickable { // Aquí agregamos la acción de clic
+                navController.navigate("informacion_planta/${planta.nombre}")
+            }
     ) {
         Column(
             modifier = Modifier
