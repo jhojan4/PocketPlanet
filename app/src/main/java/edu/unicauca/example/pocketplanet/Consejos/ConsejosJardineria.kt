@@ -36,7 +36,9 @@ import edu.unicauca.example.pocketplanet.R
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material.icons.filled.ArrowBack
 import edu.unicauca.example.pocketplanet.Funciones.TopScreen
+import edu.unicauca.example.pocketplanet.Presentacion.bottonRedondoStateless
 
 
 /*class ConsejosJardineria : ComponentActivity() {
@@ -89,14 +91,17 @@ fun ConsejosScreen(
                     .align(Alignment.TopCenter) // Posiciona TopScreen arriba
             )
 
-            // Botón de regreso en la esquina superior izquierda
-            IconButton(
-                onClick = { navController.popBackStack() },
+            Box(
                 modifier = Modifier
-                    .align(Alignment.TopStart) // Alinea el botón en la esquina superior izquierda
-                    .padding(16.dp) // Padding para evitar que se pegue a la esquina
+                    .fillMaxWidth()
+                    .padding(start = 10.dp, top = 10.dp)
             ) {
-                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Regresar")
+                bottonRedondoStateless(
+                    onClick = { navController.popBackStack() },
+                    icon = Icons.Default.ArrowBack,
+                    colors = MaterialTheme.colorScheme.tertiary,
+                    modifier = Modifier.size(40.dp)
+                )
             }
 
             // Barra de búsqueda y título

@@ -17,6 +17,11 @@
     <string name="logo">Tu asistente inteligente para el cuidado de tus plantas</string>
     <string name="alerts">Recordatorios Inteligentes</string>
     <string name="sinCuenta">¿No tienes cuenta?</string>
+    <string name="Estadisticas">Estadisticas</string>
+    <string name="Perfil">Perfil</string>
+    <string name="Consejos">Consejos</string>
+    <string name="Alertas">Alertas</string>
+    <string name="Inicio">Inicio</string>
 
     <!-- ConsejosScreen -->
     <string name="volver">Regresar</string>
@@ -110,11 +115,6 @@
     <string name="calatea_sustrato">Tierra para interior con perlita y turba.</string>
     <string name="calatea_poda">Elimina hojas secas desde la base.</string>
     <string name="calatea_plagas">Araña roja, cochinilla y hongos si hay poca ventilación.</string>
-    <string name="Estadisticas">Estadisticas</string>
-    <string name="Perfil">Perfil</string>
-    <string name="Favoritos">Favoritos</string>
-    <string name="Alertas">Alertas</string>
-    <string name="Inicio">Inicio</string>
 
     <!-- Cactus -->
     <string name="cactus_nombre_cientifico">Cactaceae spp.</string>

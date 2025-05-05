@@ -15,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Language
@@ -47,6 +48,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.lifecycle.viewmodel.compose.viewModel
 import edu.unicauca.example.pocketplanet.Funciones.TopScreen
+import edu.unicauca.example.pocketplanet.Presentacion.bottonRedondoStateless
 import edu.unicauca.example.pocketplanet.Screens
 
 @Composable
@@ -119,6 +121,7 @@ fun PerfilScreen(
     )
 
     Scaffold(
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         bottomBar = {
         Box(
             modifier = Modifier
@@ -138,6 +141,7 @@ fun PerfilScreen(
     }
 
     ) { paddingValues ->
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -145,7 +149,19 @@ fun PerfilScreen(
                 .verticalScroll(rememberScrollState()), // Habilita el scroll vertical
                 //.padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+        ) { // Botón de volver
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 10.dp, top = 10.dp)
+            ) {
+                bottonRedondoStateless(
+                    onClick = { navController.popBackStack() },
+                    icon = Icons.Default.ArrowBack,
+                    colors = MaterialTheme.colorScheme.tertiary,
+                    modifier = Modifier.size(40.dp)
+                )
+            }
 
             // Sección del perfil
             Box(
@@ -170,29 +186,25 @@ fun PerfilScreen(
                         contentScale = ContentScale.Crop
                     )
                     Spacer(modifier = Modifier.height(8.dp))
-                    // Mostrar datos de perfil
-                    OutlinedTextField(
-                        value = nombre,
-                        onValueChange = {},
-                        label = { Text("Nombre") },
-                        leadingIcon = { Icon(Icons.Default.Person, contentDescription = null) },
-                        //enabled = true, // No editable aquí
+                    Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 8.dp)
-                    )
+                            .padding(vertical = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(Icons.Default.Person, contentDescription = null, modifier = Modifier.padding(end = 8.dp))
+                        Text(text = "Nombre: $nombre", style = MaterialTheme.typography.bodyLarge)
+                    }
 
-                    OutlinedTextField(
-                        value = correo,
-                        onValueChange = {},
-                        label = { Text("Correo electrónico") },
-                        leadingIcon = { Icon(Icons.Default.Email, contentDescription = null) },
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-                        //enabled = true,
+                    Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 8.dp)
-                    )
+                            .padding(vertical = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(Icons.Default.Email, contentDescription = null, modifier = Modifier.padding(end = 8.dp))
+                        Text(text = "Correo: $correo", style = MaterialTheme.typography.bodyLarge)
+                    }
                     Spacer(modifier = Modifier.height(8.dp))
                     Button(
                         onClick = { showEditDialog = true },
@@ -291,11 +303,15 @@ fun PerfilScreen(
                                     nuevoNombre = nombre,
                                     nuevoCorreo = correo,
                                     onSuccess = {
-                                        Toast.makeText(context, "Perfil actualizado", Toast.LENGTH_SHORT).show()
                                         showEditDialog = false
+                                        coroutineScope.launch {
+                                            snackbarHostState.showSnackbar("✅ Usuario editado exitosamente")
+                                        }
                                     },
                                     onError = { error ->
-                                        Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+                                        coroutineScope.launch {
+                                            snackbarHostState.showSnackbar("❌ Error: $error")
+                                        }
                                     }
                                 )
                             }
