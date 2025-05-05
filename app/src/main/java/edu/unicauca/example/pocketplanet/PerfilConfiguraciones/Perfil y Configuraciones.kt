@@ -19,8 +19,10 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Language
+import androidx.compose.material.icons.filled.Map
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -81,6 +83,8 @@ fun PerfilScreen(
     // Obtenemos los datos del usuario del ViewModel
     var nombre by remember { mutableStateOf("") }
     var correo by remember { mutableStateOf("") }
+    var pais by remember { mutableStateOf("") }
+    var numero by remember { mutableStateOf("") }
 
 
 
@@ -93,6 +97,8 @@ fun PerfilScreen(
                 onSuccess = {
                     nombre = perfilViewModel.userName
                     correo = perfilViewModel.email
+                    pais = perfilViewModel.country
+                    numero = perfilViewModel.phone
                 },
                 userId = safeUserId,
                 onError = { errorMsg ->
@@ -189,22 +195,131 @@ fun PerfilScreen(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 8.dp),
+                            .padding(vertical = 6.dp)
+                            .background(
+                                color = MaterialTheme.colorScheme.surfaceVariant,
+                                shape = RoundedCornerShape(12.dp)
+                            )
+                            .padding(horizontal = 16.dp, vertical = 12.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Icon(Icons.Default.Person, contentDescription = null, modifier = Modifier.padding(end = 8.dp))
-                        Text(text = "Nombre: $nombre", style = MaterialTheme.typography.bodyLarge)
+                        Icon(
+                            Icons.Default.Person,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(28.dp)
+                                .padding(end = 12.dp),
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                        Column {
+                            Text(
+                                text = "Nombre",
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                            Text(
+                                text = nombre,
+                                style = MaterialTheme.typography.bodyLarge
+                            )
+                        }
                     }
 
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 8.dp),
+                            .padding(vertical = 6.dp)
+                            .background(
+                                color = MaterialTheme.colorScheme.surfaceVariant,
+                                shape = RoundedCornerShape(12.dp)
+                            )
+                            .padding(horizontal = 16.dp, vertical = 12.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Icon(Icons.Default.Email, contentDescription = null, modifier = Modifier.padding(end = 8.dp))
-                        Text(text = "Correo: $correo", style = MaterialTheme.typography.bodyLarge)
+                        Icon(
+                            Icons.Default.Email,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(28.dp)
+                                .padding(end = 12.dp),
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                        Column {
+                            Text(
+                                text = "Correo",
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                            Text(
+                                text = correo,
+                                style = MaterialTheme.typography.bodyLarge
+                            )
+                        }
                     }
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 6.dp)
+                            .background(
+                                color = MaterialTheme.colorScheme.surfaceVariant,
+                                shape = RoundedCornerShape(12.dp)
+                            )
+                            .padding(horizontal = 16.dp, vertical = 12.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            Icons.Default.Map,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(28.dp)
+                                .padding(end = 12.dp),
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                        Column {
+                            Text(
+                                text = "País",
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                            Text(
+                                text = pais,
+                                style = MaterialTheme.typography.bodyLarge
+                            )
+                        }
+                    }
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 6.dp)
+                            .background(
+                                color = MaterialTheme.colorScheme.surfaceVariant,
+                                shape = RoundedCornerShape(12.dp)
+                            )
+                            .padding(horizontal = 16.dp, vertical = 12.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            Icons.Default.Phone,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(28.dp)
+                                .padding(end = 12.dp),
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                        Column {
+                            Text(
+                                text = "Celular",
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                            Text(
+                                text = numero,
+                                style = MaterialTheme.typography.bodyLarge
+                            )
+                        }
+                    }
+
                     Spacer(modifier = Modifier.height(8.dp))
                     Button(
                         onClick = { showEditDialog = true },
@@ -293,6 +408,18 @@ fun PerfilScreen(
                                 onValueChange = { correo = it },
                                 label = { Text("Correo electrónico") }
                             )
+                            Spacer(modifier = Modifier.height(8.dp))
+                            OutlinedTextField(
+                                value = pais,
+                                onValueChange = { pais = it },
+                                label = { Text("País") }
+                            )
+                            Spacer(modifier = Modifier.height(8.dp))
+                            OutlinedTextField(
+                                value = numero,
+                                onValueChange = { numero = it },
+                                label = { Text("Celular") }
+                            )
                         }
                     },
                     confirmButton = {
@@ -302,6 +429,8 @@ fun PerfilScreen(
                                     userId = userId,
                                     nuevoNombre = nombre,
                                     nuevoCorreo = correo,
+                                    nuevoPais = pais,
+                                    nuevoTelefono = numero,
                                     onSuccess = {
                                         showEditDialog = false
                                         coroutineScope.launch {

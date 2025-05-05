@@ -10,6 +10,8 @@ class PerfilViewModel : ViewModel() {
     val userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
     var userName: String = ""
     var email: String = ""
+    var country: String = ""
+    var phone: String = ""
 
     /**
      * Cargar el perfil actual usando el userId proporcionado.
@@ -27,6 +29,8 @@ class PerfilViewModel : ViewModel() {
                     if (document.exists()) {
                         userName = document.getString("name") ?: ""
                         email = document.getString("email") ?: ""
+                        country = document.getString("country") ?: ""
+                        phone = document.getString("phone") ?: ""
                         onSuccess()
                     } else {
                         onError("Usuario no encontrado.")
@@ -47,13 +51,17 @@ class PerfilViewModel : ViewModel() {
         userId: String,
         nuevoNombre: String,
         nuevoCorreo: String,
+        nuevoPais: String,
+        nuevoTelefono: String,
         onSuccess: () -> Unit,
         onError: (String) -> Unit
     ) {
         if (userId.isNotBlank()) {
             val updates = mapOf(
                 "name" to nuevoNombre,
-                "email" to nuevoCorreo
+                "email" to nuevoCorreo,
+                "country" to nuevoPais,
+                "phone" to nuevoTelefono
             )
 
             db.collection("users")
@@ -62,6 +70,8 @@ class PerfilViewModel : ViewModel() {
                 .addOnSuccessListener {
                     userName = nuevoNombre
                     email = nuevoCorreo
+                    country = nuevoPais
+                    phone = nuevoTelefono
                     onSuccess()
                 }
                 .addOnFailureListener { e ->
