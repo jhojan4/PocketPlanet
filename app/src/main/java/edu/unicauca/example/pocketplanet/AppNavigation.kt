@@ -12,7 +12,7 @@ import androidx.navigation.compose.rememberNavController
 import edu.unicauca.example.pocketplanet.Agregar_Planta.AgregarPlanta
 import edu.unicauca.example.pocketplanet.Consejos.ConsejosScreen
 import edu.unicauca.example.pocketplanet.Consejos.DetallePlantaScreen
-import edu.unicauca.example.pocketplanet.Estadisticas.StatisticsScreen
+//import edu.unicauca.example.pocketplanet.Estadisticas.StatisticsScreen
 import edu.unicauca.example.pocketplanet.Informacion_Planta.Informacion_Planta
 import edu.unicauca.example.pocketplanet.InicioAplicacion.Screen_Inicio_Aplicacion
 import edu.unicauca.example.pocketplanet.Inicio_Sesion.Inicio_Sesio
@@ -81,9 +81,9 @@ fun AppNavigation(themeViewModel: ThemeViewModel) {
         }
 
 
-        composable(Screens.EstadisticasScreen.name) {
-            StatisticsScreen(navController, modifier = Modifier)
-        }
+//        composable(Screens.EstadisticasScreen.name) {
+//            StatisticsScreen(navController, modifier = Modifier)
+//        }
 
         //Esta ruta para mostrar la pantalla de detalles por planta
         composable("detalle_planta/{nombre}") { backStackEntry ->
