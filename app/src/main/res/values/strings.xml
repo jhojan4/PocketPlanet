@@ -115,4 +115,257 @@
     <string name="Favoritos">Favoritos</string>
     <string name="Alertas">Alertas</string>
     <string name="Inicio">Inicio</string>
+
+    <!-- Cactus -->
+    <string name="cactus_nombre_cientifico">Cactaceae spp.</string>
+    <string name="cactus_tipo">Suculenta.</string>
+    <string name="cactus_ubicacion">Interior con mucha luz o exterior soleado.</string>
+    <string name="cactus_riego">Cada 3-4 semanas, menos en invierno.</string>
+    <string name="cactus_luz">Sol directo o luz muy brillante.</string>
+    <string name="cactus_riego_detalle">Riega solo cuando el sustrato esté totalmente seco.</string>
+    <string name="cactus_maceta">Macetas pequeñas con buen drenaje.</string>
+    <string name="cactus_sustrato">Tierra para cactus, arenosa y bien aireada.</string>
+    <string name="cactus_poda">Rara vez necesita poda, solo para eliminar partes secas.</string>
+    <string name="cactus_plagas">Cochinillas y podredumbre si hay exceso de humedad.</string>
+
+    <!-- Dalia -->
+    <string name="dalia_nombre_cientifico">Dahlia spp.</string>
+    <string name="dalia_tipo">Planta ornamental con flor.</string>
+    <string name="dalia_ubicacion">Exterior con buena luz.</string>
+    <string name="dalia_riego">2-3 veces por semana en verano.</string>
+    <string name="dalia_luz">Sol directo al menos 6 horas.</string>
+    <string name="dalia_riego_detalle">Evita mojar las hojas; riega directo al sustrato.</string>
+    <string name="dalia_maceta">Macetas grandes o suelo directo.</string>
+    <string name="dalia_sustrato">Rico en materia orgánica y con buen drenaje.</string>
+    <string name="dalia_poda">Corta flores marchitas para estimular nuevas.</string>
+    <string name="dalia_plagas">Pulgones, caracoles y hongos.</string>
+
+    <!-- Eucalipto -->
+    <string name="eucalipto_nombre_cientifico">Eucalyptus globulus.</string>
+    <string name="eucalipto_tipo">Árbol aromático.</string>
+    <string name="eucalipto_ubicacion">Exterior con espacio y sol.</string>
+    <string name="eucalipto_riego">1-2 veces por semana cuando es joven.</string>
+    <string name="eucalipto_luz">Sol directo.</string>
+    <string name="eucalipto_riego_detalle">No tolera suelos encharcados.</string>
+    <string name="eucalipto_maceta">Maceta grande solo si es joven.</string>
+    <string name="eucalipto_sustrato">Ligero, con buen drenaje.</string>
+    <string name="eucalipto_poda">Poda de formación en invierno.</string>
+    <string name="eucalipto_plagas">Psílidos y cochinillas.</string>
+
+    <!-- Ficus -->
+    <string name="ficus_nombre_cientifico">Ficus benjamina.</string>
+    <string name="ficus_tipo">Planta de interior.</string>
+    <string name="ficus_ubicacion">Interior luminoso, sin corrientes.</string>
+    <string name="ficus_riego">1-2 veces por semana.</string>
+    <string name="ficus_luz">Luz indirecta brillante.</string>
+    <string name="ficus_riego_detalle">Deja secar ligeramente entre riegos.</string>
+    <string name="ficus_maceta">Maceta mediana con drenaje.</string>
+    <string name="ficus_sustrato">Ligero y con buen drenaje.</string>
+    <string name="ficus_poda">Poda ligera para dar forma.</string>
+    <string name="ficus_plagas">Ácaros, cochinillas y mosca blanca.</string>
+
+    <!-- Geranio -->
+    <string name="geranio_nombre_cientifico">Pelargonium spp.</string>
+    <string name="geranio_tipo">Planta ornamental con flores.</string>
+    <string name="geranio_ubicacion">Exterior soleado.</string>
+    <string name="geranio_riego">Cada 3 días en verano.</string>
+    <string name="geranio_luz">Sol directo.</string>
+    <string name="geranio_riego_detalle">Riega al pie, evitando hojas y flores.</string>
+    <string name="geranio_maceta">Macetas medianas con drenaje.</string>
+    <string name="geranio_sustrato">Fértil y bien aireado.</string>
+    <string name="geranio_poda">Poda regular para mantener floración.</string>
+    <string name="geranio_plagas">Mariposa del geranio y pulgones.</string>
+
+    <!-- Hortensia -->
+    <string name="hortensia_nombre_cientifico">Hydrangea macrophylla.</string>
+    <string name="hortensia_tipo">Arbusto ornamental.</string>
+    <string name="hortensia_ubicacion">Exterior en semisombra.</string>
+    <string name="hortensia_riego">Frecuente, cada 2 días en floración.</string>
+    <string name="hortensia_luz">Luz indirecta o sol suave.</string>
+    <string name="hortensia_riego_detalle">El sustrato debe estar siempre húmedo.</string>
+    <string name="hortensia_maceta">Grande y profunda.</string>
+    <string name="hortensia_sustrato">Ácido, rico en nutrientes.</string>
+    <string name="hortensia_poda">Después de la floración.</string>
+    <string name="hortensia_plagas">Ácaros y hongos.</string>
+
+    <!-- Jazmín -->
+    <string name="jazmin_nombre_cientifico">Jasminum officinale.</string>
+    <string name="jazmin_tipo">Trepadora aromática.</string>
+    <string name="jazmin_ubicacion">Exterior con sol o semisombra.</string>
+    <string name="jazmin_riego">2 veces por semana.</string>
+    <string name="jazmin_luz">Sol directo o luz filtrada.</string>
+    <string name="jazmin_riego_detalle">No dejar secar completamente.</string>
+    <string name="jazmin_maceta">Maceta mediana con tutor.</string>
+    <string name="jazmin_sustrato">Rico y suelto.</string>
+    <string name="jazmin_poda">Después de floración para controlar tamaño.</string>
+    <string name="jazmin_plagas">Pulgones y ácaros.</string>
+
+    <!-- Lavanda -->
+    <string name="lavanda_nombre_cientifico">Lavandula angustifolia.</string>
+    <string name="lavanda_tipo">Aromática y ornamental.</string>
+    <string name="lavanda_ubicacion">Exterior soleado.</string>
+    <string name="lavanda_riego">1 vez por semana.</string>
+    <string name="lavanda_luz">Sol directo todo el día.</string>
+    <string name="lavanda_riego_detalle">Evita el exceso de agua.</string>
+    <string name="lavanda_maceta">Maceta de barro con drenaje.</string>
+    <string name="lavanda_sustrato">Seco, arenoso y alcalino.</string>
+    <string name="lavanda_poda">Después de floración.</string>
+    <string name="lavanda_plagas">Pulgones y hongos si hay humedad.</string>
+
+    <!-- Menta -->
+    <string name="menta_nombre_cientifico">Mentha spp.</string>
+    <string name="menta_tipo">Planta aromática.</string>
+    <string name="menta_ubicacion">Exterior en sombra parcial o interior luminoso.</string>
+    <string name="menta_riego">Frecuente, cada 1-2 días en verano.</string>
+    <string name="menta_luz">Luz indirecta o sol suave.</string>
+    <string name="menta_riego_detalle">Mantén el sustrato siempre ligeramente húmedo.</string>
+    <string name="menta_maceta">Maceta profunda, crece con fuerza.</string>
+    <string name="menta_sustrato">Rico en materia orgánica y húmedo.</string>
+    <string name="menta_poda">Poda regular para estimular el crecimiento.</string>
+    <string name="menta_plagas">Pulgones, araña roja.</string>
+
+    <!-- Nandina -->
+    <string name="nandina_nombre_cientifico">Nandina domestica.</string>
+    <string name="nandina_tipo">Arbusto ornamental.</string>
+    <string name="nandina_ubicacion">Exterior en semisombra o pleno sol.</string>
+    <string name="nandina_riego">1-2 veces por semana.</string>
+    <string name="nandina_luz">Sol directo o semisombra.</string>
+    <string name="nandina_riego_detalle">Evita encharcar el sustrato.</string>
+    <string name="nandina_maceta">Maceta mediana a grande.</string>
+    <string name="nandina_sustrato">Fértil, suelto y bien drenado.</string>
+    <string name="nandina_poda">Poda ligera después del invierno.</string>
+    <string name="nandina_plagas">Escamas y hongos.</string>
+
+    <!-- Orquídea -->
+    <string name="orquidea_nombre_cientifico">Orchidaceae spp.</string>
+    <string name="orquidea_tipo">Planta ornamental con flores exóticas.</string>
+    <string name="orquidea_ubicacion">Interior muy luminoso.</string>
+    <string name="orquidea_riego">Una vez por semana.</string>
+    <string name="orquidea_luz">Luz brillante indirecta.</string>
+    <string name="orquidea_riego_detalle">Riega por inmersión sin mojar hojas.</string>
+    <string name="orquidea_maceta">Transparente con orificios de drenaje.</string>
+    <string name="orquidea_sustrato">Corteza de pino o sustrato especial para orquídeas.</string>
+    <string name="orquidea_poda">Poda del tallo floral después de marchitarse.</string>
+    <string name="orquidea_plagas">Cochinillas, hongos.</string>
+
+    <!-- Petunia -->
+    <string name="petunia_nombre_cientifico">Petunia spp.</string>
+    <string name="petunia_tipo">Planta ornamental con flores coloridas.</string>
+    <string name="petunia_ubicacion">Exterior soleado.</string>
+    <string name="petunia_riego">Cada 2 días en floración.</string>
+    <string name="petunia_luz">Sol directo.</string>
+    <string name="petunia_riego_detalle">No mojar flores; riega por la base.</string>
+    <string name="petunia_maceta">Maceta colgante o jardinera.</string>
+    <string name="petunia_sustrato">Rico y bien aireado.</string>
+    <string name="petunia_poda">Retira flores secas para prolongar floración.</string>
+    <string name="petunia_plagas">Pulgones, trips.</string>
+
+    <!-- Romero -->
+    <string name="romero_nombre_cientifico">Rosmarinus officinalis.</string>
+    <string name="romero_tipo">Planta aromática y medicinal.</string>
+    <string name="romero_ubicacion">Exterior soleado.</string>
+    <string name="romero_riego">1 vez por semana.</string>
+    <string name="romero_luz">Sol directo.</string>
+    <string name="romero_riego_detalle">Tolera la sequía, evita encharques.</string>
+    <string name="romero_maceta">Mediana con buen drenaje.</string>
+    <string name="romero_sustrato">Seco, pobre y arenoso.</string>
+    <string name="romero_poda">Poda ligera para mantener forma.</string>
+    <string name="romero_plagas">Pulgones y mosca blanca.</string>
+
+    <!-- Salvia -->
+    <string name="salvia_nombre_cientifico">Salvia officinalis.</string>
+    <string name="salvia_tipo">Planta aromática y medicinal.</string>
+    <string name="salvia_ubicacion">Exterior soleado o interior muy luminoso.</string>
+    <string name="salvia_riego">Cada 5-7 días.</string>
+    <string name="salvia_luz">Sol directo.</string>
+    <string name="salvia_riego_detalle">Riega cuando el sustrato esté completamente seco.</string>
+    <string name="salvia_maceta">Mediana con buen drenaje.</string>
+    <string name="salvia_sustrato">Ligero, arenoso y bien drenado.</string>
+    <string name="salvia_poda">Poda ligera después de la floración para mantener forma.</string>
+    <string name="salvia_plagas">Mosca blanca y oídio.</string>
+
+    <!-- Tulipán -->
+    <string name="tulipan_nombre_cientifico">Tulipa spp.</string>
+    <string name="tulipan_tipo">Bulbosa ornamental.</string>
+    <string name="tulipan_ubicacion">Exterior con sol suave.</string>
+    <string name="tulipan_riego">Moderado, sin encharcar.</string>
+    <string name="tulipan_luz">Sol parcial o luz suave.</string>
+    <string name="tulipan_riego_detalle">Durante floración, mantener suelo húmedo.</string>
+    <string name="tulipan_maceta">Maceta profunda.</string>
+    <string name="tulipan_sustrato">Suelto y con buen drenaje.</string>
+    <string name="tulipan_poda">Cortar flor al marchitar y dejar hoja secar sola.</string>
+    <string name="tulipan_plagas">Caracoles y hongos.</string>
+
+    <!-- Uña de gato -->
+    <string name="unadegato_nombre_cientifico">Uncaria tomentosa.</string>
+    <string name="unadegato_tipo">Trepadora medicinal.</string>
+    <string name="unadegato_ubicacion">Exterior con sombra parcial.</string>
+    <string name="unadegato_riego">2 veces por semana.</string>
+    <string name="unadegato_luz">Luz filtrada o semisombra.</string>
+    <string name="unadegato_riego_detalle">Evita encharcar, pero no dejes secar.</string>
+    <string name="unadegato_maceta">Grande con tutor.</string>
+    <string name="unadegato_sustrato">Suelto, rico en materia orgánica.</string>
+    <string name="unadegato_poda">Recorta para controlar crecimiento.</string>
+    <string name="unadegato_plagas">Pulgones y hongos.</string>
+
+    <!-- Violeta africana -->
+    <string name="violetaafricana_nombre_cientifico">Saintpaulia ionantha.</string>
+    <string name="violetaafricana_tipo">Planta de interior con flores pequeñas.</string>
+    <string name="violetaafricana_ubicacion">Interior con luz difusa.</string>
+    <string name="violetaafricana_riego">1-2 veces por semana.</string>
+    <string name="violetaafricana_luz">Luz indirecta brillante.</string>
+    <string name="violetaafricana_riego_detalle">Riega por la base, evita mojar hojas.</string>
+    <string name="violetaafricana_maceta">Pequeña y baja.</string>
+    <string name="violetaafricana_sustrato">Ligero, rico y húmedo.</string>
+    <string name="violetaafricana_poda">Retira hojas y flores secas.</string>
+    <string name="violetaafricana_plagas">Ácaros, cochinillas.</string>
+
+    <!-- Wisteria -->
+    <string name="wisteria_nombre_cientifico">Wisteria sinensis.</string>
+    <string name="wisteria_tipo">Trepadora ornamental.</string>
+    <string name="wisteria_ubicacion">Exterior con mucho sol.</string>
+    <string name="wisteria_riego">Regular en floración.</string>
+    <string name="wisteria_luz">Sol directo.</string>
+    <string name="wisteria_riego_detalle">Riego abundante cuando esté en flor.</string>
+    <string name="wisteria_maceta">Muy grande o en suelo directo.</string>
+    <string name="wisteria_sustrato">Fértil y profundo.</string>
+    <string name="wisteria_poda">Fuerte poda invernal y ligera tras floración.</string>
+    <string name="wisteria_plagas">Pulgones, orugas.</string>
+
+    <!-- Xeroftalmia (representado por árbol de jade como excepción popular) -->
+    <string name="jade_nombre_cientifico">Crassula ovata.</string>
+    <string name="jade_tipo">Suculenta ornamental.</string>
+    <string name="jade_ubicacion">Interior o exterior luminoso.</string>
+    <string name="jade_riego">Cada 2-3 semanas.</string>
+    <string name="jade_luz">Luz brillante o sol parcial.</string>
+    <string name="jade_riego_detalle">Deja secar totalmente entre riegos.</string>
+    <string name="jade_maceta">Pequeña con drenaje.</string>
+    <string name="jade_sustrato">Arenoso y seco.</string>
+    <string name="jade_poda">Recorta para mantener forma compacta.</string>
+    <string name="jade_plagas">Cochinillas y hongos.</string>
+
+    <!-- Yuca -->
+    <string name="yuca_nombre_cientifico">Yucca elephantipes.</string>
+    <string name="yuca_tipo">Arbusto ornamental.</string>
+    <string name="yuca_ubicacion">Interior o exterior soleado.</string>
+    <string name="yuca_riego">Cada 10-15 días.</string>
+    <string name="yuca_luz">Sol directo o luz intensa.</string>
+    <string name="yuca_riego_detalle">Tolera sequía, evitar exceso de agua.</string>
+    <string name="yuca_maceta">Maceta alta y estable.</string>
+    <string name="yuca_sustrato">Bien drenado, arenoso.</string>
+    <string name="yuca_poda">Poda ligera si crece demasiado.</string>
+    <string name="yuca_plagas">Ácaros, cochinillas.</string>
+
+    <!-- Zinnia -->
+    <string name="zinnia_nombre_cientifico">Zinnia elegans.</string>
+    <string name="zinnia_tipo">Planta con flor ornamental.</string>
+    <string name="zinnia_ubicacion">Exterior con sol.</string>
+    <string name="zinnia_riego">Cada 2-3 días.</string>
+    <string name="zinnia_luz">Sol directo.</string>
+    <string name="zinnia_riego_detalle">Evita mojar flores y hojas.</string>
+    <string name="zinnia_maceta">Mediana con drenaje.</string>
+    <string name="zinnia_sustrato">Suelto y fértil.</string>
+    <string name="zinnia_poda">Corta flores secas para prolongar floración.</string>
+    <string name="zinnia_plagas">Pulgones y hongos.</string>
+
 </resources>
