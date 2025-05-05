@@ -66,6 +66,17 @@ dependencies {
     implementation(libs.firebase.auth.ktx)
     implementation(libs.firebase.database.ktx)  // Para trabajo con coroutines
 
+    //Notificaciones
+
+
+    implementation ("com.google.firebase:firebase-messaging:23.0.0") // Firebase Cloud Messaging
+
+    implementation ("androidx.work:work-runtime-ktx:2.7.1")
+    implementation ("androidx.compose.material:material-icons-extended:1.0.5")
+    implementation ("androidx.compose.ui:ui-tooling-preview:1.0.5")
+    implementation ("androidx.compose.runtime:runtime-livedata:1.0.5")
+    implementation ("androidx.compose.foundation:foundation:1.0.5")
+    implementation ("androidx.core:core-ktx:1.7.0")
 
 
 

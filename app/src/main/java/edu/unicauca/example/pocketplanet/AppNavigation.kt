@@ -16,6 +16,7 @@ import edu.unicauca.example.pocketplanet.Estadisticas.StatisticsScreen
 import edu.unicauca.example.pocketplanet.Informacion_Planta.Informacion_Planta
 import edu.unicauca.example.pocketplanet.InicioAplicacion.Screen_Inicio_Aplicacion
 import edu.unicauca.example.pocketplanet.Inicio_Sesion.Inicio_Sesio
+import edu.unicauca.example.pocketplanet.Notificaciones.AlertConfigScreen
 import edu.unicauca.example.pocketplanet.PerfilConfiguraciones.LanguageViewModel
 import edu.unicauca.example.pocketplanet.PerfilConfiguraciones.PerfilScreen
 
@@ -103,6 +104,12 @@ fun AppNavigation(themeViewModel: ThemeViewModel) {
             Informacion_Planta(navController = navController, plantaNombre = nombre)
         }
 
+        composable("${Screens.AlertConfigScreen.name}/{userId}") { backStackEntry ->
+            val context = LocalContext.current // Obtenemos el contexto actual
+            val userId = backStackEntry.arguments?.getString("userId") ?: "" // Extraemos el parámetro userId
+            AlertConfigScreen(context = context) // Llama a la pantalla de configuración de alertas
+        }
+
 
     }
 }
@@ -113,10 +120,11 @@ enum class Screens(){
     RegistroScreen,
     InicioAplicacion,
     ConsejosScreen,
-    //InicioScreen,
-    //NotificacionesScreen,
+    InicioScreen,
+    NotificacionesScreen,
     ConfiguracionesScreen,
     EstadisticasScreen,
-    //DetallePlantaScreen,
-    AgregarPlantaScreen
+    DetallePlantaScreen,
+    AgregarPlantaScreen,
+    AlertConfigScreen
 }
