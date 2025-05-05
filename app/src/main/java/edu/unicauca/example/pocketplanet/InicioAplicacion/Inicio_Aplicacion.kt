@@ -37,6 +37,7 @@ import edu.unicauca.example.pocketplanet.Presentacion.bottonRedondoStateless
 import edu.unicauca.example.pocketplanet.R
 import edu.unicauca.example.pocketplanet.Screens
 import androidx.compose.material.icons.filled.BarChart
+import androidx.compose.material.icons.filled.Comment
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
@@ -204,11 +205,11 @@ fun NavigationScreens(navController: NavHostController,userId: String,modifier: 
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 bottonRedondoStateless(
                     onClick = { navController.navigate("${Screens.ConsejosScreen.name}/${userId}") },
-                    Icons.Default.Star,
+                    Icons.Default.Comment,
                     colors = MaterialTheme.colorScheme.tertiary,
                     modifier = Modifier.size(35.dp)
                 )
-                Text(stringResource(R.string.Favoritos), fontSize = 10.sp)
+                Text(stringResource(R.string.Consejos), fontSize = 10.sp)
             }
 
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -219,16 +220,6 @@ fun NavigationScreens(navController: NavHostController,userId: String,modifier: 
                     modifier = Modifier.size(35.dp)
                 )
                 Text(stringResource(R.string.Perfil), fontSize = 10.sp)
-            }
-
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                bottonRedondoStateless(
-                    onClick = { navController.navigate(Screens.EstadisticasScreen.name) },
-                    icon = Icons.Default.BarChart,
-                    colors = MaterialTheme.colorScheme.tertiary,
-                    modifier = Modifier.size(35.dp)
-                )
-                Text(stringResource(R.string.Estadisticas), fontSize = 10.sp)
             }
         }
     }
