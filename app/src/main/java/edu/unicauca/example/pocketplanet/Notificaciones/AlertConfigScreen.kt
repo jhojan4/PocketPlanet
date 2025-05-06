@@ -1,9 +1,7 @@
 package edu.unicauca.example.pocketplanet.Notificaciones
 
-
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -13,18 +11,14 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
+import android.util.Log
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Switch
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,9 +31,12 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import edu.unicauca.example.pocketplanet.Funciones.TopScreen
 import edu.unicauca.example.pocketplanet.InicioAplicacion.NavigationScreens
 import edu.unicauca.example.pocketplanet.Presentacion.bottonRedondoStateless
+import java.util.*
 
 @Composable
 fun AlertConfigScreen(
@@ -50,110 +47,146 @@ fun AlertConfigScreen(
 ) {
     val notificationChannelId = "alerts_channel"
 
-    // Crear canal de notificación (para API 26+)
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        val name = "Alertas"
-        val descriptionText = "Canal para notificaciones de alertas"
-        val importance = NotificationManager.IMPORTANCE_DEFAULT
-        val channel = NotificationChannel(notificationChannelId, name, importance).apply {
-            description = descriptionText
+        val channel = NotificationChannel(
+            notificationChannelId,
+            "Alertas",
+            NotificationManager.IMPORTANCE_DEFAULT
+        ).apply {
+            description = "Canal para notificaciones de alertas"
         }
-        val notificationManager: NotificationManager =
+        val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(channel)
+        Log.d("Notificacion", "Canal de notificación creado: $notificationChannelId")
     }
 
-    // Estados de los switches y tiempo
-    var isRiegoEnabled by remember { mutableStateOf(false) }
-    var riegoTime by remember { mutableStateOf("") } // Tiempo para riego
-
-    var isFertilizacionEnabled by remember { mutableStateOf(false) }
-    var fertilizacionTime by remember { mutableStateOf("") } // Tiempo para fertilización
-
-    var isPodaEnabled by remember { mutableStateOf(false) }
-    var podaTime by remember { mutableStateOf("") } // Tiempo para poda
-
-    MaterialTheme { // Aplicar el tema del proyecto
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background), // Fondo según el tema
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            // Botón de regreso en la parte superior
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.secondaryContainer) // Color primario del tema
-                    .padding(16.dp)
+    LaunchedEffect(Unit) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
             ) {
-                bottonRedondoStateless(
-                    onClick = onBack, // Acción para volver
-                    icon = Icons.Default.ArrowBack,
-                    colors = MaterialTheme.colorScheme.tertiary,
-                    modifier = Modifier.size(40.dp)
+                ActivityCompat.requestPermissions(
+                    context as ComponentActivity,
+                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                    100
                 )
             }
+        }
+    }
 
-            Spacer(modifier = Modifier.height(16.dp))
+    val viewModel: AlertasViewModel = viewModel()
+    val riegoTime by viewModel.riegoHora.collectAsState()
+    val fertilizacionTime by viewModel.fertilizacionHora.collectAsState()
+    val podaTime by viewModel.podaHora.collectAsState()
 
-            // Título
-            Text(
-                text = "Configuración Alertas",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onBackground // Color según el tema
-            )
+    var isRiegoEnabled by remember { mutableStateOf(false) }
+    var isFertilizacionEnabled by remember { mutableStateOf(false) }
+    var isPodaEnabled by remember { mutableStateOf(false) }
 
-            Text(
-                text = "Activa / Desactiva las alertas y configura el tiempo",
-                fontSize = 14.sp,
-                color = MaterialTheme.colorScheme.onBackground
-            )
+    MaterialTheme {
+        Scaffold { paddingValues ->
+            Box(modifier = Modifier.padding(paddingValues)) {
+                TopScreen()
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp)
+                    ) {
+                        bottonRedondoStateless(
+                            onClick = onBack,
+                            icon = Icons.Default.ArrowBack,
+                            colors = MaterialTheme.colorScheme.tertiary,
+                            modifier = Modifier.size(40.dp)
+                        )
+                    }
 
-            Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
 
-            // Opciones de configuración con tiempo
-            AlertOptionWithTime(
-                title = "RIEGO",
-                isEnabled = isRiegoEnabled,
-                onToggle = { isRiegoEnabled = it },
-                time = riegoTime,
-                onTimeChange = { riegoTime = it },
-                context = context,
-                notificationChannelId = notificationChannelId
-            )
+                    Text(
+                        text = "Configuración Alertas",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
 
-            AlertOptionWithTime(
-                title = "FERTILIZACIÓN",
-                isEnabled = isFertilizacionEnabled,
-                onToggle = { isFertilizacionEnabled = it },
-                time = fertilizacionTime,
-                onTimeChange = { fertilizacionTime = it },
-                context = context,
-                notificationChannelId = notificationChannelId
-            )
+                    Text(
+                        text = "Activa / Desactiva las alertas y configura el tiempo",
+                        fontSize = 14.sp,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
 
-            AlertOptionWithTime(
-                title = "PODA",
-                isEnabled = isPodaEnabled,
-                onToggle = { isPodaEnabled = it },
-                time = podaTime,
-                onTimeChange = { podaTime = it },
-                context = context,
-                notificationChannelId = notificationChannelId
-            )
+                    Spacer(modifier = Modifier.height(16.dp))
 
-            Spacer(modifier = Modifier.weight(1f)) // Espaciado flexible para empujar los elementos hacia abajo
+                    AlertOptionWithTime(
+                        title = "RIEGO",
+                        isEnabled = isRiegoEnabled,
+                        onToggle = {
+                            isRiegoEnabled = it
+                            handleToggle(context, notificationChannelId, "RIEGO", riegoTime, it)
+                        },
+                        time = riegoTime,
+                        onTimeChange = { viewModel.actualizarHora("RIEGO", it) },
+                        context = context,
+                        notificationChannelId = notificationChannelId
+                    )
 
-            // Navegador en la parte inferior
-            NavigationScreens(
-                navController = navController,
-                userId = userId,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.surface) // Fondo del navegador
-            )
+                    AlertOptionWithTime(
+                        title = "FERTILIZACIÓN",
+                        isEnabled = isFertilizacionEnabled,
+                        onToggle = {
+                            isFertilizacionEnabled = it
+                            handleToggle(context, notificationChannelId, "FERTILIZACIÓN", fertilizacionTime, it)
+                        },
+                        time = fertilizacionTime,
+                        onTimeChange = { viewModel.actualizarHora("FERTILIZACIÓN", it) },
+                        context = context,
+                        notificationChannelId = notificationChannelId
+                    )
+
+                    AlertOptionWithTime(
+                        title = "PODA",
+                        isEnabled = isPodaEnabled,
+                        onToggle = {
+                            isPodaEnabled = it
+                            handleToggle(context, notificationChannelId, "PODA", podaTime, it)
+                        },
+                        time = podaTime,
+                        onTimeChange = { viewModel.actualizarHora("PODA", it) },
+                        context = context,
+                        notificationChannelId = notificationChannelId
+                    )
+
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    // Botón de prueba
+                    Button(onClick = {
+                        val intent = Intent(context, NotificationReceiver::class.java).apply {
+                            putExtra("title", "PRUEBA INMEDIATA")
+                            putExtra("channelId", notificationChannelId)
+                        }
+                        context.sendBroadcast(intent)
+                    }) {
+                        Text("Test Notificación")
+                    }
+                    NavigationScreens(
+                        navController, userId,
+                        Modifier
+                            .background(MaterialTheme.colorScheme.secondaryContainer.copy(0.5f))
+                            .fillMaxWidth()
+                            .size(70.dp)
+                            //.align(Alignment.BottomCenter)
+                    )
+                }
+
+
+            }
         }
     }
 }
@@ -176,35 +209,39 @@ fun AlertOptionWithTime(
         Row(verticalAlignment = Alignment.CenterVertically) {
             Switch(
                 checked = isEnabled,
-                onCheckedChange = {
-                    onToggle(it)
-                    if (it && time.isNotEmpty()) {
-                        scheduleNotification(context, notificationChannelId, title, time.toInt())
-                    }
-                }
+                onCheckedChange = onToggle
             )
             Spacer(modifier = Modifier.width(8.dp))
             Column {
                 Text(text = title, fontSize = 16.sp, fontWeight = FontWeight.Bold)
-                Text(text = "Configura el tiempo en minutos", fontSize = 14.sp, color = Color.Gray)
+                Text(text = "Configura la hora (hh:mm)", fontSize = 14.sp, color = Color.Gray)
             }
         }
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Campo para ingresar el tiempo
         OutlinedTextField(
             value = time,
             onValueChange = onTimeChange,
-            label = { Text("Tiempo (min)") },
-            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+            label = { Text("Hora (hh:mm)") },
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Text),
             modifier = Modifier.fillMaxWidth()
         )
     }
 }
 
-@SuppressLint("ScheduleExactAlarm")
-fun scheduleNotification(context: Context, channelId: String, title: String, timeInMinutes: Int) {
+fun handleToggle(context: Context, channelId: String, title: String, time: String, isEnabled: Boolean) {
+    if (isEnabled && time.contains(":")) {
+        val parts = time.split(":")
+        val hour = parts.getOrNull(0)?.toIntOrNull() ?: return
+        val minute = parts.getOrNull(1)?.toIntOrNull() ?: return
+        scheduleDailyNotification(context, channelId, title, hour, minute)
+    } else {
+        cancelNotification(context, title)
+    }
+}
+
+fun scheduleDailyNotification(context: Context, channelId: String, title: String, hour: Int, minute: Int) {
     val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
     val intent = Intent(context, NotificationReceiver::class.java).apply {
         putExtra("title", title)
@@ -217,23 +254,45 @@ fun scheduleNotification(context: Context, channelId: String, title: String, tim
         PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
     )
 
-    // Verifica los permisos antes de programar la alarma
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-        if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.SCHEDULE_EXACT_ALARM) != PackageManager.PERMISSION_GRANTED) {
-            // No tienes el permiso para programar alarmas exactas
-            return
+    val calendar = Calendar.getInstance().apply {
+        timeInMillis = System.currentTimeMillis()
+        set(Calendar.HOUR_OF_DAY, hour)
+        set(Calendar.MINUTE, minute)
+        set(Calendar.SECOND, 0)
+        if (before(Calendar.getInstance())) {
+            add(Calendar.DAY_OF_YEAR, 1)
         }
     }
 
-    val triggerTime = System.currentTimeMillis() + timeInMinutes * 60 * 1000L
-    alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent)
+    alarmManager.setRepeating(
+        AlarmManager.RTC_WAKEUP,
+        calendar.timeInMillis,
+        AlarmManager.INTERVAL_DAY,
+        pendingIntent
+    )
+
+    Log.d("Notificacion", "Alarma programada para $title a las $hour:$minute")
 }
 
-// BroadcastReceiver para manejar la notificación
+fun cancelNotification(context: Context, title: String) {
+    val intent = Intent(context, NotificationReceiver::class.java)
+    val pendingIntent = PendingIntent.getBroadcast(
+        context,
+        title.hashCode(),
+        intent,
+        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+    )
+    val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+    alarmManager.cancel(pendingIntent)
+    Log.d("Notificacion", "Alarma cancelada para $title")
+}
+
 class NotificationReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         val title = intent.getStringExtra("title") ?: "Alerta"
         val channelId = intent.getStringExtra("channelId") ?: "default_channel"
+
+        Log.d("Notificacion", "Broadcast recibido para $title")
 
         val builder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(android.R.drawable.ic_dialog_info)
@@ -247,18 +306,9 @@ class NotificationReceiver : BroadcastReceiver() {
                     Manifest.permission.POST_NOTIFICATIONS
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
                 return
             }
             notify(title.hashCode(), builder.build())
         }
     }
 }
-
-
