@@ -42,7 +42,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AgregarPlanta(navController: NavHostController, userId:String,modifier: Modifier = Modifier) {
+fun AgregarPlanta(navController: NavHostController, userId: String, modifier: Modifier = Modifier) {
     // Estado para los campos del formulario
     val nombrePlanta = remember { mutableStateOf("") }
     val tipoPlanta = remember { mutableStateOf("") }
@@ -68,25 +68,26 @@ fun AgregarPlanta(navController: NavHostController, userId:String,modifier: Modi
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            // Caja con los campos del formulario
-            TopScreen()
+            // Botón de regreso (Ubicado en la esquina superior izquierda)
+            bottonRedondoStateless(
+                onClick = { navController.navigate("${Screens.InicioAplicacion.name}/${userId}") },
+                icon = Icons.Default.ArrowBack,
 
+                colors = MaterialTheme.colorScheme.tertiary,
+                modifier = Modifier
+                    .align(Alignment.TopStart) // Alinea el botón en la esquina superior izquierda
+                    .padding(16.dp)
+                    .size(width = 40.dp, height = 40.dp)
+            )
+
+            // Caja con los campos del formulario
             Column(
                 modifier = Modifier
                     .align(Alignment.CenterStart)
                     .padding(16.dp)
             ) {
-                // Botón de regreso
-                Box(modifier = Modifier.padding(bottom = 16.dp)) {
-                    bottonRedondoStateless(onClick={navController.navigate("${Screens.InicioAplicacion.name}/${userId}")},
-                        Icons.Default.ArrowBack,
-                        colors = MaterialTheme.colorScheme.tertiary,
-                        modifier = Modifier
-                            .size(width = 40.dp, height = 40.dp)
-                    )
-                }
                 Spacer(modifier = Modifier.height(16.dp))
-                Box(modifier = Modifier.align(Alignment.CenterHorizontally)){Imagenes(R.drawable.logo,100)}
+                Box(modifier = Modifier.align(Alignment.CenterHorizontally)) { Imagenes(R.drawable.logo, 100) }
                 Spacer(modifier = Modifier.height(8.dp))
                 TextField(
                     value = nombrePlanta.value,
@@ -166,17 +167,20 @@ fun AgregarPlanta(navController: NavHostController, userId:String,modifier: Modi
                     Text("Guardar Planta")
                 }
             }
-            NavigationScreens(navController,userId,modifier
-                .background(MaterialTheme.colorScheme.secondaryContainer.copy(0.5f))
-                .fillMaxWidth()
-                .size(70.dp)
-                .align(Alignment.BottomCenter))
 
+            // Navegación en la parte inferior
+            NavigationScreens(
+                navController,
+                userId,
+                modifier
+                    .background(MaterialTheme.colorScheme.secondaryContainer.copy(0.5f))
+                    .fillMaxWidth()
+                    .size(70.dp)
+                    .align(Alignment.BottomCenter)
+            )
         }
-
     }
 }
-
 
 
 
