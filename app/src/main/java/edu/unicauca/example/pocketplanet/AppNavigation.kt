@@ -93,9 +93,10 @@ fun AppNavigation(themeViewModel: ThemeViewModel) {
         }
 
 
-        composable("informacion_planta/{nombre}") { backStackEntry ->
+        composable("informacion_planta/{nombre}/{userId}") { backStackEntry ->
             val nombre = backStackEntry.arguments?.getString("nombre") ?: ""
-            Informacion_Planta(navController = navController, plantaNombre = nombre)
+            val userId = backStackEntry.arguments?.getString("userId") ?: ""
+            Informacion_Planta(navController = navController, userId,plantaNombre = nombre)
         }
 
         composable("${Screens.AlertConfigScreen.name}/{userId}") { backStackEntry ->

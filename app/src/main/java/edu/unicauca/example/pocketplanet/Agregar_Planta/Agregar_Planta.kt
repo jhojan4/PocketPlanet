@@ -31,6 +31,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
 import edu.unicauca.example.pocketplanet.Funciones.Imagenes
 import edu.unicauca.example.pocketplanet.Funciones.TopScreen
 import edu.unicauca.example.pocketplanet.InicioAplicacion.NavigationScreens
@@ -74,10 +76,11 @@ fun AgregarPlanta(navController: NavHostController, userId:String,modifier: Modi
             Column(
                 modifier = Modifier
                     .align(Alignment.CenterStart)
+                    .fillMaxSize()
                     .padding(16.dp)
             ) {
                 // Botón de regreso
-                Box(modifier = Modifier.padding(bottom = 16.dp)) {
+                Box() {
                     bottonRedondoStateless(onClick={navController.navigate("${Screens.InicioAplicacion.name}/${userId}")},
                         Icons.Default.ArrowBack,
                         colors = MaterialTheme.colorScheme.tertiary,
@@ -85,9 +88,9 @@ fun AgregarPlanta(navController: NavHostController, userId:String,modifier: Modi
                             .size(width = 40.dp, height = 40.dp)
                     )
                 }
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(30.dp))
                 Box(modifier = Modifier.align(Alignment.CenterHorizontally)){Imagenes(R.drawable.logo,100)}
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(50.dp))
                 TextField(
                     value = nombrePlanta.value,
                     onValueChange = { nombrePlanta.value = it },
@@ -135,7 +138,7 @@ fun AgregarPlanta(navController: NavHostController, userId:String,modifier: Modi
                     modifier = Modifier.fillMaxWidth(),
                     maxLines = 3
                 )
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(40.dp))
 
                 // Botón de Guardar
                 Button(
@@ -161,7 +164,7 @@ fun AgregarPlanta(navController: NavHostController, userId:String,modifier: Modi
                             delay(1000) // Espera 1 segundo para mostrar el mensaje
                         }
                     },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.size(width = 150.dp, height = 50.dp).align(alignment = Alignment.CenterHorizontally)
                 ) {
                     Text("Guardar Planta")
                 }
@@ -176,6 +179,7 @@ fun AgregarPlanta(navController: NavHostController, userId:String,modifier: Modi
 
     }
 }
+
 
 
 

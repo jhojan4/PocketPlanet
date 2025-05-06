@@ -107,7 +107,7 @@ fun Screen_Inicio_Aplicacion(navController: NavHostController, userId: String, m
                     items(viewModel.plantasFiltradas.size) { index ->
                         // Aquí vamos a agregar la acción de navegación al hacer clic en una planta
                         val planta = viewModel.plantasFiltradas[index]
-                        PlantaCard(planta = planta, navController = navController) // Pasamos el navController
+                        PlantaCard(planta = planta, navController = navController,userId=userId) // Pasamos el navController
                     }
 
                 }
@@ -141,7 +141,7 @@ fun Screen_Inicio_Aplicacion(navController: NavHostController, userId: String, m
 }
 
 @Composable
-fun PlantaCard(planta: Planta,navController: NavHostController) {
+fun PlantaCard(planta: Planta,navController: NavHostController,userId: String) {
     Card(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceDim.copy(0.3f)
@@ -152,7 +152,7 @@ fun PlantaCard(planta: Planta,navController: NavHostController) {
             .height(150.dp)
             .border(0.4.dp, MaterialTheme.colorScheme.scrim, RoundedCornerShape(20.dp))
             .clickable { // Aquí agregamos la acción de clic
-                navController.navigate("informacion_planta/${planta.nombre}")
+                navController.navigate("informacion_planta/${planta.nombre}/${userId}")
             }
     ) {
         Column(
