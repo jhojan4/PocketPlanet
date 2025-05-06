@@ -1,8 +1,10 @@
 package edu.unicauca.example.pocketplanet.Agregar_Planta
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -19,24 +21,22 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
-
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-
-
 import androidx.compose.ui.Modifier
-
-import com.google.firebase.auth.FirebaseAuth
+import androidx.compose.ui.res.stringResource
+import edu.unicauca.example.pocketplanet.Funciones.Imagenes
+import edu.unicauca.example.pocketplanet.Funciones.TopScreen
+import edu.unicauca.example.pocketplanet.InicioAplicacion.NavigationScreens
 import edu.unicauca.example.pocketplanet.Presentacion.bottonRedondoStateless
+import edu.unicauca.example.pocketplanet.R
 import edu.unicauca.example.pocketplanet.Screens
-
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -61,17 +61,16 @@ fun AgregarPlanta(navController: NavHostController, userId:String,modifier: Modi
     val viewModel: AgregarPlantaViewModel = viewModel()
 
     Scaffold(
-        topBar = {
-            TopAppBar(title = { Text("Agregar Planta") })
-        },
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) } // Snackbar en el Scaffold
     ) { paddingValues ->
         Box(
             modifier = modifier
-                .fillMaxWidth()
+                .fillMaxSize()
                 .padding(paddingValues)
         ) {
             // Caja con los campos del formulario
+            TopScreen()
+
             Column(
                 modifier = Modifier
                     .align(Alignment.CenterStart)
@@ -86,7 +85,9 @@ fun AgregarPlanta(navController: NavHostController, userId:String,modifier: Modi
                             .size(width = 40.dp, height = 40.dp)
                     )
                 }
-
+                Spacer(modifier = Modifier.height(16.dp))
+                Box(modifier = Modifier.align(Alignment.CenterHorizontally)){Imagenes(R.drawable.logo,100)}
+                Spacer(modifier = Modifier.height(8.dp))
                 TextField(
                     value = nombrePlanta.value,
                     onValueChange = { nombrePlanta.value = it },
@@ -165,9 +166,14 @@ fun AgregarPlanta(navController: NavHostController, userId:String,modifier: Modi
                     Text("Guardar Planta")
                 }
             }
-
+            NavigationScreens(navController,userId,modifier
+                .background(MaterialTheme.colorScheme.secondaryContainer.copy(0.5f))
+                .fillMaxWidth()
+                .size(70.dp)
+                .align(Alignment.BottomCenter))
 
         }
+
     }
 }
 
